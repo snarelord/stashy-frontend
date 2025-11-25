@@ -1,10 +1,10 @@
 "use client";
 
 import styles from "./page.module.css";
-import Footer from "../components/Footer/Footer";
-import Sidebar from "../components/Sidebar/Sidebar";
-import DashboardHeader from "../components/DashboardHeader/DashboardHeader";
-import RecentFiles from "../components/RecentFiles/RecentFiles";
+import Footer from "../../components/Footer/Footer";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
+import RecentFiles from "../../components/RecentFiles/RecentFiles";
 import { useRouter } from "next/navigation";
 
 // backend would look something like this for folders:
@@ -26,7 +26,7 @@ export default function DashboardPage() {
   const router = useRouter();
 
   const handleFolderClick = (folderId: string) => {
-    router.push(`/folder/${folderId}`);
+    router.push(`/pages/folder/${folderId}`);
   };
 
   return (

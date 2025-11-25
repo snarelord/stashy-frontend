@@ -27,7 +27,7 @@ export default function FolderPage({ params }: FolderPageProps) {
           {/* Folder Header */}
           <section className={styles.folderHeader}>
             <div className={styles.breadcrumb}>
-              <a href="/dashboard" className={styles.breadcrumbLink}>
+              <a href="/pages/dashboard" className={styles.breadcrumbLink}>
                 Dashboard
               </a>
               <span className={styles.breadcrumbSeparator}>/</span>

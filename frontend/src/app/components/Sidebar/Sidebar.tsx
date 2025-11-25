@@ -29,7 +29,7 @@ export default function Sidebar({ showBackToDashboard = false }: SidebarProps) {
       {/* Navigation Items */}
       <nav className={styles.nav}>
         {showBackToDashboard && (
-          <button className={styles.backButton} onClick={() => router.push("/dashboard")}>
+          <button className={styles.backButton} onClick={() => router.push("/pages/dashboard")}>
             <span className={styles.backArrow}>←</span>
             Back to Dashboard
           </button>
@@ -38,11 +38,11 @@ export default function Sidebar({ showBackToDashboard = false }: SidebarProps) {
           <span className={styles.navIcon}>📤</span>
           Upload file
         </button>
-        <button className={styles.navItem} onClick={() => router.push("/dashboard")}>
+        <button className={styles.navItem} onClick={() => router.push("/pages/dashboard")}>
           <span className={styles.navIcon}>📄</span>
           All files
         </button>
-        <button className={styles.navItem} onClick={() => router.push("/all-folders")}>
+        <button className={styles.navItem} onClick={() => router.push("/pages/all-folders")}>
           <span className={styles.navIcon}>📁</span>
           Folders
         </button>

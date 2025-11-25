@@ -1,7 +1,7 @@
 import styles from "./page.module.css";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer/Footer";
-import Button from "../components/Button/Button";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import Button from "../../components/Button/Button";
 import Link from "next/link";
 
 export default function SignInPage() {
@@ -10,7 +10,7 @@ export default function SignInPage() {
       <Header />
       <main className={styles.main}>
         <div className={styles.formContainer}>
-          <Link href="/sign-in" className={styles.backButton}>
+          <Link href="/pages/sign-in" className={styles.backButton}>
             <span className={styles.backArrow}>←</span> Back
           </Link>
           <h1 className={styles.title}>Sign Up</h1>

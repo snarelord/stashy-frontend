@@ -10,7 +10,7 @@ export default function Home() {
   const router = useRouter();
 
   const handleGetStarted = () => {
-    router.push("/sign-in");
+    router.push("pages/sign-in");
   };
 
   return (
