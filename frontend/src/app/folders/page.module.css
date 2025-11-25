@@ -1,0 +1,149 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: var(--font-roboto), sans-serif;
+}
+
+.pageWrapper {
+  display: flex;
+  flex: 1;
+  background-color: #f5f5f5;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  overflow-y: auto;
+}
+
+/* Folders Header */
+.foldersHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 48px;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: white;
+}
+
+.pageTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  color: #000000;
+}
+
+.titleIcon {
+  font-size: 32px;
+}
+
+.headerActions {
+  display: flex;
+  gap: 12px;
+}
+
+.actionButton {
+  padding: 10px 20px;
+  background-color: #a499ed;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-roboto), sans-serif;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: #9385dc;
+}
+
+/* Folders Section */
+.foldersSection {
+  padding: 32px 48px;
+  flex: 1;
+  background-color: #fafafa;
+}
+
+.foldersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.folderCard {
+  background-color: white;
+  border-radius: 12px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 160px;
+  justify-content: center;
+}
+
+.folderCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.folderIconLarge {
+  font-size: 64px;
+  filter: hue-rotate(220deg) saturate(0.7);
+}
+
+.folderName {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0;
+  text-align: center;
+  word-break: break-word;
+}
+
+.folderInfo {
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .foldersHeader,
+  .foldersSection {
+    padding: 24px 32px;
+  }
+
+  .pageTitle {
+    font-size: 24px;
+  }
+
+  .foldersGrid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+  }
+
+  .folderCard {
+    padding: 24px 16px;
+    min-height: 140px;
+  }
+
+  .folderIconLarge {
+    font-size: 48px;
+  }
+
+  .folderName {
+    font-size: 16px;
+  }
+}
