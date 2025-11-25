@@ -1,0 +1,22 @@
+.footer {
+  background-color: #000000;
+  padding: 60px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footerText {
+  font-size: 12px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footerText {
+    font-size: 8px;
+  }
+}
