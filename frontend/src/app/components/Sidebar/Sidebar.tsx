@@ -1,0 +1,61 @@
+"use client";
+
+import styles from "./Sidebar.module.css";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+interface SidebarProps {
+  showBackToDashboard?: boolean;
+}
+
+export default function Sidebar({ showBackToDashboard = false }: SidebarProps) {
+  const router = useRouter();
+
+  return (
+    <aside className={styles.sidebar}>
+      {/* Profile Card */}
+      <div className={styles.profileCard}>
+        <div className={styles.avatarContainer}>
+          <div className={styles.storageRing}>
+            <div className={styles.avatar}>
+              <span className={styles.avatarIcon}>👤</span>
+            </div>
+          </div>
+        </div>
+        <h3 className={styles.userName}>Kit Jones</h3>
+        <p className={styles.storageText}>82% of Storage Used</p>
+      </div>
+
+      {/* Navigation Items */}
+      <nav className={styles.nav}>
+        {showBackToDashboard && (
+          <button className={styles.backButton} onClick={() => router.push("/dashboard")}>
+            <span className={styles.backArrow}>←</span>
+            Back to Dashboard
+          </button>
+        )}
+        <button className={styles.navItem}>
+          <span className={styles.navIcon}>📤</span>
+          Upload file
+        </button>
+        <button className={styles.navItem} onClick={() => router.push("/dashboard")}>
+          <span className={styles.navIcon}>📄</span>
+          All files
+        </button>
+        <button className={styles.navItem} onClick={() => router.push("/all-folders")}>
+          <span className={styles.navIcon}>📁</span>
+          Folders
+        </button>
+        <button className={styles.navItem}>
+          <span className={styles.navIcon}>👥</span>
+          Shared files
+        </button>
+      </nav>
+
+      {/* Sign Out Button */}
+      <Link href="/" className={styles.signOutButton}>
+        Sign out
+      </Link>
+    </aside>
+  );
+}
