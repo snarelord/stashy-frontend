@@ -1,9 +1,9 @@
 "use client";
 
 import styles from "./page.module.css";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer/Footer";
-import Button from "../components/Button/Button";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import Button from "../../components/Button/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -12,7 +12,7 @@ export default function SignInPage() {
 
   const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push("/dashboard");
+    router.push("/pages/dashboard");
   };
 
   return (
@@ -43,7 +43,7 @@ export default function SignInPage() {
               <Link href="#" className={styles.link}>
                 Forgot password?
               </Link>
-              <Link href="/sign-up" className={styles.link}>
+              <Link href="/pages/sign-up" className={styles.link}>
                 New user? Sign up here
               </Link>
             </div>

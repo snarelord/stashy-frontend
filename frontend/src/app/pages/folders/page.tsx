@@ -1,22 +1,22 @@
 "use client";
 
 import styles from "./page.module.css";
-import Sidebar from "../components/Sidebar/Sidebar";
-import DashboardHeader from "../components/DashboardHeader/DashboardHeader";
-import Footer from "../components/Footer/Footer";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
+import Footer from "../../components/Footer/Footer";
 import { useRouter } from "next/navigation";
 
 export default function FoldersPage() {
   const router = useRouter();
 
   const handleFolderClick = (folderId: string) => {
-    router.push(`/folder/${folderId}`);
+    router.push(`/pages/folder/${folderId}`);
   };
 
   return (
     <div className={styles.pageContainer}>
       <div className={styles.pageWrapper}>
-        <Sidebar />
+        <Sidebar showBackToDashboard={true} />
 
         <div className={styles.mainContent}>
           <DashboardHeader />
