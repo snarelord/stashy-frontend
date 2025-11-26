@@ -100,7 +100,6 @@
 
 .folderIconLarge {
   font-size: 64px;
-  filter: hue-rotate(220deg) saturate(0.7);
 }
 
 .folderName {

@@ -6,6 +6,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
 import RecentFiles from "../../components/RecentFiles/RecentFiles";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 // backend would look something like this for folders:
 // {folders.map(folder => (
@@ -15,7 +16,7 @@ import { useRouter } from "next/navigation";
 //     onClick={() => handleFolderClick(folder.id)}
 //   >
 //     <div className={styles.tableCell}>
-//       <span className={styles.fileIcon}>📁</span>
+//       <Image src="/folder-icon-purple.png" alt="Folder" width={20} height={20} className={styles.fileIcon} />
 //       {folder.name}
 //     </div>
 //     ...
@@ -53,7 +54,13 @@ export default function DashboardPage() {
               {/* Table Rows */}
               <div className={styles.tableRow} onClick={() => handleFolderClick("new-music")}>
                 <div className={styles.tableCell}>
-                  <span className={styles.fileIcon}>📁</span>
+                  <Image
+                    src="/folder-icon-purple.png"
+                    alt="Folder"
+                    width={20}
+                    height={20}
+                    className={styles.fileIcon}
+                  />
                   New Music
                 </div>
                 <div className={styles.tableCell}></div>
@@ -61,7 +68,13 @@ export default function DashboardPage() {
 
               <div className={styles.tableRow} onClick={() => handleFolderClick("video-bits")}>
                 <div className={styles.tableCell}>
-                  <span className={styles.fileIcon}>📁</span>
+                  <Image
+                    src="/folder-icon-purple.png"
+                    alt="Folder"
+                    width={20}
+                    height={20}
+                    className={styles.fileIcon}
+                  />
                   Video Bits
                 </div>
                 <div className={styles.tableCell}></div>
