@@ -13,6 +13,29 @@
   justify-content: center;
 }
 
+.main > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.main.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.main.visible .container {
+  transition-delay: 0.2s;
+}
+
+.main.visible .descriptionWrapper {
+  transition-delay: 0.5s;
+}
+
+.main.visible .buttonContainer {
+  transition-delay: 0.8s;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -27,6 +50,7 @@
   color: #ffffff;
   text-align: center;
   max-width: 600px;
+  margin: 0;
 }
 
 .buttonContainer {
