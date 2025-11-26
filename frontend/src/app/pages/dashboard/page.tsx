@@ -40,6 +40,7 @@ export default function DashboardPage() {
 
     // Reload when returning to this page/tab
     const handleFocus = function () {
+      console.log("🔄 Dashboard refresh triggered");
       loadUserFiles();
     };
 
