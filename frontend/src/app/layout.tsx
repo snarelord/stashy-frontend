@@ -21,6 +21,11 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   title: "Stashy",
   description: "Cloud storage made simple.",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
