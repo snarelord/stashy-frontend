@@ -1,18 +1,26 @@
 "use client";
 
+import { useState } from "react";
 import styles from "./page.module.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import ForgotPasswordModal from "../../components/ForgotPasswordModal/ForgotPasswordModal";
 
 export default function SignInPage() {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault();
     router.push("/pages/dashboard");
+  };
+
+  const handleForgotPasswordClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsModalOpen(true);
   };
 
   return (
@@ -40,7 +48,7 @@ export default function SignInPage() {
             <Button text="Sign In" colourScheme="purple" type="submit" />
 
             <div className={styles.links}>
-              <Link href="#" className={styles.link}>
+              <Link href="#" className={styles.link} onClick={handleForgotPasswordClick}>
                 Forgot password?
               </Link>
               <Link href="/pages/sign-up" className={styles.link}>
@@ -51,6 +59,8 @@ export default function SignInPage() {
         </div>
       </main>
       <Footer />
+
+      <ForgotPasswordModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
