@@ -7,7 +7,7 @@ import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
 import RecentFiles from "../../components/RecentFiles/RecentFiles";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { mockApi } from "../../services/mockApi";
+import { api } from "../../services/api";
 import Image from "next/image";
 import { useContextMenu } from "../../hooks/useContextMenu";
 import { useFileOperations } from "../../hooks/useFileOperations";
@@ -20,21 +20,35 @@ export default function DashboardPage() {
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete } = useFileOperations();
 
-  useEffect(function () {
-    loadUserFiles();
-  }, []);
-
   async function loadUserFiles() {
     try {
-      const data = await mockApi.getUserFiles();
-      setFiles(data.files);
-      setFolders(data.folders);
+      const foldersResponse = await api.getFolders();
+      setFolders(foldersResponse.folders || []);
+      const filesResponse = await api.getFiles();
+      setFiles(filesResponse.files || []);
     } catch (err) {
-      console.error("Failed to load files:", err);
+      setFiles([]);
+      setFolders([]);
     } finally {
       setLoading(false);
     }
   }
+
+  useEffect(function () {
+    // Load on mount
+    loadUserFiles();
+
+    // Reload when returning to this page/tab
+    const handleFocus = function () {
+      loadUserFiles();
+    };
+
+    window.addEventListener("focus", handleFocus);
+
+    return function () {
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, []);
 
   function handleFolderClick(folderId: string) {
     router.push(`/pages/folder/${folderId}`);
@@ -101,10 +115,12 @@ export default function DashboardPage() {
                   onContextMenu={(e) => handleContextMenu(e, file, "file")}
                 >
                   <div className={styles.tableCell}>
-                    <span className={styles.fileIcon}>{getFileIcon(file.type)}</span>
+                    <span className={styles.fileIcon}>{getFileIcon(file.mimeType)}</span>
                     {file.name}
                   </div>
-                  <div className={styles.tableCell}>{file.modified}</div>
+                  <div className={styles.tableCell}>
+                    {file.createdAt ? new Date(file.createdAt).toLocaleDateString() : ""}
+                  </div>
                 </div>
               ))}
 
@@ -117,17 +133,22 @@ export default function DashboardPage() {
               )}
             </div>
           </section>
-
           {contextMenu && (
-            <div
-              className={styles.contextMenu}
-              style={{ top: contextMenu.y, left: contextMenu.x }}
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className={styles.contextMenu} style={{ top: contextMenu.y, left: contextMenu.x }}>
               <button
                 className={styles.contextMenuItem}
-                onClick={() => {
-                  handleDelete(contextMenu.item, contextMenu.item.type, loadUserFiles);
+                onClick={(e) => {
+                  e.stopPropagation();
+
+                  if (!contextMenu.type) {
+                    console.log("❌ No context menu type");
+                    return;
+                  }
+
+                  handleDelete(contextMenu.item, contextMenu.type, function () {
+                    loadUserFiles();
+                    window.dispatchEvent(new Event("refreshDashboard"));
+                  });
                   setContextMenu(null);
                 }}
               >

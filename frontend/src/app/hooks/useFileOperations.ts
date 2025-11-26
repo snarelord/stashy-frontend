@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { mockApi } from "../services/mockApi";
+import { api } from "../services/api";
 
 export function useFileOperations() {
   const [loading, setLoading] = useState(true);
@@ -10,14 +10,21 @@ export function useFileOperations() {
     if (!confirmDelete) return;
 
     try {
-      const response = await mockApi.deleteItem(item.id, type);
-      if (response.success) {
-        alert(`${type === "folder" ? "Folder" : "File"} deleted successfully!`);
-        if (onSuccess) onSuccess();
+      console.log(`Deleting ${type}:`, item.name);
+
+      if (type === "folder") {
+        await api.deleteFolder(item.id);
+      } else {
+        await api.deleteFile(item.id);
       }
+
+      console.log(`${type} deleted successfully`);
+      alert(`${type === "folder" ? "Folder" : "File"} deleted successfully!`);
+
+      if (onSuccess) onSuccess();
     } catch (err) {
-      console.error("Failed to delete item:", err);
-      alert("Failed to delete item. Please try again.");
+      console.error(`Failed to delete ${type}:`, err);
+      alert(`Failed to delete ${type}. Please try again.`);
     }
   }, []);
 
@@ -31,7 +38,7 @@ export function useFileOperations() {
     try {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const response = await mockApi.uploadFile(file, folderId);
+        const response = await api.uploadFile(file, folderId);
         if (response.success) {
           console.log(`Uploaded: ${response.file.name} (${response.file.size})`);
         }
@@ -58,7 +65,7 @@ export function useFileOperations() {
     }
 
     try {
-      const response = await mockApi.createFolder(folderName, parentId);
+      const response = await api.createFolder(folderName, parentId);
       if (response.success) {
         const message = parentId
           ? `Subfolder "${response.folder.name}" created successfully!`

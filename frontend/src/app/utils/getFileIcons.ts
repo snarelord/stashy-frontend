@@ -1,15 +1,10 @@
-// update later with different icons
-export function getFileIcon(type: string): string {
-  switch (type) {
-    case "audio":
-      return "🎵";
-    case "image":
-      return "🖼️";
-    case "video":
-      return "🎬";
-    case "document":
-      return "📄";
-    default:
-      return "📄";
-  }
+export function getFileIcon(mimeType: string): string {
+  if (!mimeType) return "📄";
+
+  if (mimeType.startsWith("audio/")) return "🎵";
+  if (mimeType.startsWith("image/")) return "🖼️";
+  if (mimeType.startsWith("video/")) return "🎬";
+  if (mimeType.startsWith("text/") || mimeType.includes("document")) return "📄";
+
+  return "📄";
 }
