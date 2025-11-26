@@ -15,6 +15,10 @@ export default function Home() {
     router.push("pages/sign-in");
   };
 
+  const learnMore = () => {
+    router.push("pages/learn-more");
+  };
+
   return (
     <div className={styles.page} style={{ backgroundColor: "#A499ED" }}>
       <div className={`${styles.main} ${imageLoaded ? styles.visible : ""}`}>
@@ -34,7 +38,7 @@ export default function Home() {
         </div>
         <div className={styles.buttonContainer}>
           <Button text="Get Started" colourScheme="black" disabled={false} onClick={handleGetStarted} />
-          <Button text="Learn More" colourScheme="black" disabled={true} />
+          <Button text="Learn More" colourScheme="black" disabled={false} onClick={learnMore} />
         </div>
       </div>
       {/* <Footer /> */}
