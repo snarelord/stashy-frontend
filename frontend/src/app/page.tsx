@@ -14,21 +14,20 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.page} style={{ backgroundColor: "white" }}>
+    <div className={styles.page} style={{ backgroundColor: "#A499ED" }}>
       <div className={styles.main}>
-        <h1 className={styles.title}>Welcome to</h1>
         <div className={styles.container}>
-          <Image src="/stashy-black.png" alt="Stashy Logo" width={350} height={105} className={styles.logo} />
+          <Image src="/stashy-white.png" alt="Stashy Logo" width={420} height={126} className={styles.logo} />
         </div>
         <div>
           <p className={styles.description}>Your personal stash management solution.</p>
         </div>
         <div className={styles.buttonContainer}>
-          <Button text="Get Started" colourScheme="purple" disabled={false} onClick={handleGetStarted} />
-          <Button text="Learn More" colourScheme="purple" disabled={true} />
+          <Button text="Get Started" colourScheme="black" disabled={false} onClick={handleGetStarted} />
+          <Button text="Learn More" colourScheme="black" disabled={true} />
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
