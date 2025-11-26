@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { mockApi } from "../../services/mockApi";
+import { api } from "../../services/api";
 import styles from "./page.module.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
@@ -21,14 +21,25 @@ export default function AllFoldersPage() {
 
   useEffect(function () {
     loadFolders();
+
+    // reload when page receives focus (navigating back from other pages)
+    const handleFocus = function () {
+      loadFolders();
+    };
+
+    window.addEventListener("focus", handleFocus);
+
+    return function () {
+      window.removeEventListener("focus", handleFocus);
+    };
   }, []);
 
   async function loadFolders() {
     try {
-      const data = await mockApi.getUserFiles();
-      setFolders(data.folders);
+      const foldersResponse = await api.getFolders();
+      setFolders(foldersResponse.folders || []);
     } catch (err) {
-      console.error("Failed to load folders:", err);
+      setFolders([]);
     } finally {
       setLoading(false);
     }
@@ -129,7 +140,9 @@ export default function AllFoldersPage() {
                       className={styles.folderIconLarge}
                     />
                     <h3 className={styles.folderName}>{folder.name}</h3>
-                    <p className={styles.folderInfo}>{folder.fileCount} files</p>
+                    <p className={styles.folderInfo}>
+                      {folder.fileCount !== undefined ? `${folder.fileCount} files` : ""}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -152,7 +165,11 @@ export default function AllFoldersPage() {
               <button
                 className={styles.contextMenuItem}
                 onClick={() => {
-                  handleDelete(contextMenu.item, "folder", loadFolders);
+                  if (!contextMenu.type) return;
+                  handleDelete(contextMenu.item, contextMenu.type, function () {
+                    loadFolders();
+                    window.dispatchEvent(new Event("refreshDashboard")); // Add this
+                  });
                   setContextMenu(null);
                 }}
               >

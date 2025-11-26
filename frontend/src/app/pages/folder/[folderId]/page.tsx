@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, use, useRef } from "react";
-import { mockApi } from "../../../services/mockApi";
+import { api } from "../../../services/api";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import Sidebar from "@/app/components/Sidebar/Sidebar";
@@ -36,7 +36,7 @@ export default function FolderPage({ params }: FolderPageProps) {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
-  const { loading, setLoading, handleDelete, handleUpload, handleCreateFolder } = useFileOperations();
+  const { loading, setLoading, handleDelete, handleCreateFolder } = useFileOperations();
 
   useEffect(
     function () {
@@ -47,13 +47,13 @@ export default function FolderPage({ params }: FolderPageProps) {
 
   async function loadFolderContents() {
     try {
-      const data = await mockApi.getFolderContents(folderId);
+      const data = await api.getFolderContents(folderId);
+
       setFolder(data.folder);
       setSubfolders(data.folders || []);
-      setFiles(data.files);
+      setFiles(data.files || []);
       setBreadcrumbs(data.breadcrumbs || []);
     } catch (err) {
-      console.error("Failed to load folder contents:", err);
     } finally {
       setLoading(false);
     }
@@ -68,13 +68,30 @@ export default function FolderPage({ params }: FolderPageProps) {
     if (!files || files.length === 0) return;
 
     setUploading(true);
-    await handleUpload(files, folderId, function () {
+    try {
+      // Upload each file to this folder
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const response = await api.uploadFile(file, folderId);
+        if (response.success) {
+          console.log(`✅ Uploaded: ${response.file.name}`);
+        }
+      }
+      alert(`Successfully uploaded ${files.length} file(s)!`);
+
+      // Reset file input
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
+
+      // Reload folder contents
       loadFolderContents();
-    });
-    setUploading(false);
+    } catch (err) {
+      console.error("Failed to upload files:", err);
+      alert("Failed to upload files. Please try again.");
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function onCreateFolder() {
@@ -87,6 +104,15 @@ export default function FolderPage({ params }: FolderPageProps) {
 
   function handleFolderClick(subfolderId: string) {
     router.push(`/pages/folder/${subfolderId}`);
+  }
+
+  // Helper function to format file size
+  function formatFileSize(bytes: number): string {
+    if (!bytes) return "—";
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+    return (bytes / (1024 * 1024 * 1024)).toFixed(1) + " GB";
   }
 
   if (loading) {
@@ -221,7 +247,9 @@ export default function FolderPage({ params }: FolderPageProps) {
                     {subfolder.name}
                   </div>
                   <div className={styles.tableCell}>—</div>
-                  <div className={styles.tableCell}>—</div>
+                  <div className={styles.tableCell}>
+                    {subfolder.createdAt ? new Date(subfolder.createdAt).toLocaleDateString() : "—"}
+                  </div>
                 </div>
               ))}
 
@@ -232,11 +260,13 @@ export default function FolderPage({ params }: FolderPageProps) {
                   onContextMenu={(e) => handleContextMenu(e, file, "file")}
                 >
                   <div className={styles.tableCell}>
-                    <span className={styles.fileIcon}>{getFileIcon(file.type)}</span>
+                    <span className={styles.fileIcon}>{getFileIcon(file.mimeType)}</span>
                     {file.name}
                   </div>
-                  <div className={styles.tableCell}>{file.size}</div>
-                  <div className={styles.tableCell}>{file.modified}</div>
+                  <div className={styles.tableCell}>{formatFileSize(file.size)}</div>
+                  <div className={styles.tableCell}>
+                    {file.createdAt ? new Date(file.createdAt).toLocaleDateString() : "—"}
+                  </div>
                 </div>
               ))}
 
@@ -262,7 +292,10 @@ export default function FolderPage({ params }: FolderPageProps) {
                 className={styles.contextMenuItem}
                 onClick={() => {
                   if (!contextMenu || !contextMenu.type) return;
-                  handleDelete(contextMenu.item, contextMenu.type, loadFolderContents);
+                  handleDelete(contextMenu.item, contextMenu.type, function () {
+                    loadFolderContents();
+                    window.dispatchEvent(new Event("refreshDashboard")); // Add this
+                  });
                   setContextMenu(null);
                 }}
               >

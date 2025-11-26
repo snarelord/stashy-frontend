@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { mockApi } from "../../services/mockApi";
+import { api } from "../../services/api";
 import { useRouter } from "next/navigation";
 import styles from "./RecentFiles.module.css";
 import Image from "next/image";
@@ -13,150 +13,183 @@ export default function RecentFiles() {
   const [uploading, setUploading] = useState(false);
   const [recentItems, setRecentItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [contextMenu, setContextMenu] = useState<{ x: number; y: number; item: any } | null>(null);
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number; item: any; type: "file" | "folder" } | null>(
+    null
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+  useEffect(function () {
     loadRecentItems();
+
+    const handleRefresh = function () {
+      loadRecentItems();
+    };
+
+    window.addEventListener("refreshDashboard", handleRefresh);
+
+    return function () {
+      window.removeEventListener("refreshDashboard", handleRefresh);
+    };
   }, []);
 
   // close context menu when clicking anywhere
-  useEffect(() => {
-    const handleClick = () => setContextMenu(null);
+  useEffect(function () {
+    const handleClick = function () {
+      setContextMenu(null);
+    };
     document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
+    return function () {
+      document.removeEventListener("click", handleClick);
+    };
   }, []);
 
-  const loadRecentItems = async () => {
+  async function loadRecentItems() {
     try {
-      const data = await mockApi.getUserFiles();
-      // combine folders and files, take first 5 items
-      const combined = [...data.folders.map((f: any) => ({ ...f, type: "folder" })), ...data.files].slice(0, 5);
+      const foldersResponse = await api.getFolders();
+      const filesResponse = await api.getFiles();
+
+      // combine and mark type
+      const folders = (foldersResponse.folders || []).map((f: any) => ({
+        ...f,
+        type: "folder",
+        createdAt: f.createdAt || Date.now(),
+      }));
+
+      const files = (filesResponse.files || []).map((f: any) => ({
+        ...f,
+        type: "file",
+        createdAt: f.createdAt || Date.now(),
+      }));
+
+      const combined = [...folders, ...files].sort((a, b) => b.createdAt - a.createdAt).slice(0, 5);
+
       setRecentItems(combined);
     } catch (err) {
-      console.error("Failed to load recent items:", err);
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  const handleCreateFolder = async () => {
+  async function handleCreateFolder() {
     if (!folderName.trim()) {
       alert("Please enter a folder name");
       return;
     }
 
     try {
-      const response = await mockApi.createFolder(folderName);
+      const response = await api.createFolder(folderName);
       if (response.success) {
         alert(`Folder "${response.folder.name}" created successfully!`);
         setFolderName("");
         setIsCreatingFolder(false);
 
-        // reload recent items
+        // Reload recent items
         await loadRecentItems();
-        // refresh the page to show the new folder
-        router.refresh();
+
+        // Trigger dashboard refresh by dispatching custom event
+        window.dispatchEvent(new Event("refreshDashboard"));
       }
     } catch (err) {
       console.error("Failed to create folder:", err);
       alert("Failed to create folder. Please try again.");
     }
-  };
+  }
 
-  const handleUploadClick = () => {
+  function handleUploadClick() {
     fileInputRef.current?.click();
-  };
+  }
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
     setUploading(true);
     try {
-      // upload each file
+      // Upload each file
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const response = await mockApi.uploadFile(file);
+        const response = await api.uploadFile(file);
         if (response.success) {
-          console.log(`Uploaded: ${response.file.name} (${response.file.size})`);
+          console.log(`✅ Uploaded: ${response.file.name}`);
         }
       }
       alert(`Successfully uploaded ${files.length} file(s)!`);
 
-      // reset the file input
+      // Reset file input
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
 
-      // reload recent items
+      // Reload recent items
       await loadRecentItems();
-      // refresh the page to show the new files
-      router.refresh();
+
+      // Trigger dashboard refresh
+      window.dispatchEvent(new Event("refreshDashboard"));
     } catch (err) {
       console.error("Failed to upload files:", err);
       alert("Failed to upload files. Please try again.");
     } finally {
       setUploading(false);
     }
-  };
+  }
 
-  const handleItemClick = (item: any) => {
+  function handleItemClick(item: any) {
     if (item.type === "folder") {
       router.push(`/pages/folder/${item.id}`);
     } else {
-      // todo: handle file click (preview, download, etc.)
+      // TODO: handle file click (preview, download, etc.)
       console.log("File clicked:", item.name);
     }
-  };
+  }
 
-  const handleContextMenu = (e: React.MouseEvent, item: any) => {
+  function handleContextMenu(e: React.MouseEvent, item: any, type: "file" | "folder") {
     e.preventDefault();
     e.stopPropagation();
-    setContextMenu({ x: e.clientX, y: e.clientY, item });
-  };
+    setContextMenu({ x: e.clientX, y: e.clientY, item, type });
+  }
 
-  const handleDelete = async (item: any) => {
+  async function handleDelete(item: any, type: "file" | "folder") {
     const confirmDelete = window.confirm(`Are you sure you want to delete "${item.name}"?`);
 
     if (!confirmDelete) return;
 
     try {
-      const response = await mockApi.deleteItem(item.id, item.type);
-      if (response.success) {
-        alert(`${item.type === "folder" ? "Folder" : "File"} deleted successfully!`);
-
-        // reload recent items
-        await loadRecentItems();
-        // refresh the page to update the main file list
-        router.refresh();
+      if (type === "folder") {
+        await api.deleteFolder(item.id);
+      } else {
+        await api.deleteFile(item.id);
       }
+
+      alert(`${type === "folder" ? "Folder" : "File"} deleted successfully!`);
+
+      // Reload recent items
+      await loadRecentItems();
+
+      // Trigger dashboard refresh
+      window.dispatchEvent(new Event("refreshDashboard"));
     } catch (err) {
       console.error("Failed to delete item:", err);
       alert("Failed to delete item. Please try again.");
     }
-  };
+  }
 
   // helper function to get file icon based on type
-  const getFileIcon = (item: any) => {
+  function getFileIcon(item: any) {
     if (item.type === "folder") {
       return <Image src="/folder-icon-purple.png" alt="Folder" width={36} height={36} className={styles.folderIcon} />;
     }
 
-    // file type icons
-    switch (item.type) {
-      case "audio":
-        return <span className={styles.folderIcon}>🎵</span>;
-      case "image":
-        return <span className={styles.folderIcon}>🖼️</span>;
-      case "video":
-        return <span className={styles.folderIcon}>🎬</span>;
-      case "document":
-        return <span className={styles.folderIcon}>📄</span>;
-      default:
-        return <span className={styles.folderIcon}>📄</span>;
-    }
-  };
+    // file type icons based on mimeType
+    const mimeType = item.mimeType || "";
+
+    if (mimeType.startsWith("audio/")) return <span className={styles.folderIcon}>🎵</span>;
+    if (mimeType.startsWith("image/")) return <span className={styles.folderIcon}>🖼️</span>;
+    if (mimeType.startsWith("video/")) return <span className={styles.folderIcon}>🎬</span>;
+    if (mimeType.startsWith("text/") || mimeType.includes("document"))
+      return <span className={styles.folderIcon}>📄</span>;
+
+    return <span className={styles.folderIcon}>📄</span>;
+  }
 
   return (
     <section className={styles.recentSection}>
@@ -170,7 +203,7 @@ export default function RecentFiles() {
               key={item.id}
               className={styles.fileCard}
               onClick={() => handleItemClick(item)}
-              onContextMenu={(e) => handleContextMenu(e, item)}
+              onContextMenu={(e) => handleContextMenu(e, item, item.type)}
             >
               {getFileIcon(item)}
               <p className={styles.fileName}>{item.name}</p>
@@ -191,7 +224,8 @@ export default function RecentFiles() {
           <button
             className={styles.contextMenuItem}
             onClick={() => {
-              handleDelete(contextMenu.item);
+              if (!contextMenu.type) return;
+              handleDelete(contextMenu.item, contextMenu.type);
               setContextMenu(null);
             }}
           >

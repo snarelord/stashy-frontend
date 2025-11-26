@@ -1,8 +1,8 @@
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 
-dotenv.config();
+// dotenv.config();
 
-const apiUrl = process.env.API_BASE_URL;
+const apiUrl = "http://localhost:5001/api";
 
 export const api = {
   // file ops
@@ -41,7 +41,9 @@ export const api = {
   },
 
   deleteFile: async function (fileId: string) {
-    const response = await fetch(`${apiUrl}/files/${fileId}`);
+    const response = await fetch(`${apiUrl}/files/${fileId}`, {
+      method: "DELETE",
+    });
 
     if (!response.ok) throw new Error("Failed to to delete file");
 
