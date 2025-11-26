@@ -22,21 +22,18 @@ export default function DashboardPage() {
 
   async function loadUserFiles() {
     try {
-      console.log("🔄 Loading folders...");
       const foldersResponse = await api.getFolders();
-      console.log("📁 Folders response:", foldersResponse);
-      console.log("📂 Number of folders:", foldersResponse.folders?.length);
-      setFolders(foldersResponse.folders || []);
 
-      console.log("🔄 Loading files...");
+      console.log("📁 Folders from API:", foldersResponse); // FIXED
+
+      setFolders(foldersResponse.folders || []);
       const filesResponse = await api.getFiles();
-      console.log("📄 Files response:", filesResponse);
-      console.log("📄 Number of files:", filesResponse.files?.length);
+
       setFiles(filesResponse.files || []);
 
-      console.log("✅ Data loaded successfully");
+      console.log("Data loaded successfully");
     } catch (err) {
-      console.error("❌ Failed to load files:", err);
+      console.error("Failed to load files:", err);
       setFiles([]);
       setFolders([]);
     } finally {
@@ -45,12 +42,10 @@ export default function DashboardPage() {
   }
 
   useEffect(function () {
-    // Load on mount
     loadUserFiles();
 
-    // Reload when returning to this page/tab
     const handleFocus = function () {
-      console.log("🔄 Dashboard refresh triggered");
+      console.log("Dashboard refresh triggered");
       loadUserFiles();
     };
 
@@ -65,12 +60,29 @@ export default function DashboardPage() {
     router.push(`/pages/folder/${folderId}`);
   }
 
-  console.log("🎨 Rendering dashboard with:", {
-    foldersCount: folders.length,
-    filesCount: files.length,
-    folders: folders,
-    files: files,
-  });
+  async function handleDownload(file: any, e: React.MouseEvent) {
+    e.stopPropagation();
+    try {
+      console.log("Downloading:", file.original_name);
+      await api.downloadFile(file.id);
+      console.log("Download started");
+    } catch (error) {
+      console.error("Download failed:", error);
+      alert("Failed to download file");
+    }
+  }
+
+  async function handleDownloadFolder(folder: any, e: React.MouseEvent) {
+    e.stopPropagation();
+    try {
+      console.log("Downloading folder:", folder.name);
+      await api.downloadFolder(folder.id);
+      console.log("Folder download started");
+    } catch (error: any) {
+      console.error("Folder download failed:", error);
+      alert(error.message || "Failed to download folder");
+    }
+  }
 
   if (loading) {
     return (
@@ -102,6 +114,7 @@ export default function DashboardPage() {
               <div className={styles.tableHeader}>
                 <div className={styles.tableHeaderCell}>File Name</div>
                 <div className={styles.tableHeaderCell}>Modified</div>
+                <div className={styles.tableHeaderCell}>Actions</div>
               </div>
 
               {folders.map((folder) => (
@@ -110,7 +123,6 @@ export default function DashboardPage() {
                   className={styles.tableRow}
                   onClick={() => handleFolderClick(folder.id)}
                   onContextMenu={(e) => handleContextMenu(e, folder, "folder")}
-                  style={{ cursor: "pointer" }}
                 >
                   <div className={styles.tableCell}>
                     <Image
@@ -122,10 +134,33 @@ export default function DashboardPage() {
                     />
                     {folder.name}
                   </div>
-                  <div className={styles.tableCell}></div>
+                  <div className={styles.tableCell}>
+                    {folder.createdAt ? new Date(folder.createdAt).toLocaleDateString() : "—"}
+                  </div>
+                  <div className={styles.tableCell}>
+                    <button
+                      onClick={(e) => handleDownloadFolder(folder, e)}
+                      className={styles.actionButton}
+                      title="Download folder as ZIP"
+                    >
+                      📥
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(folder, "folder", function () {
+                          loadUserFiles();
+                          window.dispatchEvent(new Event("refreshDashboard"));
+                        });
+                      }}
+                      className={styles.actionButton}
+                      title="Delete folder"
+                    >
+                      🗑️
+                    </button>
+                  </div>
                 </div>
               ))}
-
               {files.map((file) => (
                 <div
                   key={file.id}
@@ -139,9 +174,30 @@ export default function DashboardPage() {
                   <div className={styles.tableCell}>
                     {file.createdAt ? new Date(file.createdAt).toLocaleDateString() : ""}
                   </div>
+                  <div className={styles.tableCell}>
+                    <button
+                      onClick={(e) => handleDownload(file, e)}
+                      className={styles.actionButton}
+                      title="Download file"
+                    >
+                      📥
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(file, "file", function () {
+                          loadUserFiles();
+                          window.dispatchEvent(new Event("refreshDashboard"));
+                        });
+                      }}
+                      className={styles.actionButton}
+                      title="Delete file"
+                    >
+                      🗑️
+                    </button>
+                  </div>
                 </div>
               ))}
-
               {folders.length === 0 && files.length === 0 && (
                 <div className={styles.tableRow}>
                   <div className={styles.tableCell} style={{ textAlign: "center", color: "#999" }}>
@@ -151,27 +207,63 @@ export default function DashboardPage() {
               )}
             </div>
           </section>
+
           {contextMenu && (
             <div className={styles.contextMenu} style={{ top: contextMenu.y, left: contextMenu.x }}>
-              <button
-                className={styles.contextMenuItem}
-                onClick={(e) => {
-                  e.stopPropagation();
-
-                  if (!contextMenu.type) {
-                    console.log("❌ No context menu type");
-                    return;
-                  }
-
-                  handleDelete(contextMenu.item, contextMenu.type, function () {
-                    loadUserFiles();
-                    window.dispatchEvent(new Event("refreshDashboard"));
-                  });
-                  setContextMenu(null);
-                }}
-              >
-                🗑️ Delete
-              </button>
+              {contextMenu.type === "file" && (
+                <>
+                  <button
+                    className={styles.contextMenuItem}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDownload(contextMenu.item, e);
+                      setContextMenu(null);
+                    }}
+                  >
+                    📥 Download
+                  </button>
+                  <button
+                    className={styles.contextMenuItem}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(contextMenu.item, "file", function () {
+                        loadUserFiles();
+                        window.dispatchEvent(new Event("refreshDashboard"));
+                      });
+                      setContextMenu(null);
+                    }}
+                  >
+                    🗑️ Delete
+                  </button>
+                </>
+              )}
+              {contextMenu.type === "folder" && (
+                <>
+                  <button
+                    className={styles.contextMenuItem}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDownloadFolder(contextMenu.item, e);
+                      setContextMenu(null);
+                    }}
+                  >
+                    📥 Download as ZIP
+                  </button>
+                  <button
+                    className={styles.contextMenuItem}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(contextMenu.item, "folder", function () {
+                        loadUserFiles();
+                        window.dispatchEvent(new Event("refreshDashboard"));
+                      });
+                      setContextMenu(null);
+                    }}
+                  >
+                    🗑️ Delete
+                  </button>
+                </>
+              )}
             </div>
           )}
         </div>

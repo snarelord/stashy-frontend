@@ -39,13 +39,86 @@ export const api = {
   },
 
   downloadFile: async function (fileId: string) {
-    const response = await fetch(`${apiUrl}/files/download/${fileId}`, {
-      headers: defaultHeaders, // here
-    });
+    try {
+      const response = await fetch(`${apiUrl}/files/download/${fileId}`, {
+        headers: defaultHeaders,
+      });
 
-    if (!response.ok) throw new Error("Failed to download file");
+      if (!response.ok) {
+        throw new Error("Failed to download file");
+      }
 
-    return response.json();
+      const blob = await response.blob();
+      const contentDisposition = response.headers.get("Content-Disposition");
+      let filename = "download";
+
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+        if (filenameMatch) {
+          filename = filenameMatch[1];
+        }
+      }
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      console.log(`Downloaded: ${filename}`);
+      return { success: true, filename };
+    } catch (error) {
+      console.error("Download error:", error);
+      throw error;
+    }
+  },
+
+  downloadFolder: async function (folderId: string) {
+    try {
+      const response = await fetch(`${apiUrl}/folders/${folderId}/download`, {
+        headers: defaultHeaders,
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to download folder");
+      }
+
+      // Get the ZIP blob
+      const blob = await response.blob();
+
+      // Get filename from Content-Disposition header
+      const contentDisposition = response.headers.get("Content-Disposition");
+      let filename = "folder.zip";
+
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+        if (filenameMatch) {
+          filename = filenameMatch[1];
+        }
+      }
+
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      console.log(`Downloaded folder: ${filename}`);
+      return { success: true, filename };
+    } catch (error) {
+      console.error("Download folder error:", error);
+      throw error;
+    }
   },
 
   deleteFile: async function (fileId: string) {

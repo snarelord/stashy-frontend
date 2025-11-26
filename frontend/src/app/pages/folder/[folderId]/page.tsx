@@ -86,6 +86,7 @@ export default function FolderPage({ params }: FolderPageProps) {
 
       // Reload folder contents
       loadFolderContents();
+      window.dispatchEvent(new Event("refreshDashboard"));
     } catch (err) {
       console.error("Failed to upload files:", err);
       alert("Failed to upload files. Please try again.");
@@ -104,6 +105,30 @@ export default function FolderPage({ params }: FolderPageProps) {
 
   function handleFolderClick(subfolderId: string) {
     router.push(`/pages/folder/${subfolderId}`);
+  }
+
+  async function handleDownload(file: any, e: React.MouseEvent) {
+    e.stopPropagation();
+    try {
+      console.log("📥 Downloading:", file.name);
+      await api.downloadFile(file.id);
+      console.log("✅ Download started");
+    } catch (error) {
+      console.error("❌ Download failed:", error);
+      alert("Failed to download file");
+    }
+  }
+
+  async function handleDownloadFolder(folder: any, e: React.MouseEvent) {
+    e.stopPropagation();
+    try {
+      console.log("📦 Downloading folder:", folder.name);
+      await api.downloadFolder(folder.id);
+      console.log("✅ Folder download started");
+    } catch (error: any) {
+      console.error("❌ Folder download failed:", error);
+      alert(error.message || "Failed to download folder");
+    }
   }
 
   // Helper function to format file size
@@ -227,6 +252,7 @@ export default function FolderPage({ params }: FolderPageProps) {
                 <div className={styles.tableHeaderCell}>Name</div>
                 <div className={styles.tableHeaderCell}>Size</div>
                 <div className={styles.tableHeaderCell}>Modified</div>
+                <div className={styles.tableHeaderCell}>Actions</div>
               </div>
 
               {subfolders.map((subfolder) => (
@@ -250,6 +276,28 @@ export default function FolderPage({ params }: FolderPageProps) {
                   <div className={styles.tableCell}>
                     {subfolder.createdAt ? new Date(subfolder.createdAt).toLocaleDateString() : "—"}
                   </div>
+                  <div className={styles.tableCell}>
+                    <button
+                      onClick={(e) => handleDownloadFolder(subfolder, e)}
+                      className={styles.actionButtonIcon}
+                      title="Download folder as ZIP"
+                    >
+                      📥
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(subfolder, "folder", function () {
+                          loadFolderContents();
+                          window.dispatchEvent(new Event("refreshDashboard"));
+                        });
+                      }}
+                      className={styles.actionButtonIcon}
+                      title="Delete folder"
+                    >
+                      🗑️
+                    </button>
+                  </div>
                 </div>
               ))}
 
@@ -266,6 +314,28 @@ export default function FolderPage({ params }: FolderPageProps) {
                   <div className={styles.tableCell}>{formatFileSize(file.size)}</div>
                   <div className={styles.tableCell}>
                     {file.createdAt ? new Date(file.createdAt).toLocaleDateString() : "—"}
+                  </div>
+                  <div className={styles.tableCell}>
+                    <button
+                      onClick={(e) => handleDownload(file, e)}
+                      className={styles.actionButtonIcon}
+                      title="Download file"
+                    >
+                      📥
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(file, "file", function () {
+                          loadFolderContents();
+                          window.dispatchEvent(new Event("refreshDashboard"));
+                        });
+                      }}
+                      className={styles.actionButtonIcon}
+                      title="Delete file"
+                    >
+                      🗑️
+                    </button>
                   </div>
                 </div>
               ))}
@@ -288,19 +358,60 @@ export default function FolderPage({ params }: FolderPageProps) {
               style={{ top: contextMenu.y, left: contextMenu.x }}
               onClick={(e) => e.stopPropagation()}
             >
-              <button
-                className={styles.contextMenuItem}
-                onClick={() => {
-                  if (!contextMenu || !contextMenu.type) return;
-                  handleDelete(contextMenu.item, contextMenu.type, function () {
-                    loadFolderContents();
-                    window.dispatchEvent(new Event("refreshDashboard")); // Add this
-                  });
-                  setContextMenu(null);
-                }}
-              >
-                🗑️ Delete
-              </button>
+              {contextMenu.type === "file" && (
+                <>
+                  <button
+                    className={styles.contextMenuItem}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDownload(contextMenu.item, e);
+                      setContextMenu(null);
+                    }}
+                  >
+                    📥 Download
+                  </button>
+                  <button
+                    className={styles.contextMenuItem}
+                    onClick={() => {
+                      if (!contextMenu || !contextMenu.type) return;
+                      handleDelete(contextMenu.item, contextMenu.type, function () {
+                        loadFolderContents();
+                        window.dispatchEvent(new Event("refreshDashboard"));
+                      });
+                      setContextMenu(null);
+                    }}
+                  >
+                    🗑️ Delete
+                  </button>
+                </>
+              )}
+              {contextMenu.type === "folder" && (
+                <>
+                  <button
+                    className={styles.contextMenuItem}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDownloadFolder(contextMenu.item, e);
+                      setContextMenu(null);
+                    }}
+                  >
+                    📥 Download as ZIP
+                  </button>
+                  <button
+                    className={styles.contextMenuItem}
+                    onClick={() => {
+                      if (!contextMenu || !contextMenu.type) return;
+                      handleDelete(contextMenu.item, contextMenu.type, function () {
+                        loadFolderContents();
+                        window.dispatchEvent(new Event("refreshDashboard"));
+                      });
+                      setContextMenu(null);
+                    }}
+                  >
+                    🗑️ Delete
+                  </button>
+                </>
+              )}
             </div>
           )}
         </div>
