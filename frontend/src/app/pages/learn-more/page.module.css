@@ -1,0 +1,50 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: var(--font-roboto), sans-serif;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+}
+
+.backButton {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.backButton:hover {
+  opacity: 0.8;
+}
+
+.title {
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  max-width: 600px;
+  margin: 0;
+}
+
+.description {
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  max-width: 600px;
+  margin: 0;
+}
