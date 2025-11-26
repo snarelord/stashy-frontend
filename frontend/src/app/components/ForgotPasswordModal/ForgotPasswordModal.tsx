@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { mockApi } from "../../services/mockApi";
 import styles from "./ForgotPasswordModal.module.css";
 import Button from "../Button/Button";
 
@@ -21,7 +22,7 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
     return emailRegex.test(email);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email.trim()) {
@@ -34,8 +35,14 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
       return;
     }
 
-    setError("");
-    setIsSubmitted(true);
+    try {
+      const response = await mockApi.forgotPassword(email);
+      if (response.success) {
+        setIsSubmitted(true);
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    }
 
     // to do: add backend API call here
     // await fetch('/api/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }); etc
