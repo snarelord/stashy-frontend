@@ -24,6 +24,7 @@ export default function AllFoldersPage() {
 
     // reload when page receives focus (navigating back from other pages)
     const handleFocus = function () {
+      console.log("🔄 All-Folders page focused, reloading...");
       loadFolders();
     };
 
