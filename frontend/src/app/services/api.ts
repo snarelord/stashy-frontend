@@ -1,5 +1,10 @@
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
 
+const defaultHeaders = {
+  "Content-Type": "application/json",
+  "ngrok-skip-browser-warning": "true", // skip ngrok warning page
+};
+
 export const api = {
   // file ops
   uploadFile: async function (file: File, folderId?: string) {
@@ -11,6 +16,9 @@ export const api = {
 
     const response = await fetch(`${apiUrl}/files/upload`, {
       method: "POST",
+      headers: {
+        "ngrok-skip-browser-warning": "true", // here
+      },
       body: formData,
     });
 
@@ -21,7 +29,9 @@ export const api = {
 
   getFiles: async function (folderId?: string) {
     const url = folderId ? `${apiUrl}/files?folderId=${folderId}` : `${apiUrl}/files`;
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: defaultHeaders, // here
+    });
 
     if (!response.ok) throw new Error("Failed to fetch file");
 
@@ -29,7 +39,9 @@ export const api = {
   },
 
   downloadFile: async function (fileId: string) {
-    const response = await fetch(`${apiUrl}/files/download/${fileId}`);
+    const response = await fetch(`${apiUrl}/files/download/${fileId}`, {
+      headers: defaultHeaders, // here
+    });
 
     if (!response.ok) throw new Error("Failed to download file");
 
@@ -39,6 +51,7 @@ export const api = {
   deleteFile: async function (fileId: string) {
     const response = await fetch(`${apiUrl}/files/${fileId}`, {
       method: "DELETE",
+      headers: defaultHeaders, // here
     });
 
     if (!response.ok) throw new Error("Failed to to delete file");
@@ -47,7 +60,9 @@ export const api = {
   },
 
   getStorageInfo: async function () {
-    const response = await fetch(`${apiUrl}/files/storage/info`);
+    const response = await fetch(`${apiUrl}/files/storage/info`, {
+      headers: defaultHeaders, // here
+    });
 
     if (!response.ok) throw new Error("Failed to fetch storage info");
 
@@ -58,9 +73,7 @@ export const api = {
   createFolder: async function (name: string, parentId?: string) {
     const response = await fetch(`${apiUrl}/folders`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: defaultHeaders, // here
       body: JSON.stringify({ name, parentId: parentId || null }),
     });
 
@@ -71,7 +84,9 @@ export const api = {
 
   getFolders: async function (parentId?: string) {
     const url = parentId !== undefined ? `${apiUrl}/folders?parentId=${parentId || null}` : `${apiUrl}/folders`;
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: defaultHeaders, // here
+    });
 
     if (!response.ok) throw new Error("Failed to fetch folders");
 
@@ -79,7 +94,9 @@ export const api = {
   },
 
   getFolderContents: async function (folderId: string) {
-    const response = await fetch(`${apiUrl}/folders/${folderId}`);
+    const response = await fetch(`${apiUrl}/folders/${folderId}`, {
+      headers: defaultHeaders, // here
+    });
 
     if (!response.ok) throw new Error("Failed to fetch folder contents");
 
@@ -89,6 +106,7 @@ export const api = {
   deleteFolder: async function (folderId: string) {
     const response = await fetch(`${apiUrl}/folders/${folderId}`, {
       method: "DELETE",
+      headers: defaultHeaders, // here
     });
 
     if (!response.ok) throw new Error("Failed to delete folder");
