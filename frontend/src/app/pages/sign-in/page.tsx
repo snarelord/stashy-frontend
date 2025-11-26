@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { mockApi } from "../../services/mockApi";
 import styles from "./page.module.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -12,10 +13,26 @@ import ForgotPasswordModal from "../../components/ForgotPasswordModal/ForgotPass
 export default function SignInPage() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push("/pages/dashboard");
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await mockApi.signIn(email, password);
+      if (response.success) {
+        router.push("/pages/dashboard");
+      }
+    } catch (err) {
+      setError("Sign in failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleForgotPasswordClick = (e: React.MouseEvent) => {
