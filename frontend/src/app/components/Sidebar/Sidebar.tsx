@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { mockApi } from "../../services/mockApi";
+import { api } from "../../services/api";
 import styles from "./Sidebar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,20 +12,41 @@ interface SidebarProps {
 
 export default function Sidebar({ showBackToDashboard = false }: SidebarProps) {
   const router = useRouter();
-  const [storageInfo, setStorageInfo] = useState({ used: 82, usedGB: 8.2, totalGB: 10 });
+  const [storageInfo, setStorageInfo] = useState({
+    used: 0,
+    total: 100,
+    usedGB: "0.00",
+    totalGB: "10.00",
+  });
 
-  useEffect(() => {
+  useEffect(function () {
     loadStorageInfo();
+
+    // Listen for refresh events to update storage
+    const handleRefresh = function () {
+      console.log("💾 Refreshing storage info...");
+      loadStorageInfo();
+    };
+
+    window.addEventListener("refreshDashboard", handleRefresh);
+
+    return function () {
+      window.removeEventListener("refreshDashboard", handleRefresh);
+    };
   }, []);
 
-  const loadStorageInfo = async () => {
+  async function loadStorageInfo() {
     try {
-      const data = await mockApi.getStorageInfo();
-      setStorageInfo(data);
+      const response = await api.getStorageInfo();
+      console.log("💾 Storage info:", response);
+
+      if (response.success) {
+        setStorageInfo(response.storage);
+      }
     } catch (err) {
       console.error("Failed to load storage info:", err);
     }
-  };
+  }
 
   return (
     <aside className={styles.sidebar}>
@@ -34,7 +55,12 @@ export default function Sidebar({ showBackToDashboard = false }: SidebarProps) {
         <div className={styles.avatarContainer}>
           <div
             className={styles.storageRing}
-            style={{ background: `conic-gradient(#00d86fff ${storageInfo.used * 3.6}deg, #ffffffff 0deg)` }}
+            style={{
+              background: `conic-gradient(
+                ${storageInfo.used >= 90 ? "#ef4444ff" : "#00d86fff"} ${storageInfo.used * 3.6}deg, 
+                #ffffffff 0deg
+              )`,
+            }}
           >
             <div className={styles.avatar}>
               <span className={styles.avatarIcon}>👤</span>
@@ -42,7 +68,9 @@ export default function Sidebar({ showBackToDashboard = false }: SidebarProps) {
           </div>
         </div>
         <h3 className={styles.userName}>Kit Jones</h3>
-        <p className={styles.storageText}>{storageInfo.used}% of Storage Used</p>
+        <p className={styles.storageText}>
+          {storageInfo.usedGB} GB / {storageInfo.totalGB} GB ({storageInfo.used.toFixed(1)}%)
+        </p>
       </div>
 
       {/* Navigation Items */}
