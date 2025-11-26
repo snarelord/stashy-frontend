@@ -22,11 +22,21 @@ export default function DashboardPage() {
 
   async function loadUserFiles() {
     try {
+      console.log("🔄 Loading folders...");
       const foldersResponse = await api.getFolders();
+      console.log("📁 Folders response:", foldersResponse);
+      console.log("📂 Number of folders:", foldersResponse.folders?.length);
       setFolders(foldersResponse.folders || []);
+
+      console.log("🔄 Loading files...");
       const filesResponse = await api.getFiles();
+      console.log("📄 Files response:", filesResponse);
+      console.log("📄 Number of files:", filesResponse.files?.length);
       setFiles(filesResponse.files || []);
+
+      console.log("✅ Data loaded successfully");
     } catch (err) {
+      console.error("❌ Failed to load files:", err);
       setFiles([]);
       setFolders([]);
     } finally {
@@ -54,6 +64,13 @@ export default function DashboardPage() {
   function handleFolderClick(folderId: string) {
     router.push(`/pages/folder/${folderId}`);
   }
+
+  console.log("🎨 Rendering dashboard with:", {
+    foldersCount: folders.length,
+    filesCount: files.length,
+    folders: folders,
+    files: files,
+  });
 
   if (loading) {
     return (
