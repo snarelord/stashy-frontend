@@ -39,7 +39,6 @@
 
 .folderIcon {
   font-size: 36px;
-  filter: hue-rotate(220deg) saturate(0.7);
 }
 
 .fileName {
