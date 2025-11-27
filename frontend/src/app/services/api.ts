@@ -15,6 +15,26 @@ function getAuthHeaders(extraHeaders = {}) {
 }
 
 export const api = {
+  signUp: async function (
+    email: string,
+    firstName: string,
+    lastName: string,
+    password: string,
+    confirmPassword: string,
+    accessCode: string
+  ) {
+    const response = await fetch(`${apiUrl}/users/sign-up`, {
+      method: "POST",
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ email, firstName, lastName, password, confirmPassword, accessCode: String(accessCode) }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || "Sign up failed");
+    }
+    return data;
+  },
+
   // file ops
   uploadFile: async function (file: File, folderId?: string) {
     const formData = new FormData();
