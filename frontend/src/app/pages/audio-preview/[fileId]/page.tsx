@@ -36,8 +36,11 @@ export default function AudioPreviewPage({ params }: AudioPreviewProps) {
 
   async function loadFile() {
     try {
+      console.log("📂 Loading file with ID:", fileId);
       const response = await api.getFiles();
+      console.log("📦 Files response:", response);
       const foundFile = response.files.find((f: any) => f.id === fileId);
+      console.log("Found file: ", foundFile);
 
       if (foundFile) {
         setFile(foundFile);
