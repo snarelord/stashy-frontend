@@ -1,17 +1,17 @@
 "use client";
 
 import styles from "./page.module.css";
-import Footer from "../../components/Footer/Footer";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
-import RecentFiles from "../../components/RecentFiles/RecentFiles";
+import Footer from "../../../components/Footer/Footer";
+import Sidebar from "../../../components/Sidebar/Sidebar";
+import DashboardHeader from "../../../components/DashboardHeader/DashboardHeader";
+import RecentFiles from "../../../components/RecentFiles/RecentFiles";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { api } from "../../services/api";
+import { api } from "../../../services/api";
 import Image from "next/image";
-import { useContextMenu } from "../../hooks/useContextMenu";
-import { useFileOperations } from "../../hooks/useFileOperations";
-import { getFileIcon } from "../../utils/getFileIcons";
+import { useContextMenu } from "../../../hooks/useContextMenu";
+import { useFileOperations } from "../../../hooks/useFileOperations";
+import { getFileIcon } from "../../../utils/getFileIcons";
 
 export default function DashboardPage() {
   const router = useRouter();

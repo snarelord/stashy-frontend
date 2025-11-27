@@ -5,6 +5,15 @@ const defaultHeaders = {
   "ngrok-skip-browser-warning": "true", // skip ngrok warning page
 };
 
+function getAuthHeaders(extraHeaders = {}) {
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  return {
+    ...defaultHeaders,
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...extraHeaders,
+  };
+}
+
 export const api = {
   // file ops
   uploadFile: async function (file: File, folderId?: string) {
@@ -14,11 +23,14 @@ export const api = {
       formData.append("folderId", folderId);
     }
 
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const headers: any = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    headers["ngrok-skip-browser-warning"] = "true";
+
     const response = await fetch(`${apiUrl}/files/upload`, {
       method: "POST",
-      headers: {
-        "ngrok-skip-browser-warning": "true", // here
-      },
+      headers,
       body: formData,
     });
 
@@ -30,7 +42,7 @@ export const api = {
   getFiles: async function (folderId?: string) {
     const url = folderId ? `${apiUrl}/files?folderId=${folderId}` : `${apiUrl}/files`;
     const response = await fetch(url, {
-      headers: defaultHeaders, // here
+      headers: getAuthHeaders(),
     });
 
     if (!response.ok) throw new Error("Failed to fetch file");
@@ -41,7 +53,7 @@ export const api = {
   downloadFile: async function (fileId: string) {
     try {
       const response = await fetch(`${apiUrl}/files/download/${fileId}`, {
-        headers: defaultHeaders,
+        headers: getAuthHeaders(),
       });
 
       if (!response.ok) {
@@ -79,7 +91,7 @@ export const api = {
   downloadFolder: async function (folderId: string) {
     try {
       const response = await fetch(`${apiUrl}/folders/${folderId}/download`, {
-        headers: defaultHeaders,
+        headers: getAuthHeaders(),
       });
 
       if (!response.ok) {
@@ -124,7 +136,7 @@ export const api = {
   deleteFile: async function (fileId: string) {
     const response = await fetch(`${apiUrl}/files/${fileId}`, {
       method: "DELETE",
-      headers: defaultHeaders, // here
+      headers: getAuthHeaders(),
     });
 
     if (!response.ok) throw new Error("Failed to to delete file");
@@ -134,7 +146,7 @@ export const api = {
 
   getStorageInfo: async function () {
     const response = await fetch(`${apiUrl}/files/storage/info`, {
-      headers: defaultHeaders, // here
+      headers: getAuthHeaders(),
     });
 
     if (!response.ok) throw new Error("Failed to fetch storage info");
@@ -146,7 +158,7 @@ export const api = {
   createFolder: async function (name: string, parentId?: string) {
     const response = await fetch(`${apiUrl}/folders`, {
       method: "POST",
-      headers: defaultHeaders, // here
+      headers: getAuthHeaders(),
       body: JSON.stringify({ name, parentId: parentId || null }),
     });
 
@@ -158,7 +170,7 @@ export const api = {
   getFolders: async function (parentId?: string) {
     const url = parentId !== undefined ? `${apiUrl}/folders?parentId=${parentId || null}` : `${apiUrl}/folders`;
     const response = await fetch(url, {
-      headers: defaultHeaders, // here
+      headers: getAuthHeaders(),
     });
 
     if (!response.ok) throw new Error("Failed to fetch folders");
@@ -168,7 +180,7 @@ export const api = {
 
   getFolderContents: async function (folderId: string) {
     const response = await fetch(`${apiUrl}/folders/${folderId}`, {
-      headers: defaultHeaders, // here
+      headers: getAuthHeaders(),
     });
 
     if (!response.ok) throw new Error("Failed to fetch folder contents");
@@ -179,7 +191,7 @@ export const api = {
   deleteFolder: async function (folderId: string) {
     const response = await fetch(`${apiUrl}/folders/${folderId}`, {
       method: "DELETE",
-      headers: defaultHeaders, // here
+      headers: getAuthHeaders(),
     });
 
     if (!response.ok) throw new Error("Failed to delete folder");

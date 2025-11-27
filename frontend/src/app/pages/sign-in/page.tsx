@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { mockApi } from "../../services/mockApi";
+import { jwtDecode } from "jwt-decode";
 import styles from "./page.module.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -24,9 +24,18 @@ export default function SignInPage() {
     setError("");
 
     try {
-      const response = await mockApi.signIn(email, password);
-      if (response.success) {
-        router.push("/pages/dashboard");
+      const response = await fetch("http://localhost:5001/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.token) {
+        localStorage.setItem("token", data.token);
+        const decoded: { id: string } = jwtDecode(data.token);
+        router.push(`/pages/dashboard/${decoded.id}`);
       }
     } catch (err) {
       setError("Sign in failed. Please try again.");
@@ -52,14 +61,30 @@ export default function SignInPage() {
               <label htmlFor="email" className={styles.label}>
                 Email
               </label>
-              <input type="email" id="email" className={styles.input} placeholder="Email" />
+              <input
+                type="email"
+                id="email"
+                className={styles.input}
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
 
             <div className={styles.inputGroup}>
               <label htmlFor="password" className={styles.label}>
                 Password
               </label>
-              <input type="password" id="password" className={styles.input} placeholder="Password" />
+              <input
+                type="password"
+                id="password"
+                className={styles.input}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
 
             <Button text="Sign In" colourScheme="purple" type="submit" />

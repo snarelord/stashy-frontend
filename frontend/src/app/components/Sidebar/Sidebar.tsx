@@ -22,7 +22,6 @@ export default function Sidebar({ showBackToDashboard = false }: SidebarProps) {
   useEffect(function () {
     loadStorageInfo();
 
-    // Listen for refresh events to update storage
     const handleRefresh = function () {
       console.log("💾 Refreshing storage info...");
       loadStorageInfo();
