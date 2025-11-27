@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, use, useRef } from "react";
+import useAuthRedirect from "@/app/hooks/useAuthRedirect";
 import { api } from "../../../services/api";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
@@ -12,6 +13,7 @@ import Image from "next/image";
 import { useContextMenu } from "../../../hooks/useContextMenu";
 import { useFileOperations } from "../../../hooks/useFileOperations";
 import { getFileIcon } from "../../../utils/getFileIcons";
+import Spinner from "../../../components/Spinner/Spinner";
 
 interface FolderPageProps {
   params: Promise<{
@@ -25,6 +27,7 @@ interface Breadcrumb {
 }
 
 export default function FolderPage({ params }: FolderPageProps) {
+  const { loading: authLoading, authenticated } = useAuthRedirect();
   const router = useRouter();
   const { folderId } = use(params);
   const [folder, setFolder] = useState<any>(null);
@@ -138,6 +141,10 @@ export default function FolderPage({ params }: FolderPageProps) {
     if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
     if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + " MB";
     return (bytes / (1024 * 1024 * 1024)).toFixed(1) + " GB";
+  }
+
+  if (authLoading) {
+    return <Spinner />;
   }
 
   if (loading) {

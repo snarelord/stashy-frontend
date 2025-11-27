@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { api } from "../../services/api";
 import styles from "./Sidebar.module.css";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface SidebarProps {
@@ -23,7 +22,6 @@ export default function Sidebar({ showBackToDashboard = false }: SidebarProps) {
     loadStorageInfo();
 
     const handleRefresh = function () {
-      console.log("💾 Refreshing storage info...");
       loadStorageInfo();
     };
 
@@ -37,7 +35,6 @@ export default function Sidebar({ showBackToDashboard = false }: SidebarProps) {
   async function loadStorageInfo() {
     try {
       const response = await api.getStorageInfo();
-      console.log("💾 Storage info:", response);
 
       if (response.success) {
         setStorageInfo(response.storage);
@@ -99,9 +96,17 @@ export default function Sidebar({ showBackToDashboard = false }: SidebarProps) {
       </nav>
 
       {/* Sign Out Button */}
-      <Link href="/" className={styles.signOutButton}>
+      <button
+        className={styles.signOutButton}
+        onClick={() => {
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("token");
+            window.location.href = "/pages/sign-in";
+          }
+        }}
+      >
         Sign out
-      </Link>
+      </button>
     </aside>
   );
 }

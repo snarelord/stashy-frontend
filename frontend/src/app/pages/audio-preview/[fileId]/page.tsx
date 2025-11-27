@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect, use, useRef } from "react";
+import useAuthRedirect from "@/app/hooks/useAuthRedirect";
 import { api } from "../../../services/api";
 import { useRouter } from "next/navigation";
 import VisualiserBars from "../../../components/Visualiser/Visualiser/VisualiserBars";
 import LUFSMeter from "../../../components/Visualiser/LUFSMeter/LUFSMeter";
 import AudioControls from "@/app/components/Visualiser/AudioControls/AudioControls";
 import styles from "./page.module.css";
+import Spinner from "@/app/components/Spinner/Spinner";
 
 interface AudioPreviewProps {
   params: Promise<{
@@ -15,6 +17,7 @@ interface AudioPreviewProps {
 }
 
 export default function AudioPreviewPage({ params }: AudioPreviewProps) {
+  const { loading: authLoading, authenticated } = useAuthRedirect();
   const router = useRouter();
   const { fileId } = use(params);
   const [file, setFile] = useState<any>(null);
@@ -156,6 +159,10 @@ export default function AudioPreviewPage({ params }: AudioPreviewProps) {
       console.error("Download failed:", error);
       alert("Failed to download file");
     }
+  }
+
+  if (authLoading) {
+    return <Spinner />;
   }
 
   if (loading) {

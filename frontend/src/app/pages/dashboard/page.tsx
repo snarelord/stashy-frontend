@@ -7,13 +7,16 @@ import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
 import RecentFiles from "../../components/RecentFiles/RecentFiles";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { api } from "../../services/api";
 import Image from "next/image";
 import { useContextMenu } from "../../hooks/useContextMenu";
 import { useFileOperations } from "../../hooks/useFileOperations";
 import { getFileIcon } from "../../utils/getFileIcons";
+import Spinner from "../../components/Spinner/Spinner";
 
 export default function DashboardPage() {
+  const { loading: authLoading, authenticated } = useAuthRedirect();
   const router = useRouter();
   const [files, setFiles] = useState<any[]>([]);
   const [folders, setFolders] = useState<any[]>([]);
@@ -90,6 +93,14 @@ export default function DashboardPage() {
       console.error("Folder download failed:", error);
       alert(error.message || "Failed to download folder");
     }
+  }
+
+  if (authLoading) {
+    return <Spinner />;
+  }
+
+  if (!authenticated) {
+    return null; // or a placeholder, but redirect will happen
   }
 
   if (loading) {

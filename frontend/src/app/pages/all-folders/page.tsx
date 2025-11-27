@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { api } from "../../services/api";
 import styles from "./page.module.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -10,8 +11,10 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useContextMenu } from "../../hooks/useContextMenu";
 import { useFileOperations } from "../../hooks/useFileOperations";
+import Spinner from "@/app/components/Spinner/Spinner";
 
 export default function AllFoldersPage() {
+  const { loading: authLoading, authenticated } = useAuthRedirect();
   const router = useRouter();
   const [folders, setFolders] = useState<any[]>([]);
   const [isCreatingFolder, setIsCreatingFolder] = useState(false);
@@ -56,6 +59,10 @@ export default function AllFoldersPage() {
       setIsCreatingFolder(false);
       loadFolders();
     });
+  }
+
+  if (authLoading) {
+    return <Spinner />;
   }
 
   if (loading) {
