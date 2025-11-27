@@ -147,6 +147,10 @@ export default function FolderPage({ params }: FolderPageProps) {
     return <Spinner />;
   }
 
+  if (!authenticated) {
+    return null;
+  }
+
   if (loading) {
     return (
       <div className={styles.pageContainer}>

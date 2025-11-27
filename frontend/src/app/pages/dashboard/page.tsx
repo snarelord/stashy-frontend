@@ -100,7 +100,7 @@ export default function DashboardPage() {
   }
 
   if (!authenticated) {
-    return null; // or a placeholder, but redirect will happen
+    return null;
   }
 
   if (loading) {
