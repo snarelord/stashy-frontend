@@ -28,7 +28,7 @@ export default function DashboardPage() {
     try {
       const foldersResponse = await api.getFolders();
 
-      console.log("📁 Folders from API:", foldersResponse); // FIXED
+      console.log("Folders from API:", foldersResponse); // FIXED
 
       setFolders(foldersResponse.folders || []);
       const filesResponse = await api.getFiles();
