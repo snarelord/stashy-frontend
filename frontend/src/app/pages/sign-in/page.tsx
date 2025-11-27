@@ -24,7 +24,7 @@ export default function SignInPage() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5001/users/login", {
+      const response = await fetch("http://localhost:5001/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -34,8 +34,7 @@ export default function SignInPage() {
 
       if (response.ok && data.token) {
         localStorage.setItem("token", data.token);
-        const decoded: { id: string } = jwtDecode(data.token);
-        router.push(`/pages/dashboard/${decoded.id}`);
+        router.push(`/pages/dashboard`);
       }
     } catch (err) {
       setError("Sign in failed. Please try again.");

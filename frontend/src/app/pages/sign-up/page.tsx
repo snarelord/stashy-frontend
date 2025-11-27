@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { mockApi } from "../../services/mockApi";
+import { api } from "../../services/api";
 import { useRouter } from "next/navigation";
 
 import styles from "./page.module.css";
@@ -34,20 +34,23 @@ export default function SignUpPage() {
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
+    console.log("Submitting sign up form");
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const response = await mockApi.signUp(
+      console.log(formData);
+      const response = await api.signUp(
         formData.email,
-        formData.password,
-        formData.confirmPassword,
         formData.firstName,
         formData.lastName,
+        formData.password,
+        formData.confirmPassword,
         formData.accessCode
       );
-      if (response.success) {
+      if (response.success && response.token) {
+        localStorage.setItem("token", response.token);
         router.push("/pages/dashboard");
       } else {
         setError(response.error || "Sign up failed. Please try again.");
