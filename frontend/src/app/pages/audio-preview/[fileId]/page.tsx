@@ -140,6 +140,10 @@ export default function AudioPreviewPage({ params }: AudioPreviewProps) {
     return <Spinner />;
   }
 
+  if (!authenticated) {
+    return null;
+  }
+
   if (loading) {
     return (
       <div className={styles.pageContainer}>

@@ -65,6 +65,10 @@ export default function AllFoldersPage() {
     return <Spinner />;
   }
 
+  if (!authenticated) {
+    return null;
+  }
+
   if (loading) {
     return (
       <div className={styles.pageContainer}>
