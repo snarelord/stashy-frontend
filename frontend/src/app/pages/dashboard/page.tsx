@@ -20,6 +20,10 @@ export default function DashboardPage() {
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete } = useFileOperations();
 
+  function isAudioFile(mimeType: string): boolean {
+    return mimeType?.startsWith("audio/");
+  }
+
   async function loadUserFiles() {
     try {
       const foldersResponse = await api.getFolders();
@@ -59,6 +63,10 @@ export default function DashboardPage() {
   function handleFolderClick(folderId: string) {
     router.push(`/pages/folder/${folderId}`);
   }
+
+  // function handleFileClick(fileId: string) {
+  //   router.push(`/pages/folder/${fileId}`);
+  // }
 
   async function handleDownload(file: any, e: React.MouseEvent) {
     e.stopPropagation();
@@ -165,7 +173,14 @@ export default function DashboardPage() {
                 <div
                   key={file.id}
                   className={styles.tableRow}
+                  onClick={() => {
+                    // If audio file, go to audio preview page
+                    if (isAudioFile(file.mimeType)) {
+                      router.push(`/pages/audio-preview/${file.id}`);
+                    }
+                  }}
                   onContextMenu={(e) => handleContextMenu(e, file, "file")}
+                  style={{ cursor: isAudioFile(file.mimeType) ? "pointer" : "default" }}
                 >
                   <div className={styles.tableCell}>
                     <span className={styles.fileIcon}>{getFileIcon(file.mimeType)}</span>
