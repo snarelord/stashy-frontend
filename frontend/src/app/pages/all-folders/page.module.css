@@ -3,6 +3,7 @@
   flex-direction: column;
   min-height: 100vh;
   font-family: var(--font-roboto), sans-serif;
+  margin-left: 280px; /* matches sidebar width */
 }
 
 .pageWrapper {

@@ -22,7 +22,7 @@ export default function SidebarNavigation({ showBackToDashboard = false }: Sideb
       </button>
       <button className={styles.navItem} onClick={() => router.push("/pages/dashboard")}>
         <span className={styles.navIcon}>📄</span>
-        All files
+        Dashboard
       </button>
       <button className={styles.navItem} onClick={() => router.push("/pages/all-folders")}>
         <span className={styles.navIcon}>📁</span>

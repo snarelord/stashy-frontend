@@ -6,7 +6,6 @@ import { api } from "../../services/api";
 import styles from "./page.module.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
-import Footer from "../../components/Footer/Footer";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useContextMenu } from "../../hooks/useContextMenu";
@@ -79,7 +78,6 @@ export default function AllFoldersPage() {
             <p style={{ textAlign: "center", padding: "40px" }}>Loading folders...</p>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -191,8 +189,6 @@ export default function AllFoldersPage() {
           )}
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }
