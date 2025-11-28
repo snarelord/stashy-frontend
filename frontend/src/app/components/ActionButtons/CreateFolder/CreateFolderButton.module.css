@@ -1,0 +1,60 @@
+/* Action Buttons */
+.actionButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.actionButton {
+  padding: 10px 20px;
+  background-color: white;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-roboto), sans-serif;
+  color: #333333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: #f5f5f5;
+  border-color: #a499ed;
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.actionButtonPrimary {
+  padding: 10px 20px;
+  background-color: #a499ed;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-roboto), sans-serif;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionButtonPrimary:hover:not(:disabled) {
+  background-color: #9385dc;
+}
+
+.actionButtonPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.uploadIcon {
+  font-size: 16px;
+  filter: brightness(0) invert(1);
+}
