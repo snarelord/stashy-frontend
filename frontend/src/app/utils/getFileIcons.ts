@@ -1,3 +1,8 @@
+import AudioIcon from "../components/Icons/AudioIcon/AudioIcon";
+import ImageIcon from "../components/Icons/ImageIcon/ImageIcon";
+import VideoIcon from "../components/Icons/VideoIcon/VideoIcon";
+import FileIcon from "../components/Icons/FileIcon/FileIcon";
+
 export function getFileIcon(mimeType: string): string {
   if (!mimeType) return "📄";
 
