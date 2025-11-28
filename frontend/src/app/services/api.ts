@@ -174,6 +174,14 @@ export const api = {
     return response.json();
   },
 
+  getUserInfo: async function () {
+    const response = await fetch(`${apiUrl}/users/me`, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error("Failed to fetch user info");
+    return response.json();
+  },
+
   // folder ops
   createFolder: async function (name: string, parentId?: string) {
     const response = await fetch(`${apiUrl}/folders`, {
