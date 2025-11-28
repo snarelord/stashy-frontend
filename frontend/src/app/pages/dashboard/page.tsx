@@ -92,8 +92,6 @@ export default function DashboardPage() {
           <ContextMenu />
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }
