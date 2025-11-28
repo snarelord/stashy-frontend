@@ -5,6 +5,10 @@ import { api } from "../../services/api";
 import { useRouter } from "next/navigation";
 import styles from "./RecentFiles.module.css";
 import Image from "next/image";
+import AudioIcon from "../Icons/AudioIcon/AudioIcon";
+import ImageIcon from "../Icons/ImageIcon/ImageIcon";
+import VideoIcon from "../Icons/VideoIcon/VideoIcon";
+import FileIcon from "../Icons/FileIcon/FileIcon";
 
 export default function RecentFiles() {
   const router = useRouter();
@@ -182,13 +186,13 @@ export default function RecentFiles() {
     // file type icons based on mimeType
     const mimeType = item.mimeType || "";
 
-    if (mimeType.startsWith("audio/")) return <span className={styles.folderIcon}>🎵</span>;
-    if (mimeType.startsWith("image/")) return <span className={styles.folderIcon}>🖼️</span>;
-    if (mimeType.startsWith("video/")) return <span className={styles.folderIcon}>🎬</span>;
+    if (mimeType.startsWith("audio/")) return <AudioIcon className={styles.folderIcon} size={36} />;
+    if (mimeType.startsWith("image/")) return <ImageIcon className={styles.folderIcon} size={36} />;
+    if (mimeType.startsWith("video/")) return <VideoIcon className={styles.folderIcon} size={36} />;
     if (mimeType.startsWith("text/") || mimeType.includes("document"))
-      return <span className={styles.folderIcon}>📄</span>;
+      return <FileIcon className={styles.folderIcon} size={36} />;
 
-    return <span className={styles.folderIcon}>📄</span>;
+    return <FileIcon className={styles.folderIcon} size={36} />;
   }
 
   return (
