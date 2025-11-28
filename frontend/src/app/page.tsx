@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div className={styles.page} style={{ backgroundColor: "#A499ED" }}>
       <div className={`${styles.main} ${imageLoaded ? styles.visible : ""}`}>
-        <div className={styles.container}>
+        <div className={styles.imageContainer}>
           <Image
             src="/stashy-white.png"
             alt="Stashy Logo"
