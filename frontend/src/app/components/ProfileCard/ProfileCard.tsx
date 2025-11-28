@@ -9,6 +9,7 @@ export default function ProfileCard() {
     usedGB: "0.00",
     totalGB: "10.00",
   });
+  const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(function () {
     loadStorageInfo();
@@ -31,10 +32,23 @@ export default function ProfileCard() {
       if (response.success) {
         setStorageInfo(response.storage);
       }
-    } catch (err) {
-      console.error("Failed to load storage info:", err);
+    } catch (error) {
+      console.error("Failed to load storage info:", error);
     }
   }
+
+  async function getUserName() {
+    try {
+      const response = await api.getUserInfo();
+      setUserName(response.first_name + " " + response.last_name);
+    } catch (error) {
+      console.error("Failed to fetch user name", error);
+    }
+  }
+
+  useEffect(() => {
+    getUserName();
+  }, []);
 
   return (
     <div className={styles.profileCard}>
@@ -53,7 +67,7 @@ export default function ProfileCard() {
           </div>
         </div>
       </div>
-      <h3 className={styles.userName}>Kit Jones</h3>
+      <h3 className={styles.userName}>{userName}</h3>
       <p className={styles.storageText}>
         {storageInfo.usedGB} GB / {storageInfo.totalGB} GB ({storageInfo.used.toFixed(1)}%)
       </p>
