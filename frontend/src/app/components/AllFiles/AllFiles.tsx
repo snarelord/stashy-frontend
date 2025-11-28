@@ -10,6 +10,7 @@ import Image from "next/image";
 import ImageIcon from "../Icons/ImageIcon/ImageIcon";
 import VideoIcon from "../Icons/VideoIcon/VideoIcon";
 import FileIcon from "../Icons/FileIcon/FileIcon";
+import CreateFolderButton from "../ActionButtons/CreateFolder/CreateFolderButton";
 
 function getFileIconComponent(file: any) {
   if (file.type === "folder") {
@@ -103,6 +104,7 @@ export default function AllFiles() {
 
   return (
     <section className={styles.fileListSection}>
+      <CreateFolderButton />
       <p className={styles.fileCount}>//All files</p>
       <div className={styles.fileTable}>
         <div className={styles.tableHeader}>

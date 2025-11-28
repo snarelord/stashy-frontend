@@ -3,19 +3,17 @@
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { api } from "../../services/api";
-import Image from "next/image";
+import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { useContextMenu } from "../../hooks/useContextMenu";
 import { useFileOperations } from "../../hooks/useFileOperations";
-import { getFileIcon } from "../../utils/getFileIcons";
 import Spinner from "../../components/Spinner/Spinner";
 import AllFiles from "../../components/AllFiles/AllFiles";
 import Footer from "../../components/Footer/Footer";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
-import RecentFiles from "../../components/RecentFiles/RecentFiles";
 import ContextMenu from "@/app/components/ContextMenu/ContextMenu";
+import RecentFolders from "../../components/RecentFolders/RecentFolders";
 
 export default function DashboardPage() {
   const { loading: authLoading, authenticated } = useAuthRedirect();
@@ -89,7 +87,7 @@ export default function DashboardPage() {
 
         <div className={styles.mainContent}>
           <DashboardHeader />
-          <RecentFiles />
+          <RecentFolders />
           <AllFiles />
           <ContextMenu />
         </div>

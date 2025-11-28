@@ -18,4 +18,5 @@
   flex-direction: column;
   background-color: #ffffff;
   overflow-y: auto;
+  margin-left: 280px; /* matches sidebar width */
 }

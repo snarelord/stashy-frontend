@@ -10,8 +10,11 @@
   gap: 24px;
   color: white;
   height: 100vh;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  z-index: 100;
+  box-shadow: 2px 0 12px #0002;
 }
 
 /* Sign Out Button */
@@ -39,14 +42,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 240px;
-    min-width: 200px;
-  }
-}
-
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .sidebar {
     position: fixed;
     top: 0;
