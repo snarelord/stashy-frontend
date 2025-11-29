@@ -1,3 +1,15 @@
+@media (max-width: 800px) {
+  .bgVector1,
+  .bgVector2,
+  .bgVector3,
+  .bgVector4,
+  .bgVector5,
+  .bgVector6,
+  .bgVector7,
+  .bgVector8 {
+    display: none !important;
+  }
+}
 .page {
   /* ...existing styles... */
   overflow: hidden;
