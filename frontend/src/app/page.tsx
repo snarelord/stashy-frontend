@@ -37,56 +37,56 @@ export default function Home() {
       <img
         src="/landing-page-vectors/Vector2.svg"
         id="vector1"
-        className={styles.bgVector2}
+        className={`${styles.bgVector2} ${styles.fadeInBg} ${imageLoaded ? styles.visible : ""}`}
         alt=""
         aria-hidden="true"
       />
       <img
         src="/landing-page-vectors/Vector1.svg"
         id="vector2"
-        className={styles.bgVector1}
+        className={`${styles.bgVector1} ${styles.fadeInBg} ${imageLoaded ? styles.visible : ""}`}
         alt=""
         aria-hidden="true"
       />
       <img
         src="/landing-page-vectors/Vector3.svg"
         id="vector3"
-        className={styles.bgVector3}
+        className={`${styles.bgVector3} ${styles.fadeInBg} ${imageLoaded ? styles.visible : ""}`}
         alt=""
         aria-hidden="true"
       />
       <img
         src="/landing-page-vectors/Vector4.svg"
         id="vector4"
-        className={styles.bgVector4}
+        className={`${styles.bgVector4} ${styles.fadeInBg} ${imageLoaded ? styles.visible : ""}`}
         alt=""
         aria-hidden="true"
       />
       <img
         src="/landing-page-vectors/Vector6.svg"
         id="vector6"
-        className={styles.bgVector6}
+        className={`${styles.bgVector6} ${styles.fadeInBg} ${imageLoaded ? styles.visible : ""}`}
         alt=""
         aria-hidden="true"
       />
       <img
         src="/landing-page-vectors/Vector7.svg"
         id="vector7"
-        className={styles.bgVector7}
+        className={`${styles.bgVector7} ${styles.fadeInBg} ${imageLoaded ? styles.visible : ""}`}
         alt=""
         aria-hidden="true"
       />
       <img
         src="/landing-page-vectors/Vector8.svg"
         id="vector8"
-        className={styles.bgVector8}
+        className={`${styles.bgVector8} ${styles.fadeInBg} ${imageLoaded ? styles.visible : ""}`}
         alt=""
         aria-hidden="true"
       />
       <img
         src="/landing-page-vectors/Vector5.svg"
         id="vector5"
-        className={styles.bgVector5}
+        className={`${styles.bgVector5} ${styles.fadeInBg} ${imageLoaded ? styles.visible : ""}`}
         alt=""
         aria-hidden="true"
       />
