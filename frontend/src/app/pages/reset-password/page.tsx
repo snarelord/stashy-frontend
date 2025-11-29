@@ -2,16 +2,23 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { jwtDecode } from "jwt-decode";
 import styles from "./page.module.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-export default function ResetPasswordPage() {
-  const router = useRouter();
+export default function ResetPasswordPageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPasswordPage />
+    </Suspense>
+  );
+}
+
+function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
