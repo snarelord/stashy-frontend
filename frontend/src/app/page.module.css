@@ -1,3 +1,12 @@
+.fadeInBg {
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fadeInBg.visible {
+  opacity: 1;
+  transform: none;
+}
 @media (max-width: 800px) {
   .bgVector1,
   .bgVector2,
@@ -10,6 +19,7 @@
     display: none !important;
   }
 }
+
 .page {
   /* ...existing styles... */
   overflow: hidden;
@@ -140,9 +150,9 @@ body {
   pointer-events: none;
   user-select: none;
 }
+
 .main > * {
   opacity: 0;
-  transform: translateY(20px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
@@ -151,15 +161,15 @@ body {
 }
 
 .main.visible .container {
-  transition-delay: 0.2s;
+  transition-delay: 1.5s;
 }
 
 .main.visible .descriptionWrapper {
-  transition-delay: 0.5s;
+  transition-delay: 1.7s;
 }
 
 .main.visible .buttonContainer {
-  transition-delay: 0.8s;
+  transition-delay: 2s;
 }
 
 .imageContainer {
@@ -194,15 +204,27 @@ body {
   .main {
     padding: 16px 0;
     min-height: 100vh;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
   }
   .imageContainer {
-    width: 100px;
+    width: 100%;
     min-width: 0;
-    max-width: 100px;
+    max-width: none;
     border-radius: 0;
     padding: 16px 8px;
     box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logo {
+    width: 50vw !important;
+    height: auto !important;
+    max-width: 300px;
+    min-width: 100px;
+    margin: 0 auto;
+    display: block;
   }
   .description {
     font-size: 16px;
