@@ -128,10 +128,8 @@ export const api = {
         throw new Error(error.error || "Failed to download folder");
       }
 
-      // Get the ZIP blob
       const blob = await response.blob();
 
-      // Get filename from Content-Disposition header
       const contentDisposition = response.headers.get("Content-Disposition");
       let filename = "folder.zip";
 
@@ -142,7 +140,6 @@ export const api = {
         }
       }
 
-      // Create download link
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -150,7 +147,6 @@ export const api = {
       document.body.appendChild(a);
       a.click();
 
-      // Cleanup
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
 
