@@ -136,7 +136,6 @@ body {
 
 .main.visible > * {
   opacity: 1;
-  transform: translateY(0);
 }
 
 .main.visible .container {

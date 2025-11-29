@@ -1,15 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import Button from "./components/Button/Button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import gsap from "gsap";
 import Footer from "./components/Footer/Footer";
 
 export default function Home() {
   const router = useRouter();
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    gsap.to("#vector1", { x: -30, duration: 6, repeat: -1, yoyo: true, ease: "power1.inOut" });
+    gsap.to("#vector2", { x: -40, duration: 8, repeat: -1, yoyo: true, ease: "power1.inOut" });
+    gsap.to("#vector3", { x: -50, duration: 10, repeat: -1, yoyo: true, ease: "power1.inOut" });
+    gsap.to("#vector4", { y: 40, duration: 12, repeat: -1, yoyo: true, ease: "power1.inOut" });
+    gsap.to("#vector5", { x: 30, y: -20, duration: 9, repeat: -1, yoyo: true, ease: "power1.inOut" });
+    gsap.to("#vector6", { y: -35, duration: 7, repeat: -1, yoyo: true, ease: "power1.inOut" });
+    gsap.to("#vector7", { x: 25, duration: 11, repeat: -1, yoyo: true, ease: "power1.inOut" });
+    gsap.to("#vector8", { y: -25, duration: 13, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  }, []);
 
   const handleGetStarted = () => {
     router.push("pages/sign-in");
@@ -22,14 +34,62 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <img src="/landing-page-vectors/VectorBG.svg" className={styles.bgVectorBG} alt="" aria-hidden="true" />
-      <img src="/landing-page-vectors/Vector2.svg" className={styles.bgVector2} alt="" aria-hidden="true" />
-      <img src="/landing-page-vectors/Vector1.svg" className={styles.bgVector1} alt="" aria-hidden="true" />
-      <img src="/landing-page-vectors/Vector3.svg" className={styles.bgVector3} alt="" aria-hidden="true" />
-      <img src="/landing-page-vectors/Vector4.svg" className={styles.bgVector4} alt="" aria-hidden="true" />
-      <img src="/landing-page-vectors/Vector6.svg" className={styles.bgVector6} alt="" aria-hidden="true" />
-      <img src="/landing-page-vectors/Vector7.svg" className={styles.bgVector7} alt="" aria-hidden="true" />
-      <img src="/landing-page-vectors/Vector8.svg" className={styles.bgVector8} alt="" aria-hidden="true" />
-      <img src="/landing-page-vectors/Vector5.svg" className={styles.bgVector5} alt="" aria-hidden="true" />
+      <img
+        src="/landing-page-vectors/Vector2.svg"
+        id="vector1"
+        className={styles.bgVector2}
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        src="/landing-page-vectors/Vector1.svg"
+        id="vector2"
+        className={styles.bgVector1}
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        src="/landing-page-vectors/Vector3.svg"
+        id="vector3"
+        className={styles.bgVector3}
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        src="/landing-page-vectors/Vector4.svg"
+        id="vector4"
+        className={styles.bgVector4}
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        src="/landing-page-vectors/Vector6.svg"
+        id="vector6"
+        className={styles.bgVector6}
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        src="/landing-page-vectors/Vector7.svg"
+        id="vector7"
+        className={styles.bgVector7}
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        src="/landing-page-vectors/Vector8.svg"
+        id="vector8"
+        className={styles.bgVector8}
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        src="/landing-page-vectors/Vector5.svg"
+        id="vector5"
+        className={styles.bgVector5}
+        alt=""
+        aria-hidden="true"
+      />
       <div className={`${styles.main} ${imageLoaded ? styles.visible : ""}`}>
         <div className={styles.imageContainer}>
           <Image
