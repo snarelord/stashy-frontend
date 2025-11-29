@@ -35,6 +35,15 @@ export const api = {
     return data;
   },
 
+  forgotPassword: async function (email: string) {
+    const response = await fetch(`${apiUrl}/users/forgot-password`, {
+      method: "POST",
+      headers: defaultHeaders,
+      body: JSON.stringify({ email }),
+    });
+    return response.json();
+  },
+
   // file ops
   uploadFile: async function (file: File, folderId?: string) {
     const formData = new FormData();
