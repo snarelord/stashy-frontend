@@ -8,7 +8,6 @@ import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import ForgotPasswordModal from "../../components/ForgotPasswordModal/ForgotPasswordModal";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -18,17 +17,13 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSignIn = async (e: React.FormEvent) => {
+  const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5001/api/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch("", {});
 
       const data = await response.json();
 
@@ -43,11 +38,6 @@ export default function SignInPage() {
     }
   };
 
-  const handleForgotPasswordClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsModalOpen(true);
-  };
-
   return (
     <div className={styles.container}>
       <Header />
@@ -55,7 +45,7 @@ export default function SignInPage() {
         <div className={styles.formContainer}>
           <h1 className={styles.title}>Reset Password</h1>
 
-          <form className={styles.form} onSubmit={handleSignIn}>
+          <form className={styles.form} onSubmit={handleResetPassword}>
             <div className={styles.inputGroup}>
               <label htmlFor="password" className={styles.label}>
                 New password
@@ -86,12 +76,9 @@ export default function SignInPage() {
               />
             </div>
 
-            <Button text="Sign In" colourScheme="purple" type="submit" />
+            <Button text="Reset password" colourScheme="purple" type="submit" />
 
             <div className={styles.links}>
-              <Link href="#" className={styles.link} onClick={handleForgotPasswordClick}>
-                Forgot password?
-              </Link>
               <Link href="/pages/sign-up" className={styles.link}>
                 New user? Sign up here
               </Link>
@@ -100,8 +87,6 @@ export default function SignInPage() {
         </div>
       </main>
       <Footer />
-
-      <ForgotPasswordModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
