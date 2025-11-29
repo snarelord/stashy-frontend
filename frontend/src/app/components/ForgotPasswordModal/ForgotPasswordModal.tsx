@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { mockApi } from "../../services/mockApi";
+import { api } from "../../services/api";
 import styles from "./ForgotPasswordModal.module.css";
 import Button from "../Button/Button";
 
@@ -36,7 +36,7 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
     }
 
     try {
-      const response = await mockApi.forgotPassword(email);
+      const response = await api.forgotPassword(email);
       if (response.success) {
         setIsSubmitted(true);
       }
