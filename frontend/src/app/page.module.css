@@ -1,8 +1,20 @@
 .page {
+  /* ...existing styles... */
+  overflow: hidden;
+}
+
+html,
+body {
+  overflow: hidden !important;
+  height: 100%;
+}
+.page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   font-family: var(--font-roboto), sans-serif;
+  overflow: hidden;
+  background-color: #ffffff;
 }
 
 .main {
@@ -11,8 +23,111 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
+.bgVector1 {
+  position: absolute;
+  top: -20;
+  left: 0;
+  right: 30;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector2 {
+  position: absolute;
+  top: -150;
+  left: 0;
+  right: 0;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector3 {
+  position: absolute;
+  top: -240;
+  left: 0;
+  right: 0;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector4 {
+  position: absolute;
+  top: 480;
+  height: 40vh;
+  left: 250;
+  right: 0;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector5 {
+  position: absolute;
+  top: -540;
+  left: 500;
+  height: 180vh;
+  right: 0;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector6 {
+  position: absolute;
+  top: 50;
+  left: 1200;
+  right: 0;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector7 {
+  position: absolute;
+  top: 50;
+  left: 1200;
+  right: 0;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector8 {
+  position: absolute;
+  top: -120;
+  left: 700;
+  right: 0;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVectorBG {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
 .main > * {
   opacity: 0;
   transform: translateY(20px);
