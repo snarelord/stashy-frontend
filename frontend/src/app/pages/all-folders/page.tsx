@@ -25,10 +25,9 @@ export default function AllFoldersPage() {
     loadFolders();
 
     // reload when page receives focus (navigating back from other pages)
-    const handleFocus = function () {
-      console.log("🔄 All-Folders page focused, reloading...");
+    function handleFocus() {
       loadFolders();
-    };
+    }
 
     window.addEventListener("focus", handleFocus);
 
@@ -93,7 +92,7 @@ export default function AllFoldersPage() {
           {/* Folders Header */}
           <section className={styles.foldersHeader}>
             <h1 className={styles.pageTitle}>
-              <Image src="/folder-icon-purple.png" alt="Folder" width={32} height={32} className={styles.titleIcon} />
+              <Image src="/folder-icon-white.svg" alt="Folder" width={32} height={32} className={styles.titleIcon} />
               All Folders
             </h1>
             <div className={styles.headerActions}>
@@ -143,7 +142,7 @@ export default function AllFoldersPage() {
                     onContextMenu={(e) => handleContextMenu(e, folder, "folder")}
                   >
                     <Image
-                      src="/folder-icon-purple.png"
+                      src="/folder-icon-white.svg"
                       alt="Folder"
                       width={64}
                       height={64}

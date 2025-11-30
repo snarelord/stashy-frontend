@@ -21,7 +21,7 @@
 
 .actionButton:hover {
   background-color: #f5f5f5;
-  border-color: #a499ed;
+  border-color: #4d4d4d;
 }
 
 .actionButton:disabled {
@@ -31,7 +31,7 @@
 
 .actionButtonPrimary {
   padding: 10px 20px;
-  background-color: #a499ed;
+  background-color: #4d4d4d;
   border: none;
   border-radius: 6px;
   font-size: 14px;
@@ -46,7 +46,7 @@
 }
 
 .actionButtonPrimary:hover:not(:disabled) {
-  background-color: #9385dc;
+  background-color: #696969;
 }
 
 .actionButtonPrimary:disabled {

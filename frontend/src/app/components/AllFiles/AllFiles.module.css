@@ -2,6 +2,7 @@
 .fileListSection {
   padding: 32px 48px;
   flex: 1;
+  overflow-y: auto;
 }
 
 .fileCount {

@@ -14,7 +14,7 @@ import CreateFolderButton from "../ActionButtons/CreateFolder/CreateFolderButton
 
 function getFileIconComponent(file: any) {
   if (file.type === "folder") {
-    return <Image src="/folder-icon-purple.png" alt="Folder" width={20} height={20} className={styles.fileIcon} />;
+    return <Image src="/folder-icon-white.svg" alt="Folder" width={20} height={20} className={styles.fileIcon} />;
   }
   const mime = file.mimeType || "";
   if (mime.startsWith("audio/")) return <AudioIcon className={styles.fileIcon} size={20} />;

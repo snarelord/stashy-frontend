@@ -171,7 +171,7 @@ export default function RecentFolders() {
   // helper function to get file icon based on type
   function getFileIcon(item: any) {
     if (item.type === "folder") {
-      return <Image src="/folder-icon-purple.png" alt="Folder" width={36} height={36} className={styles.folderIcon} />;
+      return <Image src="/folder-icon-white.svg" alt="Folder" width={36} height={36} className={styles.folderIcon} />;
     }
 
     // file type icons based on mimeType

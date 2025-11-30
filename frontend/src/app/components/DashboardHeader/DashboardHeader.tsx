@@ -5,7 +5,7 @@ export default function DashboardHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.logoContainer}>
-        <Image src="/stashy-black.png" alt="Stashy Logo" width={150} height={45} loading="eager" />
+        <Image src="/stashy-white.svg" alt="Stashy Logo" width={150} height={45} loading="eager" />
       </div>
       <div className={styles.searchContainer}>
         <input type="text" placeholder="Search" className={styles.searchInput} />
