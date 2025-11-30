@@ -175,7 +175,7 @@ export default function SignUpPage() {
 
             <Button
               text={loading ? "Signing Up..." : "Sign Up"}
-              colourScheme="purple"
+              colourScheme="black"
               disabled={loading}
               type="submit"
             />
