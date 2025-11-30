@@ -7,7 +7,7 @@
   opacity: 1;
   transform: none;
 }
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
   .bgVector1,
   .bgVector2,
   .bgVector3,
@@ -15,14 +15,10 @@
   .bgVector5,
   .bgVector6,
   .bgVector7,
-  .bgVector8 {
+  .bgVector8,
+  .bgVector9 {
     display: none !important;
   }
-}
-
-.page {
-  /* ...existing styles... */
-  overflow: hidden;
 }
 
 html,
@@ -51,9 +47,9 @@ body {
 
 .bgVector1 {
   position: absolute;
-  top: -20;
-  left: 0;
-  right: 30;
+  top: -1.5vw;
+  left: 0vw;
+  right: 2vw;
   object-fit: cover;
   z-index: 0;
   pointer-events: none;
@@ -62,9 +58,9 @@ body {
 
 .bgVector2 {
   position: absolute;
-  top: -150;
-  left: 0;
-  right: 0;
+  top: -10vw;
+  left: 0vw;
+  right: 0vw;
   object-fit: cover;
   z-index: 0;
   pointer-events: none;
@@ -73,9 +69,9 @@ body {
 
 .bgVector3 {
   position: absolute;
-  top: -240;
-  left: 0;
-  right: 0;
+  top: -8vw;
+  left: 0vw;
+  right: 0vw;
   object-fit: cover;
   z-index: 0;
   pointer-events: none;
@@ -83,35 +79,42 @@ body {
 }
 
 .bgVector4 {
-  position: absolute;
-  top: 480;
-  height: 40vh;
-  left: 250;
+  position: fixed;
+  left: 0;
   right: 0;
-  object-fit: cover;
+  bottom: 0;
+  width: 100vw;
+  max-width: 1400px;
+  height: auto;
+  object-fit: contain;
   z-index: 0;
   pointer-events: none;
   user-select: none;
 }
 
 .bgVector5 {
-  position: absolute;
-  top: -540;
-  left: 500;
-  height: 180vh;
-  right: 0;
-  object-fit: cover;
+  position: fixed;
+  left: 70vw;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 1500px;
+  max-width: 90vw;
+  height: auto;
+  object-fit: contain;
   z-index: 0;
   pointer-events: none;
   user-select: none;
 }
 
 .bgVector6 {
-  position: absolute;
-  top: 50;
-  left: 1200;
+  position: fixed;
+  left: auto;
   right: 0;
-  object-fit: cover;
+  bottom: 0;
+  width: 100vw;
+  max-width: 400px;
+  height: auto;
+  object-fit: contain;
   z-index: 0;
   pointer-events: none;
   user-select: none;
@@ -119,9 +122,9 @@ body {
 
 .bgVector7 {
   position: absolute;
-  top: 50;
-  left: 1200;
-  right: 0;
+  top: 2vw;
+  left: -3vw;
+  right: 0vw;
   object-fit: cover;
   z-index: 0;
   pointer-events: none;
@@ -130,10 +133,24 @@ body {
 
 .bgVector8 {
   position: absolute;
-  top: -120;
-  left: 700;
-  right: 0;
+  top: -8vw;
+  left: 48vw;
+  right: 0vw;
   object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector9 {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: auto;
+  width: 600px;
+  max-width: 40vw;
+  height: auto;
+  object-fit: contain;
   z-index: 0;
   pointer-events: none;
   user-select: none;
@@ -237,3 +254,239 @@ body {
     padding: 8px 0;
   }
 }
+
+/* .fadeInBg {
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fadeInBg.visible {
+  opacity: 1;
+  transform: none;
+}
+@media (max-width: 1000px) {
+  .bgVector1,
+  .bgVector2,
+  .bgVector3,
+  .bgVector4,
+  .bgVector5,
+  .bgVector6,
+  .bgVector7,
+  .bgVector8 {
+    display: none !important;
+  }
+}
+
+html,
+body {
+  overflow: hidden !important;
+  height: 100%;
+}
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: var(--font-roboto), sans-serif;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.bgVector1 {
+  position: absolute;
+  top: -1.5vw;
+  left: 0vw;
+  right: 2vw;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector2 {
+  position: absolute;
+  top: -10vw;
+  left: 0vw;
+  right: 0vw;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector3 {
+  position: absolute;
+  top: -8vw;
+  left: 0vw;
+  right: 0vw;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector4 {
+  position: absolute;
+  bottom: 0;
+  top: 29vw;
+  left: 17vw;
+  right: 0vw;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector5 {
+  position: absolute;
+  bottom: 0;
+  top: -10vh;
+  left: 58vw;
+  right: 0vw;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector6 {
+  position: absolute;
+  bottom: 0;
+  top: 15vw;
+  left: 83vw;
+  right: 0vw;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector7 {
+  position: absolute;
+  top: 2vw;
+  left: -3vw;
+  right: 0vw;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVector8 {
+  position: absolute;
+  top: -8vw;
+  left: 48vw;
+  right: 0vw;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bgVectorBG {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.main > * {
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.main.visible > * {
+  opacity: 1;
+}
+
+.main.visible .container {
+  transition-delay: 1.5s;
+}
+
+.main.visible .descriptionWrapper {
+  transition-delay: 1.7s;
+}
+
+.main.visible .buttonContainer {
+  transition-delay: 2s;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 16px;
+}
+
+.description {
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  max-width: 600px;
+  margin: 0;
+}
+
+.buttonContainer {
+  margin-top: 32px;
+  padding: 12px;
+  gap: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 800px) {
+  .page {
+    padding: 0 0;
+  }
+  .main {
+    padding: 16px 0;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+  }
+  .imageContainer {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    border-radius: 0;
+    padding: 16px 8px;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logo {
+    width: 50vw !important;
+    height: auto !important;
+    max-width: 300px;
+    min-width: 100px;
+    margin: 0 auto;
+    display: block;
+  }
+  .description {
+    font-size: 16px;
+    max-width: 95vw;
+  }
+  .buttonContainer {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 8px 0;
+  }
+} */
