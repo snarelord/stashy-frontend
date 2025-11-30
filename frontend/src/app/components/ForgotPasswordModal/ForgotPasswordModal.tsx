@@ -94,7 +94,7 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
                 {error && <p className={styles.errorText}>{error}</p>}
               </div>
 
-              <Button text="Send Reset Link" colourScheme="purple" type="submit" disabled={isButtonDisabled} />
+              <Button text="Send Reset Link" colourScheme="black" type="submit" disabled={isButtonDisabled} />
             </form>
           </>
         ) : (

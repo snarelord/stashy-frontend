@@ -86,7 +86,7 @@ export default function SignInPage() {
               />
             </div>
 
-            <Button text="Sign In" colourScheme="purple" type="submit" />
+            <Button text="Sign In" colourScheme="black" type="submit" />
 
             <div className={styles.links}>
               <Link href="#" className={styles.link} onClick={handleForgotPasswordClick}>
