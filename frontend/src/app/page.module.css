@@ -27,6 +27,8 @@ body {
   height: 100%;
 }
 .page {
+  overflow: hidden !important;
+  height: 100%;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
