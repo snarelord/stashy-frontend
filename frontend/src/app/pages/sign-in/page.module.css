@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   font-family: var(--font-roboto), sans-serif;
-  background-color: #ffffff;
+  background-color: #000000;
 }
 
 /* Main Content */
@@ -25,7 +25,7 @@
   font-weight: 700;
   text-align: center;
   margin-bottom: 48px;
-  color: #000000;
+  color: #ffffff;
 }
 
 /* Form */
@@ -54,8 +54,8 @@
   font-family: var(--font-roboto), sans-serif;
   border: 1px solid #d0d0d0;
   border-radius: 4px;
-  color: #000000;
-  background-color: #ffffff;
+  color: #ffffff;
+  background-color: #252525;
   transition: border-color 0.2s ease;
 }
 
@@ -65,7 +65,7 @@
 
 .input:focus {
   outline: none;
-  border-color: #a499ed;
+  border-color: #ffffff;
 }
 
 .input:hover {
@@ -119,7 +119,7 @@
 
 .link {
   font-size: 14px;
-  color: #666666;
+  color: #ffffff;
   text-decoration: underline;
   transition: color 0.2s ease;
 }
