@@ -1,5 +1,7 @@
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
+console.log(apiUrl);
+
 const defaultHeaders = {
   "Content-Type": "application/json",
   "ngrok-skip-browser-warning": "true", // skip ngrok warning page
@@ -69,6 +71,7 @@ export const api = {
   },
 
   getFiles: async function (folderId?: string) {
+    console.log(apiUrl);
     const url = folderId ? `${apiUrl}/files?folderId=${folderId}` : `${apiUrl}/files`;
     const response = await fetch(url, {
       headers: getAuthHeaders(),
