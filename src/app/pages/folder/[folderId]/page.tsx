@@ -76,8 +76,8 @@ export default function FolderPage({ params }: FolderPageProps) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const response = await api.uploadFile(file, folderId);
-        if (response.success) {
-          console.log(`✅ Uploaded: ${response.file.name}`);
+        if (!response.success) {
+          console.error("Error uploading: ", response);
         }
       }
       alert(`Successfully uploaded ${files.length} file(s)!`);
@@ -113,9 +113,7 @@ export default function FolderPage({ params }: FolderPageProps) {
   async function handleDownload(file: any, e: React.MouseEvent) {
     e.stopPropagation();
     try {
-      console.log("📥 Downloading:", file.name);
       await api.downloadFile(file.id);
-      console.log("✅ Download started");
     } catch (error) {
       console.error("❌ Download failed:", error);
       alert("Failed to download file");
@@ -125,9 +123,7 @@ export default function FolderPage({ params }: FolderPageProps) {
   async function handleDownloadFolder(folder: any, e: React.MouseEvent) {
     e.stopPropagation();
     try {
-      console.log("📦 Downloading folder:", folder.name);
       await api.downloadFolder(folder.id);
-      console.log("✅ Folder download started");
     } catch (error: any) {
       console.error("❌ Folder download failed:", error);
       alert(error.message || "Failed to download folder");

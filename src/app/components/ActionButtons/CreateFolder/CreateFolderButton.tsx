@@ -64,7 +64,6 @@ export default function CreateFolderButton() {
         const file = files[i];
         const response = await api.uploadFile(file);
         if (response.success) {
-          console.log(`✅ Uploaded: ${response.file.name}`);
         }
       }
       alert(`Successfully uploaded ${files.length} file(s)!`);

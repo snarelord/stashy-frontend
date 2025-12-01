@@ -34,13 +34,12 @@ export default function SignUpPage() {
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
-    console.log("Submitting sign up form");
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      console.log(formData);
+      console.log(formData.email);
       const response = await api.signUp(
         formData.email,
         formData.firstName,
