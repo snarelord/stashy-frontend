@@ -34,7 +34,7 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
-    const barCount = 150;
+    const barCount = 255;
 
     if (peaksRef.current.length !== barCount) {
       peaksRef.current = new Array(barCount).fill(0);
@@ -48,12 +48,11 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
     function getFrequencyGain(barIndex: number, barCount: number) {
       const position = barIndex / barCount;
 
-      const lowReduction = Math.pow(1 - position, 1.5) * 0.15; // reduce bass
-      const midBoost = Math.sin(position * Math.PI) * 0.15; // slight mid presence
-      const highBoost = Math.pow(position, 2.5) * 1.2; // strong exponential boost for highs
-      const superHighBoost = position > 0.6 ? Math.pow((position - 0.6) / 0.3, 2) * 1 : 0; // extra boost for top 30%
+      const lowReduction = Math.pow(1 - position, 1.5) * 0.18;
+      const midScoop = -0.22 * Math.exp(-Math.pow((position - 0.5) / 0.18, 2));
+      const highBoost = Math.pow(position, 2.2) * 2;
 
-      return 1.0 - lowReduction + midBoost + highBoost + superHighBoost;
+      return 1.0 - lowReduction + midScoop + highBoost;
     }
 
     function compress(value: number, barIndex: number, barCount: number) {
@@ -61,13 +60,13 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
       const position = barIndex / barCount; // 0 = bass 1 = treble
 
       if (position < 0.3) {
-        // low frew gentle compression
+        // low gentle compression
         const threshold = 0.15;
         if (normalized < threshold) {
           return Math.pow(normalized / threshold, 0.7) * threshold * 255;
         }
         return threshold * 255 + Math.pow((normalized - threshold) / (1 - threshold), 0.8) * (1 - threshold) * 255;
-      } else if (position < 0.7) {
+      } else if (position < 0.6) {
         // mid freq moderate compression
         const threshold = 0.01;
         if (normalized < threshold) {
@@ -76,7 +75,7 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
         return threshold * 255 + Math.pow((normalized - threshold) / (1 - threshold), 0.7) * (1 - threshold) * 255;
       } else {
         // high freq aggressive
-        const threshold = 0.02; // very low threshold for high freq
+        const threshold = 0.1; // very low threshold for high freq
         if (normalized < threshold) {
           // massive boost for quiet high freq
           return Math.pow(normalized / threshold, 0.3) * threshold * 255;
@@ -92,6 +91,25 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
       }
     }
 
+    function getLogFrequencyBin(
+      barIndex: number,
+      barCount: number,
+      bufferLength: number,
+      minHz = 20,
+      maxHz = 20000,
+      sampleRate = 44100
+    ) {
+      // map bar index to freq (log scale)
+      const nyquist = sampleRate / 2;
+      const minLog = Math.log10(minHz);
+      const maxLog = Math.log10(maxHz);
+      const logFreq = minLog + (barIndex / (barCount - 1)) * (maxLog - minLog);
+      const freq = Math.pow(10, logFreq);
+
+      const bin = Math.round((freq / nyquist) * (bufferLength - 1));
+      return Math.min(bufferLength - 1, Math.max(0, bin));
+    }
+
     function animate() {
       if (!ctx || !analyser) return;
 
@@ -104,13 +122,17 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
       }
 
       const barWidth = canvas.width / barCount;
-      const barGap = 1;
+      const barGap = 2;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       analyser.getByteFrequencyData(dataArray);
 
+      // use sample rate from the analyser context if available
+      const sampleRate = analyser.context && analyser.context.sampleRate ? analyser.context.sampleRate : 44100;
+
       for (let i = 0; i < barCount; i++) {
-        const dataIndex = Math.floor((i / barCount) * bufferLength);
+        const dataIndex = getLogFrequencyBin(i, barCount, bufferLength, 20, 20000, sampleRate);
         const value = dataArray[dataIndex];
 
         const gain = getFrequencyGain(i, barCount);
@@ -119,24 +141,23 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
         const compressed = compress(boosted, i, barCount);
         const adjustedValue = Math.min(255, compressed);
 
-        const smoothingFactor = 0.2; // lower = slower/smoother higher = faster/jumpier
+        const smoothingFactor = 0.1; // lower = slower/smoother higher = faster/jumpier
         const previousValue = smoothedValuesRef.current[i];
         const smoothedValue = previousValue * (1 - smoothingFactor) + adjustedValue * smoothingFactor;
         smoothedValuesRef.current[i] = smoothedValue;
 
-        const normalizedHeight = smoothedValue / 255;
-        const barHeight = normalizedHeight * canvas.height * 1;
+        const normalisedHeight = smoothedValue / 255;
+        const barHeight = normalisedHeight * canvas.height * 1;
         const x = i * barWidth;
         const y = canvas.height - barHeight;
 
-        let opacity = 0.3 + normalizedHeight * 0.7;
+        let opacity = 0.3 + normalisedHeight * 0.7;
         ctx.fillStyle = `rgba(164, 153, 237, ${opacity})`;
 
         ctx.beginPath();
         ctx.roundRect(x, y, barWidth - barGap, barHeight, 1);
         ctx.fill();
 
-        // peak hold logic
         if (barHeight > peaksRef.current[i]) {
           peaksRef.current[i] = barHeight;
           peakDecayRef.current[i] = peakHoldTime;
