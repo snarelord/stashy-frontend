@@ -31,8 +31,6 @@ export default function DashboardPage() {
       const filesResponse = await api.getFiles();
 
       setFiles(filesResponse.files || []);
-
-      console.log("Data loaded successfully");
     } catch (err) {
       console.error("Failed to load files:", err);
       setFiles([]);
@@ -46,7 +44,6 @@ export default function DashboardPage() {
     loadUserFiles();
 
     const handleFocus = function () {
-      console.log("Dashboard refresh triggered");
       loadUserFiles();
     };
 

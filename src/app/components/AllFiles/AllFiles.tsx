@@ -42,8 +42,6 @@ export default function AllFiles() {
       const filesResponse = await api.getFiles();
 
       setFiles(filesResponse.files || []);
-
-      console.log("Data loaded successfully");
     } catch (err) {
       console.error("Failed to load files:", err);
       setFiles([]);
@@ -57,7 +55,6 @@ export default function AllFiles() {
     loadUserFiles();
 
     const handleFocus = function () {
-      console.log("Dashboard refresh triggered");
       loadUserFiles();
     };
 
@@ -75,9 +72,7 @@ export default function AllFiles() {
   async function handleDownload(file: any, e: React.MouseEvent) {
     e.stopPropagation();
     try {
-      console.log("Downloading:", file.original_name);
       await api.downloadFile(file.id);
-      console.log("Download started");
     } catch (error) {
       console.error("Download failed:", error);
       alert("Failed to download file");
@@ -87,9 +82,7 @@ export default function AllFiles() {
   async function handleDownloadFolder(folder: any, e: React.MouseEvent) {
     e.stopPropagation();
     try {
-      console.log("Downloading folder:", folder.name);
       await api.downloadFolder(folder.id);
-      console.log("Folder download started");
     } catch (error: any) {
       console.error("Folder download failed:", error);
       alert(error.message || "Failed to download folder");

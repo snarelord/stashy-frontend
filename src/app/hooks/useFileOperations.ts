@@ -10,15 +10,12 @@ export function useFileOperations() {
     if (!confirmDelete) return;
 
     try {
-      console.log(`Deleting ${type}:`, item.name);
-
       if (type === "folder") {
         await api.deleteFolder(item.id);
       } else {
         await api.deleteFile(item.id);
       }
 
-      console.log(`${type} deleted successfully`);
       alert(`${type === "folder" ? "Folder" : "File"} deleted successfully!`);
 
       if (onSuccess) onSuccess();
@@ -40,7 +37,6 @@ export function useFileOperations() {
         const file = files[i];
         const response = await api.uploadFile(file, folderId);
         if (response.success) {
-          console.log(`Uploaded: ${response.file.name} (${response.file.size})`);
         }
       }
       const folderName = folderId ? "folder" : "files";

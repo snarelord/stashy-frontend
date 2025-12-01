@@ -105,7 +105,6 @@ export default function RecentFolders() {
         const file = files[i];
         const response = await api.uploadFile(file);
         if (response.success) {
-          console.log(`✅ Uploaded: ${response.file.name}`);
         }
       }
       alert(`Successfully uploaded ${files.length} file(s)!`);
@@ -132,7 +131,7 @@ export default function RecentFolders() {
     if (item.type === "folder") {
       router.push(`/pages/folder/${item.id}`);
     } else {
-      // TODO: handle file click (preview, download, etc.)
+      // todo: handle file click (preview, download, etc.)
       console.log("File clicked:", item.name);
     }
   }

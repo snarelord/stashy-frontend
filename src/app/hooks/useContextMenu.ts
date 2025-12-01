@@ -12,17 +12,14 @@ export function useContextMenu() {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("Context menu opened for:", type, item.name);
-
     setContextMenu({
       x: e.clientX,
       y: e.clientY,
       item,
-      type, // Make sure type is being set!
+      type,
     });
   }, []);
 
-  // Close context menu when clicking anywhere
   useEffect(
     function () {
       const handleClick = function () {

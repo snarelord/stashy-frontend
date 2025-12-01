@@ -109,7 +109,6 @@ export const api = {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
 
-      console.log(`Downloaded: ${filename}`);
       return { success: true, filename };
     } catch (error) {
       console.error("Download error:", error);
@@ -150,7 +149,6 @@ export const api = {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
 
-      console.log(`Downloaded folder: ${filename}`);
       return { success: true, filename };
     } catch (error) {
       console.error("Download folder error:", error);
