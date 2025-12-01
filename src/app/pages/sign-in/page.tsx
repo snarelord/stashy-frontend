@@ -63,6 +63,7 @@ export default function SignInPage() {
               <input
                 type="email"
                 id="email"
+                name="email"
                 className={styles.input}
                 placeholder="Email"
                 value={email}
@@ -78,6 +79,7 @@ export default function SignInPage() {
               <input
                 type="password"
                 id="password"
+                name="password"
                 className={styles.input}
                 placeholder="Password"
                 value={password}
