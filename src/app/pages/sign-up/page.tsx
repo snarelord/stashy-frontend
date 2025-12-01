@@ -38,6 +38,12 @@ export default function SignUpPage() {
     setLoading(true);
     setError("");
 
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
     try {
       console.log(formData.email);
       const response = await api.signUp(
@@ -66,7 +72,7 @@ export default function SignUpPage() {
       <Header />
       <main className={styles.main}>
         <div className={styles.formContainer}>
-          <Link href="/pages/sign-in" className={styles.backButton}>
+          <Link href="/pages/sign-in" className={styles.backButton} data-cy="back-button">
             <span className={styles.backArrow}>←</span> Back
           </Link>
           <h1 className={styles.title}>Sign Up</h1>
