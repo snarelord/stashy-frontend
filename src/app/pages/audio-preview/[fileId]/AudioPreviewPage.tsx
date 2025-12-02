@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import useAuthRedirect from "@/app/hooks/useAuthRedirect";
+import styles from "./page.module.css";
+import { useState, useEffect, useRef } from "react";
 import { api } from "../../../services/api";
 import { useRouter } from "next/navigation";
+import useAuthRedirect from "../../../hooks/useAuthRedirect";
 import VisualiserBars from "../../../components/Visualiser/Visualiser/VisualiserBars";
 import LUFSMeter from "../../../components/Visualiser/LUFSMeter/LUFSMeter";
 import AudioControls from "@/app/components/Visualiser/AudioControls/AudioControls";
-import styles from "./page.module.css";
 import Spinner from "@/app/components/Spinner/Spinner";
+import WaveformDisplay from "../../../components/WaveformDisplay/WaveformDisplay";
 
 interface AudioPreviewProps {
   fileId: string;
@@ -25,11 +26,32 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
   const [duration, setDuration] = useState(0);
   const [serverLUFS, setServerLUFS] = useState<number | null>(null);
   const [audioSrc, setAudioSrc] = useState<string | null>(null);
+  const [waveform, setWaveform] = useState<number[] | null>(null);
+  const [waveformLoading, setWaveformLoading] = useState(true);
+  const [showWaveform, setShowWaveform] = useState(true);
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
+
+  useEffect(() => {
+    async function fetchWaveform() {
+      setWaveformLoading(true);
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/files/waveform/${fileId}`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.waveform)) {
+          setWaveform(data.waveform);
+        }
+      } catch (err) {
+        console.error("Failed to fetch waveform:", err);
+      } finally {
+        setWaveformLoading(false);
+      }
+    }
+    fetchWaveform();
+  }, [fileId]);
 
   useEffect(() => {
     loadFile();
@@ -49,7 +71,6 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
 
         setAudioSrc(`${process.env.NEXT_PUBLIC_API_URL}/files/stream/${fileId}`);
 
-        // Extract server LUFS if available
         if (foundFile.audioAnalysis?.integratedLUFS) {
           console.log("Setting serverLUFS:", foundFile.audioAnalysis.integratedLUFS);
           setServerLUFS(foundFile.audioAnalysis.integratedLUFS);
@@ -193,7 +214,6 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
 
   return (
     <div className={styles.pageContainer}>
-      {/* Header Bar */}
       <header className={styles.header}>
         <button onClick={() => router.back()} className={styles.backButton}>
           ✕
@@ -203,17 +223,38 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
           <h1 className={styles.fileName}>{file.name}</h1>
           <p className={styles.fileDetails}>{(file.size / 1024 / 1024).toFixed(2)} MB</p>
         </div>
+        <div className={styles.headerActions}>
+          <button onClick={() => setShowWaveform((prev) => !prev)} className={styles.toggleButton} type="button">
+            {showWaveform ? "Show Visualiser" : "Show Waveform"}
+          </button>
 
-        <button onClick={handleDownload} className={styles.downloadButton}>
-          ↓
-        </button>
+          <button onClick={handleDownload} className={styles.downloadButton}>
+            ↓
+          </button>
+        </div>
       </header>
 
       <main className={styles.visualiserMain}>
-        <VisualiserBars analyser={analyserRef.current} isPlaying={isPlaying} />
+        <div className={styles.toggleContainer}></div>
+        {showWaveform ? (
+          waveformLoading ? (
+            <div className={styles.loadingText}>Loading waveform...</div>
+          ) : waveform ? (
+            <WaveformDisplay
+              waveform={waveform}
+              currentTime={currentTime}
+              duration={duration}
+              onSeek={handleSeek}
+              playedColour="#a499ed8c"
+            />
+          ) : (
+            <div className={styles.loadingText}>Failed to load waveform</div>
+          )
+        ) : (
+          <VisualiserBars analyser={analyserRef.current} isPlaying={isPlaying} />
+        )}
       </main>
 
-      {/* Controls Footer */}
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
           <div className={styles.controlsContainer}>
@@ -228,9 +269,6 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
               hasAudio={!!file}
             />
           </div>
-          {/* <div className={styles.lufsFooterSlot}>
-            <LUFSMeter analyser={analyserRef.current} isPlaying={isPlaying} serverLUFS={serverLUFS} />
-          </div> */}
         </div>
       </footer>
 
