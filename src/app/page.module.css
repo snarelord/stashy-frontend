@@ -23,11 +23,11 @@
 
 html,
 body {
-  overflow: hidden !important;
+  overflow: hidden;
   height: 100%;
 }
 .page {
-  overflow: hidden !important;
+  overflow: hidden;
   height: 100%;
   display: flex;
   flex-direction: column;
