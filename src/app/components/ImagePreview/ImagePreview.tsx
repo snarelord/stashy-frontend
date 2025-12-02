@@ -53,15 +53,15 @@ export default function ImagePreview({ fileId }: ImagePreviewProps) {
           Download
         </a>
       </header>
-      <main className={styles.visualiserMain}>
-        <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <main className={styles.imageMain}>
+        <div className={styles.imagePreviewContainer}>
           {file.mimeType && file.mimeType.startsWith("image/") ? (
             <Image
               src={imageUrl}
               alt={file.name}
               width={600}
               height={400}
-              style={{ maxWidth: "100%", maxHeight: "80vh", objectFit: "contain", borderRadius: 12 }}
+              className={styles.previewImage}
               unoptimized
             />
           ) : (
