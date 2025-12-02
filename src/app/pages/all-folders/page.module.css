@@ -63,7 +63,7 @@
 }
 
 .actionButton:hover {
-  background-color: #9385dc;
+  background-color: #696969;
 }
 
 /* Folders Section */
@@ -95,7 +95,6 @@
 }
 
 .folderCard:hover {
-  transform: translateY(-4px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 

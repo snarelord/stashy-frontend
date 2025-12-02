@@ -1,8 +1,7 @@
 .waveformContainer {
   width: 100%;
   height: 100%;
-  background: #000; /* match visualiser background */
-  /* Remove align-items and justify-content */
+  background: #000;
   display: block;
 }
 
