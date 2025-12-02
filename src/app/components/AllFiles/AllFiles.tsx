@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useContextMenu } from "../../hooks/useContextMenu";
 import { useFileOperations } from "../../hooks/useFileOperations";
 import { api } from "../../services/api";
-import { getFileIcon } from "../../utils/getFileIcons";
 import AudioIcon from "../Icons/AudioIcon/AudioIcon";
 import Image from "next/image";
 import ImageIcon from "../Icons/ImageIcon/ImageIcon";
