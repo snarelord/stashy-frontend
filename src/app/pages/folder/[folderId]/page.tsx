@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, use, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useParams } from "next/navigation";
 import useAuthRedirect from "@/app/hooks/useAuthRedirect";
 import { api } from "../../../services/api";
 import { useRouter } from "next/navigation";
@@ -15,21 +16,16 @@ import { useFileOperations } from "../../../hooks/useFileOperations";
 import { getFileIcon } from "../../../utils/getFileIcons";
 import Spinner from "../../../components/Spinner/Spinner";
 
-interface FolderPageProps {
-  params: Promise<{
-    folderId: string;
-  }>;
-}
-
 interface Breadcrumb {
   id: string;
   name: string;
 }
 
-export default function FolderPage({ params }: FolderPageProps) {
+export default function FolderPage() {
   const { loading: authLoading, authenticated } = useAuthRedirect();
   const router = useRouter();
-  const { folderId } = use(params);
+  const params = useParams();
+  const folderId = Array.isArray(params.folderId) ? params.folderId[0] : params.folderId;
   const [folder, setFolder] = useState<any>(null);
   const [subfolders, setSubfolders] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
@@ -49,8 +45,11 @@ export default function FolderPage({ params }: FolderPageProps) {
   );
 
   async function loadFolderContents() {
+    if (!folderId) {
+      return;
+    }
     try {
-      const data = await api.getFolderContents(folderId);
+      const data = await api.getFolderContents(folderId as string);
 
       setFolder(data.folder);
       setSubfolders(data.folders || []);
@@ -72,7 +71,6 @@ export default function FolderPage({ params }: FolderPageProps) {
 
     setUploading(true);
     try {
-      // Upload each file to this folder
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const response = await api.uploadFile(file, folderId);
@@ -82,12 +80,10 @@ export default function FolderPage({ params }: FolderPageProps) {
       }
       alert(`Successfully uploaded ${files.length} file(s)!`);
 
-      // Reset file input
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
 
-      // Reload folder contents
       loadFolderContents();
       window.dispatchEvent(new Event("refreshDashboard"));
     } catch (err) {
@@ -115,7 +111,7 @@ export default function FolderPage({ params }: FolderPageProps) {
     try {
       await api.downloadFile(file.id);
     } catch (error) {
-      console.error("❌ Download failed:", error);
+      console.error("Download failed:", error);
       alert("Failed to download file");
     }
   }
@@ -125,12 +121,11 @@ export default function FolderPage({ params }: FolderPageProps) {
     try {
       await api.downloadFolder(folder.id);
     } catch (error: any) {
-      console.error("❌ Folder download failed:", error);
+      console.error("Folder download failed:", error);
       alert(error.message || "Failed to download folder");
     }
   }
 
-  // Helper function to format file size
   function formatFileSize(bytes: number): string {
     if (!bytes) return "—";
     if (bytes < 1024) return bytes + " B";
@@ -193,7 +188,7 @@ export default function FolderPage({ params }: FolderPageProps) {
             </div>
             <h1 className={styles.folderTitle}>
               <Image
-                src="/folder-icon-purple.png"
+                src="/folder-icon-white.svg"
                 alt="Folder"
                 width={28}
                 height={28}
@@ -271,7 +266,7 @@ export default function FolderPage({ params }: FolderPageProps) {
                 >
                   <div className={styles.tableCell}>
                     <Image
-                      src="/folder-icon-purple.png"
+                      src="/folder-icon-white.svg"
                       alt="Folder"
                       width={20}
                       height={20}
@@ -308,44 +303,56 @@ export default function FolderPage({ params }: FolderPageProps) {
                 </div>
               ))}
 
-              {files.map((file) => (
-                <div
-                  key={file.id}
-                  className={styles.tableRow}
-                  onContextMenu={(e) => handleContextMenu(e, file, "file")}
-                >
-                  <div className={styles.tableCell}>
-                    <span className={styles.fileIcon}>{getFileIcon(file.mimeType)}</span>
-                    {file.name}
+              {files.map((file) => {
+                const isAudio = file.mimeType?.startsWith("audio/");
+                const isImage = file.mimeType?.startsWith("image/");
+                return (
+                  <div
+                    key={file.id}
+                    className={styles.tableRow}
+                    onClick={() => {
+                      if (isAudio) {
+                        router.push(`/pages/audio-preview/${file.id}`);
+                      } else if (isImage) {
+                        router.push(`/pages/image-preview/${file.id}`);
+                      }
+                    }}
+                    onContextMenu={(e) => handleContextMenu(e, file, "file")}
+                    style={{ cursor: isAudio || isImage ? "pointer" : "default" }}
+                  >
+                    <div className={styles.tableCell}>
+                      <span className={styles.fileIcon}>{getFileIcon(file.mimeType)}</span>
+                      {file.name}
+                    </div>
+                    <div className={styles.tableCell}>{formatFileSize(file.size)}</div>
+                    <div className={styles.tableCell}>
+                      {file.createdAt ? new Date(file.createdAt).toLocaleDateString() : "—"}
+                    </div>
+                    <div className={styles.tableCell}>
+                      <button
+                        onClick={(e) => handleDownload(file, e)}
+                        className={styles.actionButtonIcon}
+                        title="Download file"
+                      >
+                        📥
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(file, "file", function () {
+                            loadFolderContents();
+                            window.dispatchEvent(new Event("refreshDashboard"));
+                          });
+                        }}
+                        className={styles.actionButtonIcon}
+                        title="Delete file"
+                      >
+                        🗑️
+                      </button>
+                    </div>
                   </div>
-                  <div className={styles.tableCell}>{formatFileSize(file.size)}</div>
-                  <div className={styles.tableCell}>
-                    {file.createdAt ? new Date(file.createdAt).toLocaleDateString() : "—"}
-                  </div>
-                  <div className={styles.tableCell}>
-                    <button
-                      onClick={(e) => handleDownload(file, e)}
-                      className={styles.actionButtonIcon}
-                      title="Download file"
-                    >
-                      📥
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(file, "file", function () {
-                          loadFolderContents();
-                          window.dispatchEvent(new Event("refreshDashboard"));
-                        });
-                      }}
-                      className={styles.actionButtonIcon}
-                      title="Delete file"
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
 
               {subfolders.length === 0 && files.length === 0 && (
                 <div className={styles.emptyState}>
