@@ -40,20 +40,8 @@ export default function AudioControls({
   };
 
   return (
-    <div className={styles.audioControls}>
-      <div className={styles.playbackControls}>
-        <button className={styles.playPauseButton} onClick={onPlayPause} disabled={!hasAudio}>
-          {isPlaying ? <Pause size={24} /> : <Play size={24} />}
-        </button>
-
-        <div className={styles.timeDisplay}>
-          <span>{formatTime(currentTime)}</span>
-          <span>/</span>
-          <span>{formatTime(duration)}</span>
-        </div>
-      </div>
-
-      <div className={styles.progressBarContainer}>
+    <>
+      {/* <div className={styles.progressBarContainer}>
         <input
           type="range"
           min="0"
@@ -64,25 +52,39 @@ export default function AudioControls({
           className={styles.progressBar}
           disabled={!hasAudio}
         />
-      </div>
+      </div> */}
 
-      <div className={styles.volumeControls}>
-        <button className={styles.muteButton} onClick={toggleMute} disabled={!hasAudio}>
-          {volume === 0 ? <VolumeX size={20} /> : <Volume2 size={20} />}
-        </button>
+      <div className={styles.audioControls}>
+        <div className={styles.playbackControls}>
+          <button className={styles.playPauseButton} onClick={onPlayPause} disabled={!hasAudio}>
+            {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+          </button>
 
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={volume}
-          onChange={handleVolumeChange}
-          className={styles.volumeSlider}
-          disabled={!hasAudio}
-          role="slider"
-        />
+          <div className={styles.timeDisplay}>
+            <span>{formatTime(currentTime)}</span>
+            <span>/</span>
+            <span>{formatTime(duration)}</span>
+          </div>
+        </div>
+
+        <div className={styles.volumeControls}>
+          <button className={styles.muteButton} onClick={toggleMute} disabled={!hasAudio}>
+            {volume === 0 ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          </button>
+
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={volume}
+            onChange={handleVolumeChange}
+            className={styles.volumeSlider}
+            disabled={!hasAudio}
+            role="slider"
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
