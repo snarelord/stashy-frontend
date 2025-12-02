@@ -120,7 +120,6 @@
   position: relative;
   flex: 1;
   display: flex;
-  /* Remove centering */
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -131,11 +130,10 @@
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 10;
   padding: 0;
 }
-/* Ensure footerContent is full width and no horizontal padding */
+
 .footerContent {
   width: 100%;
   padding: 0;

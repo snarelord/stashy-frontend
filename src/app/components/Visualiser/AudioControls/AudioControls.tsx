@@ -15,6 +15,7 @@ interface AudioControlsProps {
   onVolumeChange: (volume: number) => void;
   onSeek: (time: number) => void;
   hasAudio: boolean;
+  showProgressBar: boolean;
 }
 
 export default function AudioControls({
@@ -26,6 +27,7 @@ export default function AudioControls({
   onVolumeChange,
   onSeek,
   hasAudio,
+  showProgressBar,
 }: AudioControlsProps) {
   const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSeek(Number.parseFloat(e.target.value));
@@ -41,18 +43,20 @@ export default function AudioControls({
 
   return (
     <>
-      {/* <div className={styles.progressBarContainer}>
-        <input
-          type="range"
-          min="0"
-          max={duration || 1}
-          value={currentTime}
-          step="0.01"
-          onChange={handleSeekChange}
-          className={styles.progressBar}
-          disabled={!hasAudio}
-        />
-      </div> */}
+      {showProgressBar && (
+        <div className={styles.progressBarContainer}>
+          <input
+            type="range"
+            min="0"
+            max={duration || 1}
+            value={currentTime}
+            step="0.01"
+            onChange={handleSeekChange}
+            className={styles.progressBar}
+            disabled={!hasAudio}
+          />
+        </div>
+      )}
 
       <div className={styles.audioControls}>
         <div className={styles.playbackControls}>

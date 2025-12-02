@@ -267,6 +267,7 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
               onVolumeChange={handleVolumeChange}
               onSeek={handleSeek}
               hasAudio={!!file}
+              showProgressBar={!showWaveform}
             />
           </div>
         </div>
