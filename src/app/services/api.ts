@@ -1,5 +1,4 @@
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
 console.log(apiUrl);
 
 const defaultHeaders = {
@@ -17,6 +16,19 @@ function getAuthHeaders(extraHeaders = {}) {
 }
 
 export const api = {
+  getFile: async function (fileId: string) {
+    try {
+      const response = await fetch(`${apiUrl}/files/${fileId}`, {
+        headers: getAuthHeaders(),
+      });
+      if (!response.ok) throw new Error("Failed to fetch file info");
+      return response.json();
+    } catch (error) {
+      console.error("Failed to fetch single file: ", error);
+      throw error;
+    }
+  },
+
   signUp: async function (
     email: string,
     firstName: string,

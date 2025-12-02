@@ -8,7 +8,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #2b2b2b;
+  background: #000000;
   color: white;
   overflow: hidden;
 }
@@ -20,7 +20,7 @@
   align-items: center;
   justify-content: space-evenly;
   padding: 16px 24px;
-  background: rgba(0, 0, 0, 0.4);
+  background: #2b2b2b;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 10;
@@ -53,8 +53,7 @@
   transform: scale(0.97);
 }
 
-.backButton,
-.downloadButton {
+.backButton {
   width: 40px;
   height: 40px;
   border-radius: 8px;
@@ -78,6 +77,24 @@
 .backButton:active,
 .downloadButton:active {
   transform: scale(0.95);
+}
+
+.downloadButton {
+  min-width: 100px;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.13);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .fileInfo {

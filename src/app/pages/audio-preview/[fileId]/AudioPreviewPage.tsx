@@ -229,7 +229,7 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
           </button>
 
           <button onClick={handleDownload} className={styles.downloadButton}>
-            ↓
+            Download
           </button>
         </div>
       </header>

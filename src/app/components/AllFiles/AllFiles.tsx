@@ -18,7 +18,20 @@ function getFileIconComponent(file: any) {
   }
   const mime = file.mimeType || "";
   if (mime.startsWith("audio/")) return <AudioIcon className={styles.fileIcon} size={20} />;
-  if (mime.startsWith("image/")) return <ImageIcon className={styles.fileIcon} size={20} />;
+  if (mime.startsWith("image/")) {
+    const imageUrl = `${process.env.NEXT_PUBLIC_API_URL}/files/stream/${file.id}`;
+    return (
+      <Image
+        src={imageUrl}
+        alt={file.name}
+        width={20}
+        height={20}
+        className={styles.fileIcon}
+        style={{ objectFit: "cover" }}
+        unoptimized
+      />
+    );
+  }
   if (mime.startsWith("video/")) return <VideoIcon className={styles.fileIcon} size={20} />;
   if (mime.startsWith("text/") || mime.includes("document")) return <FileIcon className={styles.fileIcon} size={20} />;
   return <FileIcon className={styles.fileIcon} size={20} />;
@@ -32,6 +45,10 @@ export default function AllFiles() {
 
   function isAudioFile(mimeType: string): boolean {
     return mimeType?.startsWith("audio/");
+  }
+
+  function isImageFile(mimeType: string): boolean {
+    return mimeType?.startsWith("image/");
   }
 
   async function loadUserFiles() {
@@ -149,13 +166,14 @@ export default function AllFiles() {
             key={file.id}
             className={styles.tableRow}
             onClick={() => {
-              // If audio file, go to audio preview page
               if (isAudioFile(file.mimeType)) {
                 router.push(`/pages/audio-preview/${file.id}`);
+              } else if (isImageFile(file.mimeType)) {
+                router.push(`/pages/image-preview/${file.id}`);
               }
             }}
             onContextMenu={(e) => handleContextMenu(e, file, "file")}
-            style={{ cursor: isAudioFile(file.mimeType) ? "pointer" : "default" }}
+            style={{ cursor: isAudioFile(file.mimeType) || isImageFile(file.mimeType) ? "pointer" : "default" }}
           >
             <div className={styles.tableCell}>
               {getFileIconComponent(file)}
