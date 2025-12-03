@@ -18,13 +18,19 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  if (!process.env.NEXT_PUBLIC_API_URL) {
+    throw new Error("NEXT_PUBLIC_API_URL is missing!");
+  }
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5001/api/users/login", {
+      const response = await fetch(`${API_URL}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
