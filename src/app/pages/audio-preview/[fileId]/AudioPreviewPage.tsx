@@ -62,7 +62,6 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
     try {
       console.log("Loading file with ID:", fileId);
       const response = await api.getFiles();
-      console.log("Files response:", response);
       const foundFile = response.files.find((f: any) => f.id === fileId);
       console.log("Found file: ", foundFile);
 
@@ -72,13 +71,11 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
         setAudioSrc(`${process.env.NEXT_PUBLIC_API_URL}/files/stream/${fileId}`);
 
         if (foundFile.audioAnalysis?.integratedLUFS) {
-          console.log("Setting serverLUFS:", foundFile.audioAnalysis.integratedLUFS);
           setServerLUFS(foundFile.audioAnalysis.integratedLUFS);
         }
 
         if (audioRef.current) {
           const streamUrl = `${process.env.NEXT_PUBLIC_API_URL}/files/stream/${fileId}`;
-          console.log("Setting audio src:", streamUrl);
           audioRef.current.src = streamUrl;
           audioRef.current.load();
         }
@@ -281,40 +278,40 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
         onEnded={handleEnded}
         crossOrigin="anonymous"
         preload="metadata"
-        onLoadStart={() => {
-          console.log("🎵 Audio load started");
-          console.log("Audio src:", audioRef.current?.src);
-        }}
-        onLoadedData={() => console.log("Audio data loaded")}
-        onCanPlay={() => console.log("Audio can play")}
-        onCanPlayThrough={() => console.log("Audio can play through")}
-        onError={(e) => {
-          console.error("Audio error event:", e);
-          if (audioRef.current?.error) {
-            const errorCodes = {
-              1: "MEDIA_ERR_ABORTED - Playback aborted",
-              2: "MEDIA_ERR_NETWORK - Network error",
-              3: "MEDIA_ERR_DECODE - Decode error",
-              4: "MEDIA_ERR_SRC_NOT_SUPPORTED - Source not supported",
-            };
-            console.error("Audio error:", {
-              code: audioRef.current.error.code,
-              message: errorCodes[audioRef.current.error.code as keyof typeof errorCodes],
-            });
-          }
-          console.error("Audio state:", {
-            networkState: audioRef.current?.networkState,
-            readyState: audioRef.current?.readyState,
-            src: audioRef.current?.src,
-            currentSrc: audioRef.current?.currentSrc,
-          });
-        }}
-        onStalled={() => console.log("Audio stalled")}
-        onSuspend={() => console.log("Audio suspended")}
-        onAbort={() => console.log("Audio aborted")}
-        onEmptied={() => console.log("Audio emptied")}
-        onWaiting={() => console.log("Audio waiting")}
-        onProgress={() => console.log("Audio progress")}
+        // onLoadStart={() => {
+        //   console.log("Audio load started");
+        //   console.log("Audio src:", audioRef.current?.src);
+        // }}
+        // onLoadedData={() => console.log("Audio data loaded")}
+        // onCanPlay={() => console.log("Audio can play")}
+        // onCanPlayThrough={() => console.log("Audio can play through")}
+        // onError={(e) => {
+        //   console.error("Audio error event:", e);
+        //   if (audioRef.current?.error) {
+        //     const errorCodes = {
+        //       1: "MEDIA_ERR_ABORTED - Playback aborted",
+        //       2: "MEDIA_ERR_NETWORK - Network error",
+        //       3: "MEDIA_ERR_DECODE - Decode error",
+        //       4: "MEDIA_ERR_SRC_NOT_SUPPORTED - Source not supported",
+        //     };
+        //     console.error("Audio error:", {
+        //       code: audioRef.current.error.code,
+        //       message: errorCodes[audioRef.current.error.code as keyof typeof errorCodes],
+        //     });
+        //   }
+        //   console.error("Audio state:", {
+        //     networkState: audioRef.current?.networkState,
+        //     readyState: audioRef.current?.readyState,
+        //     src: audioRef.current?.src,
+        //     currentSrc: audioRef.current?.currentSrc,
+        //   });
+        // }}
+        // onStalled={() => console.log("Audio stalled")}
+        // onSuspend={() => console.log("Audio suspended")}
+        // onAbort={() => console.log("Audio aborted")}
+        // onEmptied={() => console.log("Audio emptied")}
+        // onWaiting={() => console.log("Audio waiting")}
+        // onProgress={() => console.log("Audio progress")}
       />
     </div>
   );
