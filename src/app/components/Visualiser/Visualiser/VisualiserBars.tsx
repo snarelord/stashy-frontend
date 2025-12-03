@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import styles from "./VisualiserBars.module.css";
 
 interface VisualiserProps {
@@ -10,22 +10,37 @@ interface VisualiserProps {
 
 function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mirroredCanvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | null>(null);
   const peaksRef = useRef<number[]>([]);
   const peakDecayRef = useRef<number[]>([]);
   const smoothedValuesRef = useRef<number[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (!analyser || !canvasRef.current) return;
+    function checkMobile() {
+      setIsMobile(window.matchMedia("(max-width: 700px)").matches);
+    }
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!analyser || !canvasRef.current || !mirroredCanvasRef.current) return;
 
     const canvas = canvasRef.current;
+    const mirroredCanvas = mirroredCanvasRef.current;
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const mirroredCtx = mirroredCanvas.getContext("2d");
+    if (!ctx || !mirroredCtx) return;
 
     function resizeCanvas() {
       const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width;
       canvas.height = rect.height;
+      mirroredCanvas.width = rect.width;
+      mirroredCanvas.height = rect.height;
     }
 
     resizeCanvas();
@@ -34,7 +49,9 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
-    const barCount = 255;
+    const desktopBarCount = 255;
+    const mobileBarCount = 50;
+    const barCount = isMobile ? mobileBarCount : desktopBarCount;
 
     if (peaksRef.current.length !== barCount) {
       peaksRef.current = new Array(barCount).fill(0);
@@ -113,8 +130,14 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
     function animate() {
       if (!ctx || !analyser) return;
 
+      if (!mirroredCtx) {
+        console.error("Error mirroring");
+        return;
+      }
+
       if (!isPlaying) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        mirroredCtx.clearRect(0, 0, mirroredCanvas.width, mirroredCanvas.height);
         peaksRef.current = new Array(barCount).fill(0);
         peakDecayRef.current = new Array(barCount).fill(0);
         smoothedValuesRef.current = new Array(barCount).fill(0);
@@ -174,6 +197,14 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
         ctx.fillRect(x, peakY, barWidth - barGap, 2);
       }
 
+      if (mirroredCtx) {
+        mirroredCtx.save();
+        mirroredCtx.clearRect(0, 0, mirroredCanvas.width, mirroredCanvas.height);
+        mirroredCtx.scale(1, -1);
+        mirroredCtx.drawImage(canvas, 0, -mirroredCanvas.height, mirroredCanvas.width, mirroredCanvas.height);
+        mirroredCtx.restore();
+      }
+
       animationRef.current = requestAnimationFrame(animate);
     }
 
@@ -185,11 +216,12 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
       }
       window.removeEventListener("resize", resizeCanvas);
     };
-  }, [isPlaying, analyser]);
+  }, [isPlaying, analyser, isMobile]);
 
   return (
     <div className={styles.visualiserContainer}>
       <canvas ref={canvasRef} className={styles.visualiser} />
+      <canvas ref={mirroredCanvasRef} className={styles.mirrored} />
     </div>
   );
 }
