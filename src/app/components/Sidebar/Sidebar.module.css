@@ -2,7 +2,6 @@
   width: 280px;
   min-width: 220px;
   max-width: 320px;
-  /* background: linear-gradient(180deg, #a499ed 0%, #9385dc 100%); */
   background: #4d4d4d;
   padding: 24px 16px;
   display: flex;
@@ -15,6 +14,12 @@
   left: 0;
   z-index: 100;
   box-shadow: 2px 0 12px #0002;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(0);
+}
+
+.collapsed {
+  transform: translateX(-100%);
 }
 
 .signOutButton {
@@ -35,6 +40,25 @@
   text-decoration: none;
 }
 
+.collapseButton {
+  display: block;
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 1100;
+  background: rgba(77, 77, 77, 0.95);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  transition: background 0.2s, border 0.2s;
+  box-shadow: 0 2px 8px #0002;
+}
+.collapseButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
 .signOutButton:hover {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.5);
@@ -50,10 +74,15 @@
     max-width: 100vw;
     height: 100vh;
     z-index: 1000;
-    /* background: linear-gradient(180deg, #a499ed 0%, #9385dc 100%); */
     background: #4d4d4d;
     border-radius: 0;
     padding: 0 0;
     box-shadow: 0 0 24px #0002;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(0);
+  }
+
+  .collapsed {
+    transform: translateX(-100%);
   }
 }

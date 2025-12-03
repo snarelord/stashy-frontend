@@ -22,6 +22,7 @@ export default function DashboardPage() {
   const [folders, setFolders] = useState<any[]>([]);
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete } = useFileOperations();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   async function loadUserFiles() {
     try {
@@ -66,8 +67,8 @@ export default function DashboardPage() {
     return (
       <div className={styles.pageContainer}>
         <div className={styles.pageWrapper}>
-          <Sidebar />
-          <div className={styles.mainContent}>
+          <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
+          <div className={styles.mainContent} style={{ marginLeft: sidebarCollapsed ? 56 : 280 }}>
             <DashboardHeader />
             <p style={{ textAlign: "center", padding: "40px" }}>Loading...</p>
           </div>
@@ -80,9 +81,8 @@ export default function DashboardPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.pageWrapper}>
-        <Sidebar />
-
-        <div className={styles.mainContent}>
+        <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
+        <div className={styles.mainContent} style={{ marginLeft: sidebarCollapsed ? 0 : 280 }}>
           <DashboardHeader />
           <RecentFolders />
           <AllFiles />

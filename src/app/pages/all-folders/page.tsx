@@ -20,11 +20,11 @@ export default function AllFoldersPage() {
   const [folderName, setFolderName] = useState("");
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete, handleCreateFolder } = useFileOperations();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(function () {
     loadFolders();
 
-    // reload when page receives focus (navigating back from other pages)
     function handleFocus() {
       loadFolders();
     }
@@ -69,9 +69,9 @@ export default function AllFoldersPage() {
 
   if (loading) {
     return (
-      <div className={styles.pageContainer}>
+      <div className={styles.pageContainer} style={{ marginLeft: sidebarCollapsed ? 0 : 280 }}>
         <div className={styles.pageWrapper}>
-          <Sidebar showBackToDashboard={true} />
+          <Sidebar showBackToDashboard={true} collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
           <div className={styles.mainContent}>
             <DashboardHeader />
             <p style={{ textAlign: "center", padding: "40px" }}>Loading folders...</p>
@@ -82,9 +82,9 @@ export default function AllFoldersPage() {
   }
 
   return (
-    <div className={styles.pageContainer}>
+    <div className={styles.pageContainer} style={{ marginLeft: sidebarCollapsed ? 0 : 280 }}>
       <div className={styles.pageWrapper}>
-        <Sidebar showBackToDashboard={true} />
+        <Sidebar showBackToDashboard={true} collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
 
         <div className={styles.mainContent}>
           <DashboardHeader />
@@ -177,7 +177,7 @@ export default function AllFoldersPage() {
                   if (!contextMenu.type) return;
                   handleDelete(contextMenu.item, contextMenu.type, function () {
                     loadFolders();
-                    window.dispatchEvent(new Event("refreshDashboard")); // Add this
+                    window.dispatchEvent(new Event("refreshDashboard"));
                   });
                   setContextMenu(null);
                 }}
