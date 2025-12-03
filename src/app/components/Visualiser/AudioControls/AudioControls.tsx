@@ -1,6 +1,6 @@
 "use client";
 
-import type React from "react";
+import React, { useEffect, useState } from "react";
 
 import { formatTime } from "../../../utils/formatTime";
 import styles from "./AudioControls.module.css";
@@ -29,6 +29,15 @@ export default function AudioControls({
   hasAudio,
   showProgressBar,
 }: AudioControlsProps) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    function checkMobile() {
+      setIsMobile(window.matchMedia("(max-width: 700px)").matches);
+    }
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
   const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSeek(Number.parseFloat(e.target.value));
   };
@@ -43,7 +52,7 @@ export default function AudioControls({
 
   return (
     <>
-      {showProgressBar && (
+      {(showProgressBar || isMobile) && (
         <div className={styles.progressBarContainer}>
           <input
             type="range"
