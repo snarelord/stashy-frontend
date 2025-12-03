@@ -1,29 +1,44 @@
 @media (max-width: 700px) {
   .audioControls {
-    padding: 0.5rem;
-    flex-direction: column;
-    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: center;
+    justify-content: space-between;
+    overflow: visible;
   }
   .playPauseButton {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
   }
   .progressBarContainer {
-    margin: 4px 0;
+    margin: 2px 0;
+    order: 3;
+    flex-basis: 100%;
   }
   .progressBar {
-    height: 4px;
+    height: 3px;
   }
   .volumeControls {
     gap: 0.25rem;
+    order: 2;
   }
   .volumeSlider {
-    width: 64px;
+    width: 50px;
     height: 3px;
   }
   .timeDisplay {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
+    order: 1;
+  }
+  .playbackControls {
+    gap: 0.5rem;
+    order: 0;
+  }
+  .muteButton {
+    padding: 0.25rem;
   }
 }
 .audioControls {
