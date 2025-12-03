@@ -51,7 +51,7 @@ export default function SignInPage() {
   return (
     <div className={styles.container}>
       <Header />
-      <main className={styles.main}>
+      <main id="sign-in-form" className={styles.main}>
         <div className={styles.formContainer}>
           <h1 className={styles.title}>Sign In</h1>
 

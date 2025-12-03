@@ -19,6 +19,7 @@ export default function Sidebar({ showBackToDashboard = false }: SidebarProps) {
 
       {/* Sign Out Button */}
       <button
+        name="sign-out"
         className={styles.signOutButton}
         onClick={() => {
           if (typeof window !== "undefined") {

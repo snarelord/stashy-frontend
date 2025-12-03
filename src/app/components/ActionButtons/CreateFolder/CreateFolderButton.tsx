@@ -90,19 +90,30 @@ export default function CreateFolderButton() {
     <div className={styles.actionButtons}>
       {!isCreatingFolder ? (
         <>
-          <button className={styles.actionButton} onClick={() => setIsCreatingFolder(true)}>
+          <button name="create-folder-button" className={styles.actionButton} onClick={() => setIsCreatingFolder(true)}>
             Create folder
           </button>
-          <button className={styles.actionButtonPrimary} onClick={handleUploadClick} disabled={uploading}>
+          <button
+            name="upload-button"
+            className={styles.actionButtonPrimary}
+            onClick={handleUploadClick}
+            disabled={uploading}
+          >
             {uploading ? "Uploading..." : "Upload"} <span className={styles.uploadIcon}>📤</span>
           </button>
-          {/* Hidden file input */}
-          <input ref={fileInputRef} type="file" multiple onChange={handleFileChange} style={{ display: "none" }} />
+          <input
+            name="file-input"
+            ref={fileInputRef}
+            type="file"
+            multiple
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
         </>
       ) : (
-        /* Create Folder Input */
         <div className={styles.createFolderContainer}>
           <input
+            name="folder-input"
             type="text"
             placeholder="Enter folder name..."
             value={folderName}
@@ -113,7 +124,7 @@ export default function CreateFolderButton() {
             className={styles.folderInput}
             autoFocus
           />
-          <button className={styles.confirmButton} onClick={handleCreateFolder}>
+          <button name="confirm-create" className={styles.confirmButton} onClick={handleCreateFolder}>
             Create
           </button>
           <button
