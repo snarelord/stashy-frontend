@@ -1,3 +1,31 @@
+@media (max-width: 700px) {
+  .audioControls {
+    padding: 0.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .playPauseButton {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+  .progressBarContainer {
+    margin: 4px 0;
+  }
+  .progressBar {
+    height: 4px;
+  }
+  .volumeControls {
+    gap: 0.25rem;
+  }
+  .volumeSlider {
+    width: 64px;
+    height: 3px;
+  }
+  .timeDisplay {
+    font-size: 0.75rem;
+  }
+}
 .audioControls {
   display: flex;
   flex-direction: row;
