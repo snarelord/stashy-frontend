@@ -53,6 +53,24 @@
   transform: scale(0.97);
 }
 
+.downloadButton {
+  min-width: 100px;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.13);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
 .backButton {
   width: 40px;
   height: 40px;
@@ -79,24 +97,6 @@
   transform: scale(0.95);
 }
 
-.downloadButton {
-  min-width: 100px;
-  height: 40px;
-  padding: 0 20px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.13);
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-}
-
 .fileInfo {
   flex: 1;
   text-align: center;
@@ -107,6 +107,27 @@
   font-size: 1.25rem;
   margin: 0;
   font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .toggleButton {
+    height: 32px;
+    padding: 8px;
+    font-size: 8px;
+    border-radius: 6px;
+  }
+  .downloadButton {
+    height: 32px;
+    font-size: 8px;
+    border-radius: 6px;
+  }
+  .backButton {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+    border-radius: 6px;
+    padding: 0;
+  }
 }
 
 @media (max-width: 700px) {
@@ -149,15 +170,10 @@
 /* Mobile viewport: match small vw and vh */
 @media (max-width: 700px), (max-width: 100vw) and (max-height: 100vh) {
   .footer {
-    padding: 12px 0 8px 0;
     min-height: 56px;
     font-size: 14px;
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(16px);
-  }
-  .footerContent {
-    padding: 0 8px;
-    font-size: 14px;
   }
 }
 
@@ -200,22 +216,15 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .header {
-    padding: 12px 16px;
+    padding: 16px;
   }
 
   .fileName {
-    font-size: 14px;
+    font-size: 10px;
   }
 
   .fileDetails {
-    font-size: 11px;
-  }
-
-  .backButton,
-  .downloadButton {
-    width: 36px;
-    height: 36px;
-    font-size: 18px;
+    font-size: 8px;
   }
 
   .visualiserMain {
@@ -223,6 +232,6 @@
   }
 
   .footer {
-    padding: 16px;
+    padding: 8px;
   }
 }
