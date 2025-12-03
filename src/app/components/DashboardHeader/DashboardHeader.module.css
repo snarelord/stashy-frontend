@@ -2,7 +2,7 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  position: relative;
   padding: 24px 48px;
   border-bottom: 1px solid #e5e5e5;
   background-color: rgb(0, 0, 0);
@@ -10,11 +10,21 @@
 
 .logoContainer {
   flex-shrink: 0;
+  margin-left: auto;
+  z-index: 2;
+}
+
+.spacer {
+  flex: 1;
 }
 
 .searchContainer {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 400px;
+  z-index: 1;
 }
 
 .searchInput {
@@ -51,9 +61,17 @@
     flex-direction: column;
     gap: 16px;
     align-items: stretch;
+    position: static;
   }
 
   .searchContainer {
+    position: static;
+    transform: none;
     width: 100%;
+    margin: 0 auto;
+  }
+
+  .logoContainer {
+    display: none;
   }
 }
