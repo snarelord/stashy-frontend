@@ -45,7 +45,6 @@ export default function SignUpPage() {
     }
 
     try {
-      console.log(formData.email);
       const response = await api.signUp(
         formData.email,
         formData.firstName,

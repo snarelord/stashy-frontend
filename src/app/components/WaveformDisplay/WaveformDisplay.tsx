@@ -39,6 +39,7 @@ export default function WaveformDisplay({
   return (
     <div className={styles.waveformContainer}>
       <svg
+        name="waveform-container"
         className={styles.waveformSvg}
         width="100%"
         height="100%"

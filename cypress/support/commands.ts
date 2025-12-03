@@ -1,3 +1,4 @@
+export {};
 /// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
@@ -12,6 +13,13 @@
 //
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add("signIn", () => {
+  cy.visit("pages/sign-in");
+  cy.get('input[name="email"]').type(Cypress.env("signInEmail"));
+  cy.get('input[name="password"]').type(Cypress.env("signInPassword"));
+  cy.get('button[type="submit"]').click();
+  cy.url().should("include", "/pages/dashboard");
+});
 //
 //
 // -- This is a child command --
@@ -25,13 +33,13 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      signIn(): Chainable<void>;
+      login(email: string, password: string): Chainable<void>;
+      drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>;
+      dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>;
+    }
+  }
+}

@@ -11,7 +11,7 @@ export default function SidebarNavigation({ showBackToDashboard = false }: Sideb
   return (
     <nav className={styles.nav}>
       {showBackToDashboard && (
-        <button className={styles.backButton} onClick={() => router.push("/pages/dashboard")}>
+        <button name="back-to-dashboard" className={styles.backButton} onClick={() => router.push("/pages/dashboard")}>
           <span className={styles.backArrow}>←</span>
           Back to Dashboard
         </button>
@@ -20,11 +20,11 @@ export default function SidebarNavigation({ showBackToDashboard = false }: Sideb
         <span className={styles.navIcon}>📤</span>
         Upload file
       </button>
-      <button className={styles.navItem} onClick={() => router.push("/pages/dashboard")}>
+      <button name="dashboard" className={styles.navItem} onClick={() => router.push("/pages/dashboard")}>
         <span className={styles.navIcon}>📄</span>
         Dashboard
       </button>
-      <button className={styles.navItem} onClick={() => router.push("/pages/all-folders")}>
+      <button name="all-folders" className={styles.navItem} onClick={() => router.push("/pages/all-folders")}>
         <span className={styles.navIcon}>📁</span>
         Folders
       </button>
