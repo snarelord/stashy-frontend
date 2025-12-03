@@ -29,11 +29,21 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
   const [waveform, setWaveform] = useState<number[] | null>(null);
   const [waveformLoading, setWaveformLoading] = useState(true);
   const [showWaveform, setShowWaveform] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
+
+  useEffect(() => {
+    function checkMobile() {
+      setIsMobile(window.matchMedia("(max-width: 700px)").matches);
+    }
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     async function fetchWaveform() {
@@ -219,6 +229,8 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
           </button>
         </div>
       </header>
+
+      {isMobile && showWaveform && <img src="/audio-icon.svg" alt="Audio Icon" className={styles.audioIcon} />}
 
       <main className={styles.visualiserMain}>
         <div className={styles.toggleContainer}></div>

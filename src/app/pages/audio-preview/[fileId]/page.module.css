@@ -3,6 +3,7 @@
   align-items: center;
   gap: 16px;
 }
+
 .pageContainer {
   min-height: 100vh;
   height: 100vh;
@@ -24,6 +25,17 @@
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 10;
+}
+
+.audioIcon {
+  width: 64px;
+  height: 64px;
+  filter: invert(1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
 }
 
 .toggleButton,
