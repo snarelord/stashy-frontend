@@ -60,7 +60,6 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
 
   async function loadFile() {
     try {
-      console.log("Loading file with ID:", fileId);
       const response = await api.getFiles();
       const foundFile = response.files.find((f: any) => f.id === fileId);
       console.log("Found file: ", foundFile);
@@ -88,23 +87,13 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
   }
 
   function handlePlayPause() {
-    console.log("handlePlayPause called, isPlaying:", isPlaying);
     if (!audioRef.current) return;
-
-    console.log("Audio state before action:", {
-      paused: audioRef.current.paused,
-      readyState: audioRef.current.readyState,
-      networkState: audioRef.current.networkState,
-      src: audioRef.current.src,
-      duration: audioRef.current.duration,
-    });
 
     if (isPlaying) {
       console.log("Pausing audio");
       audioRef.current.pause();
     } else {
       if (!audioContextRef.current) {
-        console.log("Creating audio context");
         const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
         const analyser = audioContext.createAnalyser();
 
@@ -152,7 +141,7 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
   }
 
   function handleLoadedMetadata() {
-    console.log("Audio metadata loaded");
+    // console.log("Audio metadata loaded");
     if (audioRef.current) {
       setDuration(audioRef.current.duration);
     }
