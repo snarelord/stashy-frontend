@@ -10,6 +10,7 @@ export default function CreateFolderButton() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   async function loadRecentItems() {
     try {
@@ -59,32 +60,36 @@ export default function CreateFolderButton() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
+    setUploadProgress(0);
     setUploading(true);
+
     try {
-      // Upload each file
+      const totalFiles = files.length;
+
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const response = await api.uploadFile(file);
+
+        const progress = ((i + 1) / totalFiles) * 100;
+        setUploadProgress(progress);
         if (response.success) {
         }
       }
       toast.success(`Successfully uploaded ${files.length} file(s)!`);
 
-      // Reset file input
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
 
-      // Reload recent items
       await loadRecentItems();
 
-      // Trigger dashboard refresh
       window.dispatchEvent(new Event("refreshDashboard"));
     } catch (err) {
       console.error("Failed to upload files:", err);
       toast.error("Failed to upload files. Please try again.");
     } finally {
       setUploading(false);
+      setUploadProgress(0);
     }
   }
 
@@ -101,7 +106,34 @@ export default function CreateFolderButton() {
             onClick={handleUploadClick}
             disabled={uploading}
           >
-            {uploading ? "Uploading..." : "Upload"} <span className={styles.uploadIcon}>📤</span>
+            {uploading ? (
+              <>
+                <span className={styles.uploadingText}>Uploading...</span>
+                <div className={styles.progressCircle}>
+                  <svg width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke="#e0e0e0" strokeWidth="2" />
+                    <circle
+                      cx="10"
+                      cy="10"
+                      r="8"
+                      fill="none"
+                      stroke="#fff"
+                      strokeWidth="2"
+                      strokeDasharray={`${2 * Math.PI * 8}`}
+                      strokeDashoffset={`${2 * Math.PI * 8 * (1 - uploadProgress / 100)}`}
+                      strokeLinecap="round"
+                      transform="rotate(-90 10 10)"
+                      style={{ transition: "stroke-dashoffset 0.3s ease" }}
+                    />
+                  </svg>
+                  <span className={styles.progressText}>{Math.round(uploadProgress)}%</span>
+                </div>
+              </>
+            ) : (
+              <>
+                Upload <span className={styles.uploadIcon}>📤</span>
+              </>
+            )}
           </button>
           <input
             name="file-input"
