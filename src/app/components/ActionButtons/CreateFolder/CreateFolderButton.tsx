@@ -1,6 +1,7 @@
 import styles from "./CreateFolderButton.module.css";
 import { useState, useRef } from "react";
 import { api } from "../../../services/api";
+import toast from "react-hot-toast";
 
 export default function CreateFolderButton() {
   const [isCreatingFolder, setIsCreatingFolder] = useState(false);
@@ -19,6 +20,7 @@ export default function CreateFolderButton() {
         createdAt: f.createdAt || Date.now(),
       }));
       // sort by createdAt descending and take up to 5
+      // todo: only show folders not subfolders
       const recentFolders = folders.sort((a: any, b: any) => b.createdAt - a.createdAt).slice(0, 5);
       setRecentItems(recentFolders);
     } catch (err) {
@@ -29,14 +31,14 @@ export default function CreateFolderButton() {
 
   async function handleCreateFolder() {
     if (!folderName.trim()) {
-      alert("Please enter a folder name");
+      toast.error("Please enter a folder name");
       return;
     }
 
     try {
       const response = await api.createFolder(folderName);
       if (response.success) {
-        alert(`Folder "${response.folder.name}" created successfully!`);
+        toast.success(`Folder "${response.folder.name}" created successfully!`);
         setFolderName("");
         setIsCreatingFolder(false);
 
@@ -45,7 +47,7 @@ export default function CreateFolderButton() {
       }
     } catch (err) {
       console.error("Failed to create folder:", err);
-      alert("Failed to create folder. Please try again.");
+      toast.error("Failed to create folder. Please try again.");
     }
   }
 
@@ -66,7 +68,7 @@ export default function CreateFolderButton() {
         if (response.success) {
         }
       }
-      alert(`Successfully uploaded ${files.length} file(s)!`);
+      toast.success(`Successfully uploaded ${files.length} file(s)!`);
 
       // Reset file input
       if (fileInputRef.current) {
@@ -80,7 +82,7 @@ export default function CreateFolderButton() {
       window.dispatchEvent(new Event("refreshDashboard"));
     } catch (err) {
       console.error("Failed to upload files:", err);
-      alert("Failed to upload files. Please try again.");
+      toast.error("Failed to upload files. Please try again.");
     } finally {
       setUploading(false);
     }

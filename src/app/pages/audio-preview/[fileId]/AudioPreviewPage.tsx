@@ -10,6 +10,7 @@ import LUFSMeter from "../../../components/Visualiser/LUFSMeter/LUFSMeter";
 import AudioControls from "@/app/components/Visualiser/AudioControls/AudioControls";
 import Spinner from "@/app/components/Spinner/Spinner";
 import WaveformDisplay from "../../../components/WaveformDisplay/WaveformDisplay";
+import toast from "react-hot-toast";
 
 interface AudioPreviewProps {
   fileId: string;
@@ -177,7 +178,7 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
       await api.downloadFile(fileId);
     } catch (error) {
       console.error("Download failed:", error);
-      alert("Failed to download file");
+      toast.error("Failed to download file");
     }
   }
 

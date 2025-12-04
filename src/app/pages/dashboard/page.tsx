@@ -7,6 +7,7 @@ import { api } from "../../services/api";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { useContextMenu } from "../../hooks/useContextMenu";
 import { useFileOperations } from "../../hooks/useFileOperations";
+import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner/Spinner";
 import AllFiles from "../../components/AllFiles/AllFiles";
 import Footer from "../../components/Footer/Footer";
@@ -61,7 +62,7 @@ export default function DashboardPage() {
       await api.downloadFile(file.id);
     } catch (error) {
       console.error("Download failed:", error);
-      alert("Failed to download file");
+      toast.error("Failed to download file");
     }
   }
 
@@ -71,7 +72,7 @@ export default function DashboardPage() {
       await api.downloadFolder(folder.id);
     } catch (error: any) {
       console.error("Folder download failed:", error);
-      alert(error.message || "Failed to download folder");
+      toast.error(error.message || "Failed to download folder");
     }
   }
 

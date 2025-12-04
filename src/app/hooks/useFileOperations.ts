@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { api } from "../services/api";
+import toast from "react-hot-toast";
 
 export function useFileOperations() {
   const [loading, setLoading] = useState(true);
@@ -16,12 +17,12 @@ export function useFileOperations() {
         await api.deleteFile(item.id);
       }
 
-      alert(`${type === "folder" ? "Folder" : "File"} deleted successfully!`);
+      toast.success(`${type === "folder" ? "Folder" : "File"} deleted successfully!`);
 
       if (onSuccess) onSuccess();
     } catch (err) {
       console.error(`Failed to delete ${type}:`, err);
-      alert(`Failed to delete ${type}. Please try again.`);
+      toast.error(`Failed to delete ${type}. Please try again.`);
     }
   }, []);
 
@@ -40,12 +41,12 @@ export function useFileOperations() {
         }
       }
       const folderName = folderId ? "folder" : "files";
-      alert(`Successfully uploaded ${files.length} file(s) to ${folderName}!`);
+      toast.success(`Successfully uploaded ${files.length} file(s) to ${folderName}!`);
 
       if (onSuccess) onSuccess();
     } catch (err) {
       console.error("Failed to upload files:", err);
-      alert("Failed to upload files. Please try again.");
+      toast.error("Failed to upload files. Please try again.");
     }
   },
   []);
@@ -56,7 +57,7 @@ export function useFileOperations() {
     onSuccess?: () => void
   ) {
     if (!folderName.trim()) {
-      alert("Please enter a folder name");
+      toast.error("Please enter a folder name");
       return;
     }
 
@@ -66,13 +67,13 @@ export function useFileOperations() {
         const message = parentId
           ? `Subfolder "${response.folder.name}" created successfully!`
           : `Folder "${response.folder.name}" created successfully!`;
-        alert(message);
+        toast.success(message);
 
         if (onSuccess) onSuccess();
       }
     } catch (err) {
       console.error("Failed to create folder:", err);
-      alert("Failed to create folder. Please try again.");
+      toast.error("Failed to create folder. Please try again.");
     }
   },
   []);
