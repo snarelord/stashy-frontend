@@ -141,9 +141,9 @@
   .visualiserMain {
     flex: 1 1 auto;
     min-height: 0;
-    max-height: calc(100vh - 40px - 100px);
+    max-height: calc(100vh - 40px - 120px);
     overflow: hidden;
-    padding: 0;
+    padding: 0 0 20px 0;
     display: flex;
     align-items: center;
     justify-content: center;
