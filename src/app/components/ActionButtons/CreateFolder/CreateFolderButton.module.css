@@ -43,6 +43,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  position: relative;
 }
 
 .actionButtonPrimary:hover:not(:disabled) {
@@ -57,6 +58,33 @@
 .uploadIcon {
   font-size: 16px;
   filter: brightness(0) invert(1);
+}
+
+.uploadingText {
+  margin-right: 4px;
+}
+
+.progressCircle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.progressText {
+  position: absolute;
+  font-size: 8px;
+  font-weight: 600;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.progressCircleAnimated {
+  transition: stroke-dashoffset 0.3s ease;
 }
 
 /* Create Folder Input Styles */
