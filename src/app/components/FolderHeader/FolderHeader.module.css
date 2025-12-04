@@ -1,0 +1,215 @@
+.folderHeader {
+  padding: 24px 48px;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: white;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #666666;
+}
+
+.breadcrumbLink {
+  color: #a499ed;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbLink:hover {
+  color: #9385dc;
+  text-decoration: underline;
+}
+
+.breadcrumbSeparator {
+  color: #999999;
+  padding: 0 8px;
+}
+
+.breadcrumbCurrent {
+  color: #333333;
+  font-weight: 500;
+}
+
+.folderTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  color: #000000;
+}
+
+.folderIcon {
+  font-size: 32px;
+}
+
+.folderActions {
+  display: flex;
+  gap: 12px;
+}
+
+.actionButton {
+  padding: 10px 20px;
+  background-color: #696969;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-roboto), sans-serif;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: #696969;
+}
+
+.actionButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.createFolderContainer {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex: 1;
+}
+
+.folderInput {
+  flex: 1;
+  padding: 10px 20px;
+  background-color: white;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-roboto), sans-serif;
+  color: #333333;
+  transition: all 0.2s ease;
+}
+
+.folderInput:focus {
+  outline: none;
+  border-color: #696969;
+  background-color: #f5f5f5;
+}
+
+.folderInput::placeholder {
+  color: #999999;
+}
+
+.confirmButton {
+  padding: 10px 20px;
+  background-color: #4d4d4d;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-roboto), sans-serif;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirmButton:hover {
+  background-color: #696969;
+}
+
+.cancelButton {
+  padding: 10px 20px;
+  background-color: white;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-roboto), sans-serif;
+  color: #333333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+  background-color: #f5f5f5;
+  border-color: #696969;
+}
+
+.folderIconImage {
+  filter: brightness(0) invert(1);
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .folderHeader {
+    padding: 20px 32px;
+  }
+
+  .breadcrumb {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .folderTitle {
+    font-size: 24px;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 700px) {
+  .folderHeader {
+    padding: 16px;
+  }
+
+  .breadcrumb {
+    font-size: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .folderTitle {
+    font-size: 20px;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .folderIconImage {
+    width: 24px;
+    height: 24px;
+  }
+
+  .folderActions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .actionButton {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+
+  .createFolderContainer {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .folderInput {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .confirmButton,
+  .cancelButton {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+}

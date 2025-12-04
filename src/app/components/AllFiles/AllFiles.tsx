@@ -35,12 +35,20 @@ function getFileIconComponent(file: any) {
   if (mime.startsWith("text/") || mime.includes("document")) return <FileIcon className={styles.fileIcon} size={20} />;
   return <FileIcon className={styles.fileIcon} size={20} />;
 }
-export default function AllFiles() {
+
+interface AllFilesProps {
+  onContextMenu?: (e: React.MouseEvent, item: any, type: "file" | "folder") => void;
+}
+
+export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesProps) {
   const router = useRouter();
   const [files, setFiles] = useState<any[]>([]);
   const [folders, setFolders] = useState<any[]>([]);
-  const { contextMenu, setContextMenu } = useContextMenu();
+  const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete } = useFileOperations();
+
+  // Use parent's context menu handler if provided, otherwise use own
+  const contextMenuHandler = onContextMenuProp || handleContextMenu;
 
   function isAudioFile(mimeType: string): boolean {
     return mimeType?.startsWith("audio/");
@@ -105,12 +113,6 @@ export default function AllFiles() {
     }
   }
 
-  function handleContextMenu(e: React.MouseEvent, item: any, type: "file" | "folder") {
-    e.preventDefault();
-    e.stopPropagation();
-    setContextMenu({ x: e.clientX, y: e.clientY, item, type });
-  }
-
   return (
     <section className={styles.fileListSection}>
       <CreateFolderButton />
@@ -127,7 +129,7 @@ export default function AllFiles() {
             key={folder.id}
             className={styles.tableRow}
             onClick={() => handleFolderClick(folder.id)}
-            onContextMenu={(e) => handleContextMenu(e, folder, "folder")}
+            onContextMenu={(e) => contextMenuHandler(e, folder, "folder")}
           >
             <div className={styles.tableCell}>
               {getFileIconComponent({ ...folder, type: "folder" })}
@@ -171,7 +173,7 @@ export default function AllFiles() {
                 router.push(`/pages/image-preview/${file.id}`);
               }
             }}
-            onContextMenu={(e) => handleContextMenu(e, file, "file")}
+            onContextMenu={(e) => contextMenuHandler(e, file, "file")}
             style={{ cursor: isAudioFile(file.mimeType) || isImageFile(file.mimeType) ? "pointer" : "default" }}
           >
             <div className={styles.tableCell}>

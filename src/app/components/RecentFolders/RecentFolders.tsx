@@ -9,15 +9,20 @@ import AudioIcon from "../Icons/AudioIcon/AudioIcon";
 import ImageIcon from "../Icons/ImageIcon/ImageIcon";
 import VideoIcon from "../Icons/VideoIcon/VideoIcon";
 import FileIcon from "../Icons/FileIcon/FileIcon";
-import ContextMenu from "../ContextMenu/ContextMenu";
 
-export default function RecentFolders() {
+interface RecentFoldersProps {
+  onContextMenu?: (e: React.MouseEvent, item: any, type: "file" | "folder") => void;
+}
+
+export default function RecentFolders({ onContextMenu: onContextMenuProp }: RecentFoldersProps) {
   const router = useRouter();
   const [recentItems, setRecentItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; item: any; type: "file" | "folder" } | null>(
     null
   );
+
+  const hasContextMenuProp = !!onContextMenuProp;
 
   useEffect(function () {
     loadRecentItems();
@@ -73,7 +78,11 @@ export default function RecentFolders() {
   function handleContextMenu(e: React.MouseEvent, item: any, type: "file" | "folder") {
     e.preventDefault();
     e.stopPropagation();
-    setContextMenu({ x: e.clientX, y: e.clientY, item, type });
+    if (onContextMenuProp) {
+      onContextMenuProp(e, item, type);
+    } else {
+      setContextMenu({ x: e.clientX, y: e.clientY, item, type });
+    }
   }
 
   // helper function to get file icon based on type
@@ -116,8 +125,6 @@ export default function RecentFolders() {
           <p style={{ gridColumn: "1 / -1", textAlign: "center", color: "#999" }}>No recent folders</p>
         )}
       </div>
-
-      <ContextMenu />
     </section>
   );
 }

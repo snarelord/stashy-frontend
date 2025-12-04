@@ -12,8 +12,8 @@ import AllFiles from "../../components/AllFiles/AllFiles";
 import Footer from "../../components/Footer/Footer";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
-import ContextMenu from "@/app/components/ContextMenu/ContextMenu";
 import RecentFolders from "../../components/RecentFolders/RecentFolders";
+import ContextMenu from "../../components/ContextMenu/ContextMenu";
 
 export default function DashboardPage() {
   const { loading: authLoading, authenticated } = useAuthRedirect();
@@ -55,6 +55,26 @@ export default function DashboardPage() {
     };
   }, []);
 
+  async function handleDownload(file: any, e: React.MouseEvent) {
+    e.stopPropagation();
+    try {
+      await api.downloadFile(file.id);
+    } catch (error) {
+      console.error("Download failed:", error);
+      alert("Failed to download file");
+    }
+  }
+
+  async function handleDownloadFolder(folder: any, e: React.MouseEvent) {
+    e.stopPropagation();
+    try {
+      await api.downloadFolder(folder.id);
+    } catch (error: any) {
+      console.error("Folder download failed:", error);
+      alert(error.message || "Failed to download folder");
+    }
+  }
+
   if (authLoading) {
     return <Spinner />;
   }
@@ -67,9 +87,12 @@ export default function DashboardPage() {
     return (
       <div className={styles.pageContainer}>
         <div className={styles.pageWrapper}>
-          <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
+          <Sidebar collapsed={sidebarCollapsed} onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
           <div className={styles.mainContent} style={{ marginLeft: sidebarCollapsed ? 56 : 280 }}>
-            <DashboardHeader />
+            <DashboardHeader
+              collapsed={sidebarCollapsed}
+              onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
+            />
             <p style={{ textAlign: "center", padding: "40px" }}>Loading...</p>
           </div>
         </div>
@@ -81,12 +104,27 @@ export default function DashboardPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.pageWrapper}>
-        <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
+        <Sidebar collapsed={sidebarCollapsed} onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
         <div className={styles.mainContent} style={{ marginLeft: sidebarCollapsed ? 0 : 280 }}>
-          <DashboardHeader />
-          <RecentFolders />
-          <AllFiles />
-          <ContextMenu />
+          <DashboardHeader
+            collapsed={sidebarCollapsed}
+            onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
+          />
+          <RecentFolders onContextMenu={handleContextMenu} />
+          <AllFiles onContextMenu={handleContextMenu} />
+
+          <ContextMenu
+            contextMenu={contextMenu}
+            onDownloadFile={handleDownload}
+            onDownloadFolder={handleDownloadFolder}
+            onDelete={(item, type) => {
+              handleDelete(item, type, function () {
+                loadUserFiles();
+                window.dispatchEvent(new Event("refreshDashboard"));
+              });
+            }}
+            onClose={() => setContextMenu(null)}
+          />
         </div>
       </div>
     </div>

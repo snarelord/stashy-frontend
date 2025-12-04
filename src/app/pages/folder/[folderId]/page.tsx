@@ -9,12 +9,12 @@ import styles from "./page.module.css";
 import Sidebar from "@/app/components/Sidebar/Sidebar";
 import DashboardHeader from "@/app/components/DashboardHeader/DashboardHeader";
 import Footer from "@/app/components/Footer/Footer";
-import Link from "next/link";
-import Image from "next/image";
 import { useContextMenu } from "../../../hooks/useContextMenu";
 import { useFileOperations } from "../../../hooks/useFileOperations";
-import { getFileIcon } from "../../../utils/getFileIcons";
 import Spinner from "../../../components/Spinner/Spinner";
+import FileTable from "@/app/components/FileTable/FileTable";
+import FolderHeader from "@/app/components/FolderHeader/FolderHeader";
+import ContextMenu from "@/app/components/ContextMenu/ContextMenu";
 
 interface Breadcrumb {
   id: string;
@@ -36,6 +36,7 @@ export default function FolderPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete, handleCreateFolder } = useFileOperations();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(
     function () {
@@ -146,9 +147,12 @@ export default function FolderPage() {
     return (
       <div className={styles.pageContainer}>
         <div className={styles.pageWrapper}>
-          <Sidebar />
-          <div className={styles.mainContent}>
-            <DashboardHeader />
+          <Sidebar collapsed={sidebarCollapsed} onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
+          <div className={styles.mainContent} style={{ marginLeft: sidebarCollapsed ? 0 : 280 }}>
+            <DashboardHeader
+              collapsed={sidebarCollapsed}
+              onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
+            />
             <p style={{ textAlign: "center", padding: "40px" }}>Loading folder...</p>
           </div>
         </div>
@@ -160,278 +164,63 @@ export default function FolderPage() {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.pageWrapper}>
-        <Sidebar />
+        <Sidebar collapsed={sidebarCollapsed} onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
 
-        <div className={styles.mainContent}>
-          <DashboardHeader />
+        <div className={styles.mainContent} style={{ marginLeft: sidebarCollapsed ? 0 : 280 }}>
+          <DashboardHeader
+            collapsed={sidebarCollapsed}
+            onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
+          />
 
-          {/* Folder Header */}
-          <section className={styles.folderHeader}>
-            <div className={styles.breadcrumb}>
-              <Link href="/pages/dashboard" className={styles.breadcrumbLink}>
-                Dashboard
-              </Link>
+          <FolderHeader
+            breadcrumbs={breadcrumbs}
+            folderName={folder?.name || ""}
+            folderId={folderId as string}
+            uploading={uploading}
+            isCreatingFolder={isCreatingFolder}
+            newFolderName={folderName}
+            onUploadClick={handleUploadClick}
+            onCreateFolderStart={() => setIsCreatingFolder(true)}
+            onCreateFolderConfirm={onCreateFolder}
+            onCreateFolderCancel={() => {
+              setIsCreatingFolder(false);
+              setFolderName("");
+            }}
+            onFolderNameChange={setFolderName}
+            fileInputRef={fileInputRef}
+            onFileChange={handleFileChange}
+          />
 
-              {/* Render breadcrumb trail */}
-              {breadcrumbs.map((crumb, index) => (
-                <span key={crumb.id}>
-                  <span className={styles.breadcrumbSeparator}>/</span>
-                  {index === breadcrumbs.length - 1 ? (
-                    <span className={styles.breadcrumbCurrent}>{crumb.name}</span>
-                  ) : (
-                    <Link href={`/pages/folder/${crumb.id}`} className={styles.breadcrumbLink}>
-                      {crumb.name}
-                    </Link>
-                  )}
-                </span>
-              ))}
-            </div>
-            <h1 className={styles.folderTitle}>
-              <Image
-                src="/folder-icon-white.svg"
-                alt="Folder"
-                width={28}
-                height={28}
-                className={styles.folderIconImage}
-              />
-              {folder?.name || folderId}
-            </h1>
-            <div className={styles.folderActions}>
-              {!isCreatingFolder ? (
-                <>
-                  <button className={styles.actionButton} onClick={handleUploadClick} disabled={uploading}>
-                    {uploading ? "Uploading..." : "Upload file"}
-                  </button>
-                  <button className={styles.actionButton} onClick={() => setIsCreatingFolder(true)}>
-                    New folder
-                  </button>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    multiple
-                    onChange={handleFileChange}
-                    style={{ display: "none" }}
-                  />
-                </>
-              ) : (
-                <div className={styles.createFolderContainer}>
-                  <input
-                    type="text"
-                    placeholder="Enter folder name..."
-                    value={folderName}
-                    onChange={(e) => setFolderName(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") onCreateFolder();
-                    }}
-                    className={styles.folderInput}
-                    autoFocus
-                  />
-                  <button className={styles.confirmButton} onClick={onCreateFolder}>
-                    Create
-                  </button>
-                  <button
-                    className={styles.cancelButton}
-                    onClick={() => {
-                      setIsCreatingFolder(false);
-                      setFolderName("");
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              )}
-            </div>
-          </section>
+          <FileTable
+            subfolders={subfolders}
+            files={files}
+            onFolderClick={handleFolderClick}
+            onFileDownload={handleDownload}
+            onFolderDownload={handleDownloadFolder}
+            onDelete={(item, type) => {
+              handleDelete(item, type, function () {
+                loadFolderContents();
+                window.dispatchEvent(new Event("refreshDashboard"));
+              });
+            }}
+            onContextMenu={handleContextMenu}
+            onUploadClick={handleUploadClick}
+          />
 
-          {/* Folder Contents Table */}
-          <section className={styles.folderContents}>
-            <p className={styles.fileCount}>
-              //Folder contents ({subfolders.length + files.length}{" "}
-              {subfolders.length + files.length === 1 ? "item" : "items"})
-            </p>
-            <div className={styles.fileTable}>
-              <div className={styles.tableHeader}>
-                <div className={styles.tableHeaderCell}>Name</div>
-                <div className={styles.tableHeaderCell}>Size</div>
-                <div className={styles.tableHeaderCell}>Modified</div>
-                <div className={styles.tableHeaderCell}>Actions</div>
-              </div>
-
-              {subfolders.map((subfolder) => (
-                <div
-                  key={subfolder.id}
-                  className={styles.tableRow}
-                  onClick={() => handleFolderClick(subfolder.id)}
-                  onContextMenu={(e) => handleContextMenu(e, subfolder, "folder")}
-                >
-                  <div className={styles.tableCell}>
-                    <Image
-                      src="/folder-icon-white.svg"
-                      alt="Folder"
-                      width={20}
-                      height={20}
-                      className={styles.fileIcon}
-                    />
-                    {subfolder.name}
-                  </div>
-                  <div className={styles.tableCell}>—</div>
-                  <div className={styles.tableCell}>
-                    {subfolder.createdAt ? new Date(subfolder.createdAt).toLocaleDateString() : "—"}
-                  </div>
-                  <div className={styles.tableCell}>
-                    <button
-                      onClick={(e) => handleDownloadFolder(subfolder, e)}
-                      className={styles.actionButtonIcon}
-                      title="Download folder as ZIP"
-                    >
-                      📥
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(subfolder, "folder", function () {
-                          loadFolderContents();
-                          window.dispatchEvent(new Event("refreshDashboard"));
-                        });
-                      }}
-                      className={styles.actionButtonIcon}
-                      title="Delete folder"
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                </div>
-              ))}
-
-              {files.map((file) => {
-                const isAudio = file.mimeType?.startsWith("audio/");
-                const isImage = file.mimeType?.startsWith("image/");
-                return (
-                  <div
-                    key={file.id}
-                    className={styles.tableRow}
-                    onClick={() => {
-                      if (isAudio) {
-                        router.push(`/pages/audio-preview/${file.id}`);
-                      } else if (isImage) {
-                        router.push(`/pages/image-preview/${file.id}`);
-                      }
-                    }}
-                    onContextMenu={(e) => handleContextMenu(e, file, "file")}
-                    style={{ cursor: isAudio || isImage ? "pointer" : "default" }}
-                  >
-                    <div className={styles.tableCell}>
-                      <span className={styles.fileIcon}>{getFileIcon(file.mimeType)}</span>
-                      {file.name}
-                    </div>
-                    <div className={styles.tableCell}>{formatFileSize(file.size)}</div>
-                    <div className={styles.tableCell}>
-                      {file.createdAt ? new Date(file.createdAt).toLocaleDateString() : "—"}
-                    </div>
-                    <div className={styles.tableCell}>
-                      <button
-                        onClick={(e) => handleDownload(file, e)}
-                        className={styles.actionButtonIcon}
-                        title="Download file"
-                      >
-                        📥
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDelete(file, "file", function () {
-                            loadFolderContents();
-                            window.dispatchEvent(new Event("refreshDashboard"));
-                          });
-                        }}
-                        className={styles.actionButtonIcon}
-                        title="Delete file"
-                      >
-                        🗑️
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-
-              {subfolders.length === 0 && files.length === 0 && (
-                <div className={styles.emptyState}>
-                  <span className={styles.emptyIcon}>📂</span>
-                  <p>This folder is empty</p>
-                  <button className={styles.uploadButton} onClick={handleUploadClick}>
-                    Upload your first file
-                  </button>
-                </div>
-              )}
-            </div>
-          </section>
-
-          {contextMenu && (
-            <div
-              className={styles.contextMenu}
-              style={{ top: contextMenu.y, left: contextMenu.x }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {contextMenu.type === "file" && (
-                <>
-                  <button
-                    className={styles.contextMenuItem}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDownload(contextMenu.item, e);
-                      setContextMenu(null);
-                    }}
-                  >
-                    📥 Download
-                  </button>
-                  <button
-                    className={styles.contextMenuItem}
-                    onClick={() => {
-                      if (!contextMenu || !contextMenu.type) return;
-                      handleDelete(contextMenu.item, contextMenu.type, function () {
-                        loadFolderContents();
-                        window.dispatchEvent(new Event("refreshDashboard"));
-                      });
-                      setContextMenu(null);
-                    }}
-                  >
-                    🗑️ Delete
-                  </button>
-                </>
-              )}
-              {contextMenu.type === "folder" && (
-                <>
-                  <button
-                    className={styles.contextMenuItem}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDownloadFolder(contextMenu.item, e);
-                      setContextMenu(null);
-                    }}
-                  >
-                    📥 Download as ZIP
-                  </button>
-                  <button
-                    className={styles.contextMenuItem}
-                    onClick={() => {
-                      if (!contextMenu || !contextMenu.type) return;
-                      handleDelete(contextMenu.item, contextMenu.type, function () {
-                        loadFolderContents();
-                        window.dispatchEvent(new Event("refreshDashboard"));
-                      });
-                      setContextMenu(null);
-                    }}
-                  >
-                    🗑️ Delete
-                  </button>
-                </>
-              )}
-            </div>
-          )}
+          <ContextMenu
+            contextMenu={contextMenu}
+            onDownloadFile={handleDownload}
+            onDownloadFolder={handleDownloadFolder}
+            onDelete={(item, type) => {
+              handleDelete(item, type, function () {
+                loadFolderContents();
+                window.dispatchEvent(new Event("refreshDashboard"));
+              });
+            }}
+            onClose={() => setContextMenu(null)}
+          />
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

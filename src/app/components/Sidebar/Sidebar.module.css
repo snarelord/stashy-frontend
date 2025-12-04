@@ -40,31 +40,41 @@
   text-decoration: none;
 }
 
-.collapseButton {
-  display: block;
-  position: fixed;
-  top: 18px;
-  left: 18px;
-  z-index: 1100;
-  background: rgba(77, 77, 77, 0.95);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 8px;
-  cursor: pointer;
-  transition: background 0.2s, border 0.2s;
-  box-shadow: 0 2px 8px #0002;
-}
-.collapseButton:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.4);
-}
-
 .signOutButton:hover {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.5);
 }
 
+.mobileCloseButton {
+  display: none;
+}
+
 @media (max-width: 700px) {
+  .mobileCloseButton {
+    display: block;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.2s ease;
+  }
+
+  .mobileCloseButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
   .sidebar {
     position: fixed;
     top: 0;
