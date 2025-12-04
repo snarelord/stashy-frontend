@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useContextMenu } from "../../hooks/useContextMenu";
 import { useFileOperations } from "../../hooks/useFileOperations";
 import { api } from "../../services/api";
+import toast from "react-hot-toast";
 import AudioIcon from "../Icons/AudioIcon/AudioIcon";
 import Image from "next/image";
 import ImageIcon from "../Icons/ImageIcon/ImageIcon";
@@ -99,7 +100,7 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
       await api.downloadFile(file.id);
     } catch (error) {
       console.error("Download failed:", error);
-      alert("Failed to download file");
+      toast.error("Failed to download file");
     }
   }
 
@@ -109,7 +110,7 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
       await api.downloadFolder(folder.id);
     } catch (error: any) {
       console.error("Folder download failed:", error);
-      alert(error.message || "Failed to download folder");
+      toast.error(error.message || "Failed to download folder");
     }
   }
 

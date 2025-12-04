@@ -12,6 +12,7 @@ import Footer from "@/app/components/Footer/Footer";
 import { useContextMenu } from "../../../hooks/useContextMenu";
 import { useFileOperations } from "../../../hooks/useFileOperations";
 import Spinner from "../../../components/Spinner/Spinner";
+import toast from "react-hot-toast";
 import FileTable from "@/app/components/FileTable/FileTable";
 import FolderHeader from "@/app/components/FolderHeader/FolderHeader";
 import ContextMenu from "@/app/components/ContextMenu/ContextMenu";
@@ -79,7 +80,7 @@ export default function FolderPage() {
           console.error("Error uploading: ", response);
         }
       }
-      alert(`Successfully uploaded ${files.length} file(s)!`);
+      toast.success(`Successfully uploaded ${files.length} file(s)!`);
 
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
@@ -89,7 +90,7 @@ export default function FolderPage() {
       window.dispatchEvent(new Event("refreshDashboard"));
     } catch (err) {
       console.error("Failed to upload files:", err);
-      alert("Failed to upload files. Please try again.");
+      toast.error("Failed to upload files. Please try again.");
     } finally {
       setUploading(false);
     }
@@ -113,7 +114,7 @@ export default function FolderPage() {
       await api.downloadFile(file.id);
     } catch (error) {
       console.error("Download failed:", error);
-      alert("Failed to download file");
+      toast.error("Failed to download file");
     }
   }
 
@@ -123,7 +124,7 @@ export default function FolderPage() {
       await api.downloadFolder(folder.id);
     } catch (error: any) {
       console.error("Folder download failed:", error);
-      alert(error.message || "Failed to download folder");
+      toast.error(error.message || "Failed to download folder");
     }
   }
 

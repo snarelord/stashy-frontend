@@ -26,7 +26,6 @@ export default function DashboardHeader({ collapsed, onToggleSidebar }: Dashboar
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            style={{ transform: "rotate(180deg)" }}
           >
             <polyline points="9 18 15 12 9 6" />
           </svg>
@@ -40,6 +39,7 @@ export default function DashboardHeader({ collapsed, onToggleSidebar }: Dashboar
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
+            style={{ transform: "rotate(180deg)" }}
           >
             <polyline points="9 18 15 12 9 6" />
           </svg>
