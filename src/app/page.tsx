@@ -13,17 +13,17 @@ export default function Home() {
   const router = useRouter();
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  useEffect(() => {
-    gsap.to("#vector1", { x: -40, duration: 6, repeat: -1, yoyo: true, ease: "power1.inOut" });
-    gsap.to("#vector2", { x: -50, duration: 8, repeat: -1, yoyo: true, ease: "power1.inOut" });
-    gsap.to("#vector3", { x: -60, duration: 10, repeat: -1, yoyo: true, ease: "power1.inOut" });
-    gsap.to("#vector4", { x: 50, y: 10, duration: 12, repeat: -1, yoyo: true, ease: "power1.inOut" });
-    gsap.to("#vector5", { y: 20, duration: 9, repeat: -1, yoyo: true, ease: "power1.inOut" });
-    gsap.to("#vector6", { y: 35, duration: 7, repeat: -1, yoyo: true, ease: "power1.inOut" });
-    gsap.to("#vector7", { x: 25, duration: 11, repeat: -1, yoyo: true, ease: "power1.inOut" });
-    gsap.to("#vector8", { y: -55, duration: 13, repeat: -1, yoyo: true, ease: "power1.inOut" });
-    gsap.to("#vector9", { x: 55, duration: 13, repeat: -1, yoyo: true, ease: "power1.inOut" });
-  }, []);
+  // useEffect(() => {
+  //   gsap.to("#vector1", { x: -40, duration: 6, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  //   gsap.to("#vector2", { x: -50, duration: 8, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  //   gsap.to("#vector3", { x: -60, duration: 10, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  //   gsap.to("#vector4", { x: 50, y: 10, duration: 12, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  //   gsap.to("#vector5", { y: 20, duration: 9, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  //   gsap.to("#vector6", { y: 35, duration: 7, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  //   gsap.to("#vector7", { x: 25, duration: 11, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  //   gsap.to("#vector8", { y: -55, duration: 13, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  //   gsap.to("#vector9", { x: 55, duration: 13, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  // }, []);
 
   const handleGetStarted = () => {
     router.push("pages/sign-in");
@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <img src="/landing-page-vectors/VectorBG.svg" className={styles.bgVectorBG} alt="" aria-hidden="true" />
-      <img
+      {/*<img
         src="/landing-page-vectors/Vector2.svg"
         id="vector1"
         className={`${styles.bgVector2} ${styles.fadeInBg} ${imageLoaded ? styles.visible : ""}`}
@@ -98,7 +98,7 @@ export default function Home() {
         className={`${styles.bgVector5} ${styles.fadeInBg} ${imageLoaded ? styles.visible : ""}`}
         alt=""
         aria-hidden="true"
-      />
+      /> */}
       <div className={`${styles.main} ${imageLoaded ? styles.visible : ""}`}>
         <div className={styles.imageContainer}>
           <Image
@@ -119,7 +119,6 @@ export default function Home() {
           <Button text="Learn More" colourScheme="black" disabled={false} onClick={learnMore} />
         </div>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }
