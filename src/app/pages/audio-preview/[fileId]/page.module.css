@@ -181,7 +181,8 @@
 }
 
 .fileDetails {
-  font-size: 10px;
+  font-size: 12px;
+  padding-top: 6px;
   color: rgba(255, 255, 255, 0.5);
   margin: 0;
   font-weight: 500;
