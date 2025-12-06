@@ -219,7 +219,7 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
   }, [isPlaying, analyser, isMobile]);
 
   return (
-    <div className={styles.visualiserContainer}>
+    <div id="visualiser" className={styles.visualiserContainer}>
       <canvas ref={canvasRef} className={styles.visualiser} />
       <canvas ref={mirroredCanvasRef} className={styles.mirrored} />
     </div>
