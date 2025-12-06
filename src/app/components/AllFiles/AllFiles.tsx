@@ -48,7 +48,6 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete } = useFileOperations();
 
-  // Use parent's context menu handler if provided, otherwise use own
   const contextMenuHandler = onContextMenuProp || handleContextMenu;
 
   function isAudioFile(mimeType: string): boolean {
@@ -79,14 +78,16 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
   useEffect(function () {
     loadUserFiles();
 
-    const handleFocus = function () {
+    const handleRefresh = function () {
       loadUserFiles();
     };
 
-    window.addEventListener("focus", handleFocus);
+    window.addEventListener("focus", handleRefresh);
+    window.addEventListener("refreshDashboard", handleRefresh);
 
     return function () {
-      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("focus", handleRefresh);
+      window.removeEventListener("refreshDashboard", handleRefresh);
     };
   }, []);
 
