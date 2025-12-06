@@ -58,6 +58,10 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
     return mimeType?.startsWith("image/");
   }
 
+  function isVideoFile(mimeType: string): boolean {
+    return mimeType?.startsWith("video/");
+  }
+
   async function loadUserFiles() {
     try {
       const foldersResponse = await api.getFolders();
@@ -173,10 +177,17 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
                 router.push(`/pages/audio-preview/${file.id}`);
               } else if (isImageFile(file.mimeType)) {
                 router.push(`/pages/image-preview/${file.id}`);
+              } else if (isVideoFile(file.mimeType)) {
+                router.push(`/pages/video-preview/${file.id}`);
               }
             }}
             onContextMenu={(e) => contextMenuHandler(e, file, "file")}
-            style={{ cursor: isAudioFile(file.mimeType) || isImageFile(file.mimeType) ? "pointer" : "default" }}
+            style={{
+              cursor:
+                isAudioFile(file.mimeType) || isImageFile(file.mimeType) || isVideoFile(file.mimeType)
+                  ? "pointer"
+                  : "default",
+            }}
           >
             <div className={styles.tableCell}>
               {getFileIconComponent(file)}
@@ -199,6 +210,7 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
                 }}
                 className={styles.actionButton}
                 title="Delete file"
+                name="delete-button"
               >
                 🗑️
               </button>
