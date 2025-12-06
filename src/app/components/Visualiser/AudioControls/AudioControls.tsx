@@ -56,7 +56,7 @@ export default function AudioControls({
   };
 
   return (
-    <div className={styles.audioControls}>
+    <div id="audio-controls" className={styles.audioControls}>
       {(showProgressBar || isMobile) && (
         <div className={styles.progressBarContainer}>
           <input
@@ -74,7 +74,12 @@ export default function AudioControls({
 
       <div className={styles.controlsRow}>
         <div className={styles.playbackControls}>
-          <button className={styles.playPauseButton} onClick={onPlayPause} disabled={!hasAudio}>
+          <button
+            name="play-pause-button"
+            className={styles.playPauseButton}
+            onClick={onPlayPause}
+            disabled={!hasAudio}
+          >
             {isPlaying ? <Pause size={24} /> : <Play size={24} />}
           </button>
 

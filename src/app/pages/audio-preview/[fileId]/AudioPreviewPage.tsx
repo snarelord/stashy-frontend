@@ -221,7 +221,12 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
           <p className={styles.fileDetails}>{(file.size / 1024 / 1024).toFixed(2)} MB</p>
         </div>
         <div className={styles.headerActions}>
-          <button onClick={() => setShowWaveform((prev) => !prev)} className={styles.toggleButton} type="button">
+          <button
+            name="flip"
+            onClick={() => setShowWaveform((prev) => !prev)}
+            className={styles.toggleButton}
+            type="button"
+          >
             {showWaveform ? "Show Visualiser" : "Show Waveform"}
           </button>
 
