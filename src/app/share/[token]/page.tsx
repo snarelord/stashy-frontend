@@ -9,6 +9,8 @@ import WaveformDisplay from "../../components/WaveformDisplay/WaveformDisplay";
 import toast from "react-hot-toast";
 import { shareService } from "../../services/shares";
 import PublicFilePreview from "@/app/components/PublicFilePreview/PublicFilePreview";
+import DownloadProgress from "@/app/components/DownloadProgress/DownloadProgress";
+import { useDownloadWithProgress } from "../../hooks/useDownloadWithProgress";
 
 export default function SharedAudioPage() {
   const params = useParams();
@@ -26,6 +28,7 @@ export default function SharedAudioPage() {
   const [isMobile, setIsMobile] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
+  const { downloadState, downloadWithProgress, closeDownload } = useDownloadWithProgress();
 
   useEffect(() => {
     function checkMobile() {
@@ -124,7 +127,8 @@ export default function SharedAudioPage() {
 
   async function handleDownload() {
     try {
-      await shareService.downloadShared(token);
+      const downloadUrl = `${process.env.NEXT_PUBLIC_API_URL}/shares/download/${token}`;
+      await downloadWithProgress(downloadUrl, file.name);
     } catch (error) {
       console.error("Download failed:", error);
       toast.error("Failed to download file");
@@ -161,12 +165,10 @@ export default function SharedAudioPage() {
     );
   }
 
-  // Handle non-audio files or folders
   if (content.type !== "file" || !content.file.mimeType.startsWith("audio/")) {
     return <PublicFilePreview />;
   }
 
-  // Audio file preview
   const file = content.file;
 
   return (
@@ -230,141 +232,13 @@ export default function SharedAudioPage() {
         crossOrigin="anonymous"
         preload="metadata"
       />
+
+      <DownloadProgress
+        fileName={downloadState.fileName}
+        progress={downloadState.progress}
+        isVisible={downloadState.isDownloading}
+        onClose={closeDownload}
+      />
     </div>
   );
 }
-
-// "use client";
-
-// import { useEffect, useState } from "react";
-// import { useParams } from "next/navigation";
-// import { shareService } from "../../services/shares";
-// import styles from "./page.module.css";
-// import Spinner from "../../components/Spinner/Spinner";
-
-// export default function SharedPage() {
-//   const params = useParams();
-//   const token = params.token as string;
-
-//   const [content, setContent] = useState<any>(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState<string | null>(null);
-
-//   useEffect(() => {
-//     if (token) {
-//       loadSharedContent();
-//     }
-//   }, [token]);
-
-//   async function loadSharedContent() {
-//     try {
-//       setLoading(true);
-//       const data = await shareService.accessShared(token);
-//       setContent(data);
-//     } catch (error: any) {
-//       setError(error.message || "Failed to load shared content");
-//     } finally {
-//       setLoading(false);
-//     }
-//   }
-
-//   async function handleDownload() {
-//     try {
-//       await shareService.downloadShared(token);
-//     } catch (error) {
-//       console.error("Download failed:", error);
-//       alert("Failed to download file");
-//     }
-//   }
-
-//   if (loading) {
-//     return (
-//       <div className={styles.container}>
-//         <Spinner />
-//       </div>
-//     );
-//   }
-
-//   if (error) {
-//     return (
-//       <div className={styles.container}>
-//         <div className={styles.error}>
-//           <h1>❌ Error</h1>
-//           <p>{error}</p>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   if (!content) {
-//     return (
-//       <div className={styles.container}>
-//         <div className={styles.error}>
-//           <h1>Not Found</h1>
-//           <p>This share link does not exist or has expired.</p>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className={styles.container}>
-//       <div className={styles.card}>
-//         <div className={styles.header}>
-//           <h1>
-//             {content.type === "file" ? "📄" : "📁"} Shared {content.type === "file" ? "File" : "Folder"}
-//           </h1>
-//         </div>
-
-//         <div className={styles.expiryInfo}>
-//           <p>⏰ {content.expiresAtFormatted}</p>
-//           <p>{content.remainingTime}</p>
-//         </div>
-
-//         {content.type === "file" && content.file && (
-//           <div className={styles.fileInfo}>
-//             <h2>{content.file.name}</h2>
-//             <p className={styles.fileSize}>Size: {(content.file.size / 1024 / 1024).toFixed(2)} MB</p>
-//             <p className={styles.mimeType}>Type: {content.file.mimeType}</p>
-//             <button className={styles.downloadBtn} onClick={handleDownload}>
-//               ⬇️ Download File
-//             </button>
-//           </div>
-//         )}
-
-//         {content.type === "folder" && content.folder && (
-//           <div className={styles.folderContent}>
-//             <h2>{content.folder.name}</h2>
-//             <p className={styles.folderStats}>
-//               📊 {content.folder.fileCount} files, {content.folder.folderCount} folders
-//             </p>
-
-//             {content.files && content.files.length > 0 && (
-//               <div className={styles.section}>
-//                 <h3>Files:</h3>
-//                 <ul className={styles.fileList}>
-//                   {content.files.map((file: any) => (
-//                     <li key={file.id}>
-//                       📄 {file.name} - {(file.size / 1024).toFixed(2)} KB
-//                     </li>
-//                   ))}
-//                 </ul>
-//               </div>
-//             )}
-
-//             {content.folders && content.folders.length > 0 && (
-//               <div className={styles.section}>
-//                 <h3>Folders:</h3>
-//                 <ul className={styles.folderList}>
-//                   {content.folders.map((folder: any) => (
-//                     <li key={folder.id}>📁 {folder.name}</li>
-//                   ))}
-//                 </ul>
-//               </div>
-//             )}
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
