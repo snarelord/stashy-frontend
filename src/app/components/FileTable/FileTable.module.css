@@ -98,6 +98,26 @@
 
 .actionButtonIcon:hover {
   opacity: 1;
+}
+
+.quickShareButton {
+  padding: 0.5rem;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.quickShareButton:hover:not(:disabled) {
+  background: #667eea;
+  transform: scale(1.1);
+}
+
+.quickShareButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
   background: rgba(168, 85, 247, 0.1);
   transform: scale(1.1);
 }

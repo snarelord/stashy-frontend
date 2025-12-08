@@ -17,6 +17,8 @@ import FileTable from "@/app/components/FileTable/FileTable";
 import FolderHeader from "@/app/components/FolderHeader/FolderHeader";
 import ContextMenu from "@/app/components/ContextMenu/ContextMenu";
 import ShareModal from "../../../components/ShareModal/ShareModal";
+import RenameModal from "../../../components/RenameModal/RenameModal";
+import { useRename } from "../../../hooks/useRename";
 
 interface Breadcrumb {
   id: string;
@@ -38,6 +40,7 @@ export default function FolderPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete, handleCreateFolder } = useFileOperations();
+  const { renaming, startRename, cancelRename, updateNewName, confirmRename } = useRename();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [shareModal, setShareModal] = useState<{
     isOpen: boolean;
@@ -57,10 +60,6 @@ export default function FolderPage() {
   );
 
   function handleShare(item: any, type: "file" | "folder") {
-    console.log("🔍 handleShare called with:", { item, type });
-    console.log("🔍 Item ID:", item?.id);
-    console.log("🔍 Item name:", item?.original_name || item?.name);
-
     if (type === "file") {
       const newState = {
         isOpen: true,
@@ -78,6 +77,10 @@ export default function FolderPage() {
       console.log("🔍 Setting folder share state:", newState);
       setShareModal(newState);
     }
+  }
+
+  function closeShareModal() {
+    setShareModal({ isOpen: false });
   }
 
   async function loadFolderContents() {
@@ -164,6 +167,10 @@ export default function FolderPage() {
     }
   }
 
+  function handleRename(item: any, type: "file" | "folder") {
+    startRename(item, type);
+  }
+
   function formatFileSize(bytes: number): string {
     if (!bytes) return "—";
     if (bytes < 1024) return bytes + " B";
@@ -234,11 +241,9 @@ export default function FolderPage() {
             onFolderClick={handleFolderClick}
             onFileDownload={handleDownload}
             onFolderDownload={handleDownloadFolder}
-            onDelete={(item, type) => {
-              handleDelete(item, type, function () {
-                loadFolderContents();
-                window.dispatchEvent(new Event("refreshDashboard"));
-              });
+            onRefresh={() => {
+              loadFolderContents();
+              window.dispatchEvent(new Event("refreshDashboard"));
             }}
             onContextMenu={handleContextMenu}
             onUploadClick={handleUploadClick}
@@ -249,6 +254,7 @@ export default function FolderPage() {
             onDownloadFile={handleDownload}
             onDownloadFolder={handleDownloadFolder}
             onShare={handleShare}
+            onRename={handleRename}
             onDelete={(item, type) => {
               handleDelete(item, type, function () {
                 loadFolderContents();
@@ -256,6 +262,30 @@ export default function FolderPage() {
               });
             }}
             onClose={() => setContextMenu(null)}
+          />
+
+          <ShareModal
+            isOpen={shareModal.isOpen}
+            onClose={closeShareModal}
+            fileId={shareModal.fileId}
+            folderId={shareModal.folderId}
+            fileName={shareModal.fileName}
+            folderName={shareModal.folderName}
+          />
+
+          <RenameModal
+            isOpen={!!renaming}
+            itemName={renaming?.item?.original_name || renaming?.item?.name || ""}
+            itemType={renaming?.type || "file"}
+            newName={renaming?.newName || ""}
+            onNameChange={updateNewName}
+            onConfirm={() =>
+              confirmRename(() => {
+                loadFolderContents();
+                window.dispatchEvent(new Event("refreshDashboard"));
+              })
+            }
+            onCancel={cancelRename}
           />
         </div>
       </div>
