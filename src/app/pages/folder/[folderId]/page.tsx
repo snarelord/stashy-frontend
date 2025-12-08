@@ -146,6 +146,7 @@ export default function FolderPage() {
     e.stopPropagation();
     try {
       await api.downloadFile(file.id);
+      toast.success("Download started!");
     } catch (error) {
       console.error("Download failed:", error);
       toast.error("Failed to download file");
@@ -156,6 +157,7 @@ export default function FolderPage() {
     e.stopPropagation();
     try {
       await api.downloadFolder(folder.id);
+      toast.success("Download started!");
     } catch (error: any) {
       console.error("Folder download failed:", error);
       toast.error(error.message || "Failed to download folder");

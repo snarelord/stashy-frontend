@@ -227,24 +227,6 @@ export default function PublicFilePreview() {
           </div>
         )}
       </div>
-
-      {/* Simple download status - browser will show native progress */}
-      {downloadState.isDownloading && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: "2rem",
-            right: "2rem",
-            background: "white",
-            padding: "1rem",
-            borderRadius: "8px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-            zIndex: 9999,
-          }}
-        >
-          ⏳ Preparing download...
-        </div>
-      )}
     </div>
   );
 }

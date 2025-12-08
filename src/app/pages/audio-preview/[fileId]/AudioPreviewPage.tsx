@@ -178,6 +178,7 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
   async function handleDownload() {
     try {
       await api.downloadFile(fileId);
+      toast.success("Download started!");
     } catch (error) {
       console.error("Download failed:", error);
       toast.error("Failed to download file");

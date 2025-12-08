@@ -8,7 +8,6 @@ import { api } from "../../services/api";
 import toast from "react-hot-toast";
 import AudioIcon from "../Icons/AudioIcon/AudioIcon";
 import Image from "next/image";
-import ImageIcon from "../Icons/ImageIcon/ImageIcon";
 import VideoIcon from "../Icons/VideoIcon/VideoIcon";
 import FileIcon from "../Icons/FileIcon/FileIcon";
 import CreateFolderButton from "../ActionButtons/CreateFolder/CreateFolderButton";
@@ -105,6 +104,7 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
     e.stopPropagation();
     try {
       await api.downloadFile(file.id);
+      toast.success("Download started!");
     } catch (error) {
       console.error("Download failed:", error);
       toast.error("Failed to download file");
@@ -115,6 +115,7 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
     e.stopPropagation();
     try {
       await api.downloadFolder(folder.id);
+      toast.success("Download started!");
     } catch (error: any) {
       console.error("Folder download failed:", error);
       toast.error(error.message || "Failed to download folder");
