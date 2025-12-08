@@ -85,7 +85,7 @@ export default function PublicFilePreview() {
 
   async function handleDownloadFile(fileId: string, fileName: string) {
     try {
-      const downloadUrl = `${process.env.NEXT_PUBLIC_API_URL}/files/download/${fileId}`;
+      const downloadUrl = `${process.env.NEXT_PUBLIC_API_URL}/shares/download-folder/${token}/file/${fileId}`;
       const response = await fetch(downloadUrl);
 
       if (!response.ok) {
