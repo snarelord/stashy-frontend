@@ -9,8 +9,7 @@ import WaveformDisplay from "../../components/WaveformDisplay/WaveformDisplay";
 import toast from "react-hot-toast";
 import { shareService } from "../../services/shares";
 import PublicFilePreview from "@/app/components/PublicFilePreview/PublicFilePreview";
-import DownloadProgress from "@/app/components/DownloadProgress/DownloadProgress";
-import { useDownloadWithProgress } from "../../hooks/useDownloadWithProgress";
+import { useNativeDownload } from "../../hooks/useNativeDownload";
 
 export default function SharedAudioPage() {
   const params = useParams();
@@ -28,7 +27,7 @@ export default function SharedAudioPage() {
   const [isMobile, setIsMobile] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
-  const { downloadState, downloadWithProgress, closeDownload } = useDownloadWithProgress();
+  const { downloadState, downloadFile } = useNativeDownload();
 
   useEffect(() => {
     function checkMobile() {
@@ -125,10 +124,11 @@ export default function SharedAudioPage() {
     }
   }
 
-  async function handleDownload() {
+  function handleDownload() {
     try {
       const downloadUrl = `${process.env.NEXT_PUBLIC_API_URL}/shares/download/${token}`;
-      await downloadWithProgress(downloadUrl, file.name);
+      downloadFile(downloadUrl, file.name);
+      toast.success("Download started!");
     } catch (error) {
       console.error("Download failed:", error);
       toast.error("Failed to download file");
@@ -233,12 +233,23 @@ export default function SharedAudioPage() {
         preload="metadata"
       />
 
-      <DownloadProgress
-        fileName={downloadState.fileName}
-        progress={downloadState.progress}
-        isVisible={downloadState.isDownloading}
-        onClose={closeDownload}
-      />
+      {/* Simple download status - browser will show native progress */}
+      {downloadState.isDownloading && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "2rem",
+            right: "2rem",
+            background: "white",
+            padding: "1rem",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+            zIndex: 9999,
+          }}
+        >
+          ⏳ Preparing download...
+        </div>
+      )}
     </div>
   );
 }
