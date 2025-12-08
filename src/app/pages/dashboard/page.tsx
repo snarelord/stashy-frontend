@@ -16,6 +16,8 @@ import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
 import RecentFolders from "../../components/RecentFolders/RecentFolders";
 import ContextMenu from "../../components/ContextMenu/ContextMenu";
 import ShareModal from "../../components/ShareModal/ShareModal";
+import RenameModal from "../../components/RenameModal/RenameModal";
+import { useRename } from "../../hooks/useRename";
 
 export default function DashboardPage() {
   const { loading: authLoading, authenticated } = useAuthRedirect();
@@ -24,9 +26,9 @@ export default function DashboardPage() {
   const [folders, setFolders] = useState<any[]>([]);
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete } = useFileOperations();
+  const { renaming, startRename, cancelRename, updateNewName, confirmRename } = useRename();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  // Share modal state
   const [shareModal, setShareModal] = useState<{
     isOpen: boolean;
     fileId?: string;
@@ -38,10 +40,6 @@ export default function DashboardPage() {
   });
 
   function handleShare(item: any, type: "file" | "folder") {
-    console.log("🔍 handleShare called with:", { item, type });
-    console.log("🔍 Item ID:", item?.id);
-    console.log("🔍 Item name:", item?.original_name || item?.name);
-
     if (type === "file") {
       const newState = {
         isOpen: true,
@@ -62,7 +60,6 @@ export default function DashboardPage() {
   }
 
   function closeShareModal() {
-    console.log("🔍 Closing share modal");
     setShareModal({ isOpen: false });
   }
 
@@ -117,6 +114,10 @@ export default function DashboardPage() {
     }
   }
 
+  function handleRename(item: any, type: "file" | "folder") {
+    startRename(item, type);
+  }
+
   if (authLoading) {
     return <Spinner />;
   }
@@ -169,6 +170,7 @@ export default function DashboardPage() {
             onDownloadFile={handleDownload}
             onDownloadFolder={handleDownloadFolder}
             onShare={handleShare}
+            onRename={handleRename}
             onDelete={(item, type) => {
               handleDelete(item, type, function () {
                 loadUserFiles();
@@ -176,6 +178,21 @@ export default function DashboardPage() {
               });
             }}
             onClose={() => setContextMenu(null)}
+          />
+
+          <RenameModal
+            isOpen={!!renaming}
+            itemName={renaming?.item?.original_name || renaming?.item?.name || ""}
+            itemType={renaming?.type || "file"}
+            newName={renaming?.newName || ""}
+            onNameChange={updateNewName}
+            onConfirm={() =>
+              confirmRename(() => {
+                loadUserFiles();
+                window.dispatchEvent(new Event("refreshDashboard"));
+              })
+            }
+            onCancel={cancelRename}
           />
         </div>
       </div>

@@ -275,6 +275,27 @@ export const api = {
     }
   },
 
+  renameFile: async function (fileId: string, newName: string) {
+    try {
+      const response = await fetch(`${apiUrl}/files/${fileId}/rename`, {
+        method: "PATCH",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ newName }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to rename file");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Failed to rename file: ", error);
+      throw error;
+    }
+  },
+
   // folder ops
   createFolder: async function (name: string, parentId?: string) {
     try {
