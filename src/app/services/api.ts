@@ -351,4 +351,162 @@ export const api = {
       throw error;
     }
   },
+
+  // share ops
+  createFileShare: async function (fileId: string, expiresIn: number | null) {
+    try {
+      const response = await fetch(`${apiUrl}/shares/file`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ fileId, expiresIn }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to create share link");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Failed to create file share: ", error);
+      throw error;
+    }
+  },
+
+  createFolderShare: async function (folderId: string, expiresIn: number | null) {
+    try {
+      const response = await fetch(`${apiUrl}/shares/folder`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ folderId, expiresIn }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to create share link");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Failed to create folder share: ", error);
+      throw error;
+    }
+  },
+
+  listShares: async function () {
+    try {
+      const response = await fetch(`${apiUrl}/shares`, {
+        headers: getAuthHeaders(),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to list shares");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Failed to list shares: ", error);
+      throw error;
+    }
+  },
+
+  disableShare: async function (shareId: string) {
+    try {
+      const response = await fetch(`${apiUrl}/shares/${shareId}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to disable share link");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Failed to disable share: ", error);
+      throw error;
+    }
+  },
+
+  accessShared: async function (token: string) {
+    try {
+      const response = await fetch(`${apiUrl}/shares/access/${token}`, {
+        headers: defaultHeaders, // No auth needed - public endpoint
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to access shared content");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Failed to access shared content: ", error);
+      throw error;
+    }
+  },
+
+  downloadShared: async function (token: string) {
+    try {
+      const response = await fetch(`${apiUrl}/shares/download/${token}`, {
+        headers: defaultHeaders, // No auth needed - public endpoint
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to download shared file");
+      }
+
+      const blob = await response.blob();
+      const contentDisposition = response.headers.get("Content-Disposition");
+      let filename = "download";
+
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+        if (filenameMatch) {
+          filename = filenameMatch[1];
+        }
+      }
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      return { success: true, filename };
+    } catch (error) {
+      console.error("Failed to download shared file: ", error);
+      throw error;
+    }
+  },
+
+  getSharePresets: async function () {
+    try {
+      const response = await fetch(`${apiUrl}/shares/presets`, {
+        headers: defaultHeaders, // No auth needed
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to get share presets");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Failed to get share presets: ", error);
+      throw error;
+    }
+  },
 };

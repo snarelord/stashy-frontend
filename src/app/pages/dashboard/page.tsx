@@ -15,6 +15,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
 import RecentFolders from "../../components/RecentFolders/RecentFolders";
 import ContextMenu from "../../components/ContextMenu/ContextMenu";
+import ShareModal from "../../components/ShareModal/ShareModal";
 
 export default function DashboardPage() {
   const { loading: authLoading, authenticated } = useAuthRedirect();
@@ -24,6 +25,46 @@ export default function DashboardPage() {
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete } = useFileOperations();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  // Share modal state
+  const [shareModal, setShareModal] = useState<{
+    isOpen: boolean;
+    fileId?: string;
+    folderId?: string;
+    fileName?: string;
+    folderName?: string;
+  }>({
+    isOpen: false,
+  });
+
+  function handleShare(item: any, type: "file" | "folder") {
+    console.log("🔍 handleShare called with:", { item, type });
+    console.log("🔍 Item ID:", item?.id);
+    console.log("🔍 Item name:", item?.original_name || item?.name);
+
+    if (type === "file") {
+      const newState = {
+        isOpen: true,
+        fileId: item.id,
+        fileName: item.original_name,
+      };
+      console.log("🔍 Setting file share state:", newState);
+      setShareModal(newState);
+    } else {
+      const newState = {
+        isOpen: true,
+        folderId: item.id,
+        folderName: item.name,
+      };
+      console.log("🔍 Setting folder share state:", newState);
+      setShareModal(newState);
+    }
+  }
+
+  function closeShareModal() {
+    console.log("🔍 Closing share modal");
+    setShareModal({ isOpen: false });
+  }
 
   async function loadUserFiles() {
     try {
@@ -114,10 +155,20 @@ export default function DashboardPage() {
           <RecentFolders onContextMenu={handleContextMenu} />
           <AllFiles onContextMenu={handleContextMenu} />
 
+          <ShareModal
+            isOpen={shareModal.isOpen}
+            onClose={closeShareModal}
+            fileId={shareModal.fileId}
+            folderId={shareModal.folderId}
+            fileName={shareModal.fileName}
+            folderName={shareModal.folderName}
+          />
+
           <ContextMenu
             contextMenu={contextMenu}
             onDownloadFile={handleDownload}
             onDownloadFolder={handleDownloadFolder}
+            onShare={handleShare}
             onDelete={(item, type) => {
               handleDelete(item, type, function () {
                 loadUserFiles();

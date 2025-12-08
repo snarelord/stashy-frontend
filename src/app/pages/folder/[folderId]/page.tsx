@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import FileTable from "@/app/components/FileTable/FileTable";
 import FolderHeader from "@/app/components/FolderHeader/FolderHeader";
 import ContextMenu from "@/app/components/ContextMenu/ContextMenu";
+import ShareModal from "../../../components/ShareModal/ShareModal";
 
 interface Breadcrumb {
   id: string;
@@ -38,6 +39,15 @@ export default function FolderPage() {
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete, handleCreateFolder } = useFileOperations();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [shareModal, setShareModal] = useState<{
+    isOpen: boolean;
+    fileId?: string;
+    folderId?: string;
+    fileName?: string;
+    folderName?: string;
+  }>({
+    isOpen: false,
+  });
 
   useEffect(
     function () {
@@ -45,6 +55,30 @@ export default function FolderPage() {
     },
     [folderId]
   );
+
+  function handleShare(item: any, type: "file" | "folder") {
+    console.log("🔍 handleShare called with:", { item, type });
+    console.log("🔍 Item ID:", item?.id);
+    console.log("🔍 Item name:", item?.original_name || item?.name);
+
+    if (type === "file") {
+      const newState = {
+        isOpen: true,
+        fileId: item.id,
+        fileName: item.original_name,
+      };
+      console.log("🔍 Setting file share state:", newState);
+      setShareModal(newState);
+    } else {
+      const newState = {
+        isOpen: true,
+        folderId: item.id,
+        folderName: item.name,
+      };
+      console.log("🔍 Setting folder share state:", newState);
+      setShareModal(newState);
+    }
+  }
 
   async function loadFolderContents() {
     if (!folderId) {
@@ -212,6 +246,7 @@ export default function FolderPage() {
             contextMenu={contextMenu}
             onDownloadFile={handleDownload}
             onDownloadFolder={handleDownloadFolder}
+            onShare={handleShare}
             onDelete={(item, type) => {
               handleDelete(item, type, function () {
                 loadFolderContents();

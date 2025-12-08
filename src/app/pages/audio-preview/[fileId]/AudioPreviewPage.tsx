@@ -11,6 +11,7 @@ import AudioControls from "@/app/components/Visualiser/AudioControls/AudioContro
 import Spinner from "@/app/components/Spinner/Spinner";
 import WaveformDisplay from "../../../components/WaveformDisplay/WaveformDisplay";
 import toast from "react-hot-toast";
+import { useQuickShare } from "../../../hooks/useQuickShare";
 
 interface AudioPreviewProps {
   fileId: string;
@@ -18,6 +19,7 @@ interface AudioPreviewProps {
 
 export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
   const { loading: authLoading, authenticated } = useAuthRedirect();
+  const { quickShareFile, loading: quickShareLoading } = useQuickShare();
   const router = useRouter();
   const [file, setFile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -232,6 +234,17 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
 
           <button onClick={handleDownload} className={styles.downloadButton}>
             Download
+          </button>
+          <button
+            className={styles.quickShareButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              quickShareFile(file.id, file.original_name);
+            }}
+            disabled={quickShareLoading}
+            title="Quick share (30 days)"
+          >
+            🔗
           </button>
         </div>
       </header>

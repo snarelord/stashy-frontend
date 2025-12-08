@@ -9,6 +9,7 @@ interface ContextMenuProps {
   } | null;
   onDownloadFile: (file: any, e: React.MouseEvent) => void;
   onDownloadFolder: (folder: any, e: React.MouseEvent) => void;
+  onShare: (item: any, type: "file" | "folder") => void;
   onDelete: (item: any, type: "file" | "folder") => void;
   onClose: () => void;
 }
@@ -17,6 +18,7 @@ export default function ContextMenu({
   contextMenu,
   onDownloadFile,
   onDownloadFolder,
+  onShare,
   onDelete,
   onClose,
 }: ContextMenuProps) {
@@ -28,6 +30,15 @@ export default function ContextMenu({
       style={{ top: contextMenu.y, left: contextMenu.x }}
       onClick={(e) => e.stopPropagation()}
     >
+      <button
+        className={styles.contextMenuItem}
+        onClick={() => {
+          onShare(contextMenu.item, contextMenu.type);
+          onClose();
+        }}
+      >
+        🔗 Share
+      </button>
       {contextMenu.type === "file" && (
         <>
           <button
