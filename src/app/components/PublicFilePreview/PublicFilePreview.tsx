@@ -114,7 +114,7 @@ export default function PublicFilePreview() {
     try {
       if (!content.folder) return;
 
-      const downloadUrl = `${process.env.NEXT_PUBLIC_API_URL}/folders/${content.folder.id}/download`;
+      const downloadUrl = `${process.env.NEXT_PUBLIC_API_URL}/shares/download-folder/${token}`;
       const response = await fetch(downloadUrl);
 
       if (!response.ok) {
