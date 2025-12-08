@@ -158,6 +158,8 @@ export const api = {
           filename = filenameMatch[1];
         }
       }
+
+      // use native browser download
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;

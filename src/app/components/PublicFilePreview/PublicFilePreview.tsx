@@ -10,8 +10,7 @@ import Image from "next/image";
 import FileIcon from "../Icons/FileIcon/FileIcon";
 import AudioIcon from "../Icons/AudioIcon/AudioIcon";
 import VideoIcon from "../Icons/VideoIcon/VideoIcon";
-import DownloadProgress from "../DownloadProgress/DownloadProgress";
-import { useDownloadWithProgress } from "../../hooks/useDownloadWithProgress";
+import { useNativeDownload } from "../../hooks/useNativeDownload";
 
 export default function PublicFilePreview() {
   const params = useParams();
@@ -22,7 +21,7 @@ export default function PublicFilePreview() {
   const [error, setError] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  const { downloadState, downloadWithProgress, closeDownload } = useDownloadWithProgress();
+  const { downloadState, downloadFile } = useNativeDownload();
 
   function getFileIconComponent(file: any) {
     if (file.type === "folder") {
@@ -77,31 +76,34 @@ export default function PublicFilePreview() {
     }
   }
 
-  async function handleDownload() {
+  function handleDownload() {
     try {
       const downloadUrl = `${process.env.NEXT_PUBLIC_API_URL}/shares/download/${token}`;
-      await downloadWithProgress(downloadUrl, content.file.name);
+      downloadFile(downloadUrl, content.file.name);
+      toast.success("Download started!");
     } catch (error) {
       console.error("Download failed:", error);
       toast.error("Failed to download file");
     }
   }
 
-  async function handleDownloadFile(fileId: string, fileName: string) {
+  function handleDownloadFile(fileId: string, fileName: string) {
     try {
       const downloadUrl = `${process.env.NEXT_PUBLIC_API_URL}/shares/download-folder/${token}/file/${fileId}`;
-      await downloadWithProgress(downloadUrl, fileName);
+      downloadFile(downloadUrl, fileName);
+      toast.success(`Download started: ${fileName}`);
     } catch (error) {
       console.error("Download failed:", error);
       toast.error(`Failed to download ${fileName}`);
     }
   }
 
-  async function handleDownloadFolder() {
+  function handleDownloadFolder() {
     try {
       if (!content.folder) return;
       const downloadUrl = `${process.env.NEXT_PUBLIC_API_URL}/shares/download-folder/${token}`;
-      await downloadWithProgress(downloadUrl, `${content.folder.name}.zip`);
+      downloadFile(downloadUrl, `${content.folder.name}.zip`);
+      toast.success("Download started!");
     } catch (error) {
       console.error("Folder download failed:", error);
       toast.error("Failed to download folder");
@@ -226,12 +228,23 @@ export default function PublicFilePreview() {
         )}
       </div>
 
-      <DownloadProgress
-        fileName={downloadState.fileName}
-        progress={downloadState.progress}
-        isVisible={downloadState.isDownloading}
-        onClose={closeDownload}
-      />
+      {/* Simple download status - browser will show native progress */}
+      {downloadState.isDownloading && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "2rem",
+            right: "2rem",
+            background: "white",
+            padding: "1rem",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+            zIndex: 9999,
+          }}
+        >
+          ⏳ Preparing download...
+        </div>
+      )}
     </div>
   );
 }
