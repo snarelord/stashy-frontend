@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useContextMenu } from "../../hooks/useContextMenu";
 import { useFileOperations } from "../../hooks/useFileOperations";
 import Spinner from "@/app/components/Spinner/Spinner";
+import ShareModal from "@/app/components/ShareModal/ShareModal";
 
 export default function AllFoldersPage() {
   const { loading: authLoading, authenticated } = useAuthRedirect();
@@ -21,6 +22,27 @@ export default function AllFoldersPage() {
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete, handleCreateFolder } = useFileOperations();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  // Share modal state
+  const [shareModal, setShareModal] = useState<{
+    isOpen: boolean;
+    folderId?: string;
+    folderName?: string;
+  }>({
+    isOpen: false,
+  });
+
+  function handleShareFolder(folder: any) {
+    setShareModal({
+      isOpen: true,
+      folderId: folder.id,
+      folderName: folder.name,
+    });
+  }
+
+  function closeShareModal() {
+    setShareModal({ isOpen: false });
+  }
 
   useEffect(function () {
     loadFolders();
@@ -188,6 +210,15 @@ export default function AllFoldersPage() {
               <button
                 className={styles.contextMenuItem}
                 onClick={() => {
+                  handleShareFolder(contextMenu.item);
+                  setContextMenu(null);
+                }}
+              >
+                🔗 Share
+              </button>
+              <button
+                className={styles.contextMenuItem}
+                onClick={() => {
                   if (!contextMenu.type) return;
                   handleDelete(contextMenu.item, contextMenu.type, function () {
                     loadFolders();
@@ -200,6 +231,13 @@ export default function AllFoldersPage() {
               </button>
             </div>
           )}
+
+          <ShareModal
+            isOpen={shareModal.isOpen}
+            onClose={closeShareModal}
+            folderId={shareModal.folderId}
+            folderName={shareModal.folderName}
+          />
         </div>
       </div>
     </div>

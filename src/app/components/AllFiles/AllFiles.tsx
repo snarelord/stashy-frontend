@@ -3,6 +3,7 @@ import styles from "./AllFiles.module.css";
 import { useRouter } from "next/navigation";
 import { useContextMenu } from "../../hooks/useContextMenu";
 import { useFileOperations } from "../../hooks/useFileOperations";
+import { useQuickShare } from "../../hooks/useQuickShare";
 import { api } from "../../services/api";
 import toast from "react-hot-toast";
 import AudioIcon from "../Icons/AudioIcon/AudioIcon";
@@ -47,6 +48,7 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
   const [folders, setFolders] = useState<any[]>([]);
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete } = useFileOperations();
+  const { quickShareFile, quickShareFolder, loading: quickShareLoading } = useQuickShare();
 
   const contextMenuHandler = onContextMenuProp || handleContextMenu;
 
@@ -122,7 +124,7 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
   return (
     <section className={styles.fileListSection}>
       <CreateFolderButton />
-      <p className={styles.fileCount}>//All files</p>
+      <p className={styles.fileCount}>// All files</p>
       <div className={styles.fileTable}>
         <div className={styles.tableHeader}>
           <div className={styles.tableHeaderCell}>File Name</div>
@@ -145,6 +147,17 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
               {folder.createdAt ? new Date(folder.createdAt).toLocaleDateString() : "—"}
             </div>
             <div className={styles.tableCell}>
+              <button
+                className={styles.quickShareButton}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  quickShareFolder(folder.id, folder.name);
+                }}
+                disabled={quickShareLoading}
+                title="Quick share (30 days)"
+              >
+                🔗
+              </button>
               <button
                 onClick={(e) => handleDownloadFolder(folder, e)}
                 className={styles.actionButton}
@@ -197,6 +210,18 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
               {file.createdAt ? new Date(file.createdAt).toLocaleDateString() : ""}
             </div>
             <div className={styles.tableCell}>
+              <button
+                className={styles.quickShareButton}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  quickShareFile(file.id, file.original_name);
+                }}
+                disabled={quickShareLoading}
+                title="Quick share (30 days)"
+              >
+                🔗
+              </button>
+
               <button onClick={(e) => handleDownload(file, e)} className={styles.actionButton} title="Download file">
                 📥
               </button>
