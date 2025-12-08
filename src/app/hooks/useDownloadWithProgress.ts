@@ -30,6 +30,8 @@ export function useDownloadWithProgress() {
       const contentLength = response.headers.get("content-length");
       const total = contentLength ? parseInt(contentLength, 10) : 0;
 
+      console.log("Download started:", { fileName, contentLength, total });
+
       if (!response.body) {
         throw new Error("Response body is empty");
       }
@@ -46,16 +48,33 @@ export function useDownloadWithProgress() {
         chunks.push(value);
         receivedLength += value.length;
 
+        let progress = 0;
         if (total > 0) {
-          const progress = (receivedLength / total) * 100;
+          progress = (receivedLength / total) * 100;
+        } else {
+          // ff no Content-Length, show indeterminate progress
+          progress = Math.min((receivedLength / 1024 / 1024) * 10, 90); // rough estimate based on MB received
+        }
+
+        setTimeout(() => {
           setDownloadState((prev) => ({
             ...prev,
-            progress,
+            progress: Math.round(progress),
           }));
+        }, 0);
+
+        if (chunks.length % 10 === 0) {
+          // every 10 chunks
+          await new Promise((resolve) => setTimeout(resolve, 10));
         }
       }
 
-      // Combine chunks into a single blob
+      console.log("Download complete, creating blob...", {
+        totalChunks: chunks.length,
+        totalBytes: receivedLength,
+      });
+
+      // combine chunks into a single blob
       const blob = new Blob(chunks);
       const blobUrl = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -67,10 +86,13 @@ export function useDownloadWithProgress() {
       window.URL.revokeObjectURL(blobUrl);
       document.body.removeChild(a);
 
-      setDownloadState((prev) => ({
-        ...prev,
-        progress: 100,
-      }));
+      // ensure final progress update is visible
+      setTimeout(() => {
+        setDownloadState((prev) => ({
+          ...prev,
+          progress: 100,
+        }));
+      }, 0);
 
       return true;
     } catch (error) {
