@@ -6,6 +6,7 @@ import Carousel from "../../components/AboutMe/Carousel/Carousel";
 import SocialLinks from "../../components/AboutMe/SocialLinks/SocialLinks";
 import SpotifyProfile from "../../components/AboutMe/SpotifyProfile/SpotifyProfile";
 import styles from "./page.module.css";
+import { preload } from "react-dom";
 
 export default function AboutMe() {
   const mediaItems = [
