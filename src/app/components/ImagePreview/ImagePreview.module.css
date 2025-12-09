@@ -3,7 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #2b2b2b;
+  background: #0a0a0f;
   color: white;
   overflow: hidden;
 }
@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: space-evenly;
   padding: 16px 24px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 10;
@@ -23,9 +23,9 @@
 .backButton {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
   color: rgba(255, 255, 255, 0.9);
   font-size: 20px;
   cursor: pointer;
@@ -33,6 +33,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #22d3ee;
+  color: #22d3ee;
+}
+
+.backButton:active {
+  transform: scale(0.95);
 }
 
 .fileInfo {
@@ -44,7 +55,11 @@
 .fileName {
   font-size: 1.25rem;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .fileDetails {
@@ -58,10 +73,10 @@
   min-width: 100px;
   height: 40px;
   padding: 0 20px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.13);
-  color: rgba(255, 255, 255, 0.92);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -69,17 +84,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(10px);
+  text-decoration: none;
 }
 
 .downloadButton:hover {
-  background: rgba(255, 255, 255, 0.18);
-  transform: scale(1.04);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #22d3ee;
+  color: #22d3ee;
+  transform: translateY(-1px);
 }
 
 .downloadButton:active {
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(0.97);
+  transform: scale(0.95);
 }
 
 .imageMain {
@@ -95,7 +112,8 @@
   max-width: 100%;
   max-height: 80vh;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .imagePreviewContainer {
@@ -104,11 +122,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 2rem;
 }
 
 .footer {
   width: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 10;

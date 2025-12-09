@@ -3,7 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #2b2b2b;
+  background: #0a0a0f;
   color: white;
   overflow: hidden;
 }
@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: space-evenly;
   padding: 16px 24px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 10;
@@ -23,9 +23,9 @@
 .backButton {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
   color: rgba(255, 255, 255, 0.9);
   font-size: 20px;
   cursor: pointer;
@@ -33,6 +33,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #22d3ee;
+  color: #22d3ee;
+}
+
+.backButton:active {
+  transform: scale(0.95);
 }
 
 .fileInfo {
@@ -44,7 +55,11 @@
 .fileName {
   font-size: 1.25rem;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .fileDetails {
@@ -58,10 +73,10 @@
   min-width: 100px;
   height: 40px;
   padding: 0 20px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.13);
-  color: rgba(255, 255, 255, 0.92);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -69,17 +84,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(10px);
+  text-decoration: none;
 }
 
 .downloadButton:hover {
-  background: rgba(255, 255, 255, 0.18);
-  transform: scale(1.04);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #22d3ee;
+  color: #22d3ee;
+  transform: translateY(-1px);
 }
 
 .downloadButton:active {
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(0.97);
+  transform: scale(0.95);
 }
 
 .videoMain {
@@ -95,7 +112,9 @@
   max-width: 100%;
   max-height: 80vh;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 
 .videoPreviewContainer {
@@ -104,11 +123,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 2rem;
 }
 
 .footer {
   width: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 10;
@@ -138,23 +158,41 @@
 
 .progressBar {
   width: 100%;
-  height: 4px;
+  height: 6px;
   -webkit-appearance: none;
   appearance: none;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
   outline: none;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .progressBar::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 14px;
-  background: white;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
   border-radius: 50%;
   cursor: pointer;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+  transition: all 0.2s ease;
+}
+
+.progressBar::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.7);
+}
+
+.progressBar::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
 }
 
 .controlsRow {
@@ -171,29 +209,37 @@
 }
 
 .playPauseButton {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
   color: white;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
 }
 
 .playPauseButton:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
+  box-shadow: 0 0 25px rgba(34, 211, 238, 0.6);
+  transform: scale(1.05);
+}
+
+.playPauseButton:active {
+  transform: scale(0.95);
 }
 
 .timeDisplay {
   display: flex;
   gap: 4px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
   min-width: 100px;
+  font-weight: 500;
 }
 
 .volumeControls {
@@ -203,25 +249,33 @@
 }
 
 .muteButton {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: none;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.muteButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #22d3ee;
+  color: #22d3ee;
 }
 
 .volumeSlider {
   width: 80px;
-  height: 4px;
+  height: 6px;
   -webkit-appearance: none;
   appearance: none;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
   outline: none;
   cursor: pointer;
 }
@@ -229,11 +283,22 @@
 .volumeSlider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 12px;
-  height: 12px;
-  background: white;
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
   border-radius: 50%;
   cursor: pointer;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+}
+
+.volumeSlider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
 }
 
 .rightControls {
@@ -243,41 +308,59 @@
 }
 
 .speedSelect {
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: none;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  padding: 8px 14px;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 14px;
   cursor: pointer;
   outline: none;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+  font-weight: 500;
 }
 
 .speedSelect:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #22d3ee;
+  color: #22d3ee;
+}
+
+.speedSelect option {
+  background: #1a1a1f;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .fullscreenButton {
   width: 36px;
   height: 36px;
-  border-radius: 6px;
-  border: none;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
 }
 
 .fullscreenButton:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #22d3ee;
+  color: #22d3ee;
+}
+
+.fullscreenButton:active {
+  transform: scale(0.95);
 }
 
 .previewVideo {
   max-width: 100%;
   max-height: 80vh;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   cursor: pointer;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
