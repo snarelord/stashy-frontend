@@ -44,3 +44,6 @@ next-env.d.ts
 stashy-front-and-back.code-workspace
 cypress.env.json
 cypress/downloads/
+
+# Sentry Config File
+.env.sentry-build-plugin
