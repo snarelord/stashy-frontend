@@ -112,6 +112,27 @@ export default function AllFoldersPage() {
 
   return (
     <div className={styles.pageContainer} style={{ marginLeft: sidebarCollapsed ? 0 : 280 }}>
+      {/* Background effects */}
+      <div className={styles.backgroundContainer}>
+        <div className={styles.backgroundGlow} />
+      </div>
+
+      {/* Particles */}
+      <div className={styles.particlesContainer}>
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className={styles.particle}
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`,
+            }}
+          />
+        ))}
+      </div>
+
       <div className={styles.pageWrapper}>
         <Sidebar
           showBackToDashboard={true}

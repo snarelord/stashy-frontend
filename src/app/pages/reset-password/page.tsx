@@ -5,9 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { jwtDecode } from "jwt-decode";
 import styles from "./page.module.css";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import Button from "../../components/Button/Button";
 import Link from "next/link";
 
 export default function ResetPasswordPageWrapper() {
@@ -64,7 +61,27 @@ function ResetPasswordPage() {
 
   return (
     <div className={styles.container}>
-      <Header />
+      {/* Background effects */}
+      <div className={styles.backgroundContainer}>
+        <div className={styles.redGlow} />
+      </div>
+
+      {/* Particles */}
+      <div className={styles.particlesContainer}>
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className={styles.particle}
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`,
+            }}
+          />
+        ))}
+      </div>
+
       <main className={styles.main}>
         <div className={styles.formContainer}>
           <h1 className={styles.title}>Reset Password</h1>
@@ -106,12 +123,9 @@ function ResetPasswordPage() {
                 />
               </div>
               {error && <p className={styles.errorText}>{error}</p>}
-              <Button
-                text={loading ? "Resetting..." : "Reset password"}
-                colourScheme="purple"
-                type="submit"
-                disabled={loading}
-              />
+              <button type="submit" className={styles.submitButton} disabled={loading}>
+                {loading ? "Resetting..." : "Reset password"}
+              </button>
               <div className={styles.links}>
                 <Link href="/pages/sign-up" className={styles.link}>
                   New user? Sign up here
@@ -121,7 +135,6 @@ function ResetPasswordPage() {
           )}
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
