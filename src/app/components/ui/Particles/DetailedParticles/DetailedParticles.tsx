@@ -178,6 +178,12 @@ export default function DetailedParticles() {
                   onClick={() => setParticleColour("#f59e0b")}
                   aria-label="Orange preset"
                 />
+                <button
+                  className={styles.colourPreset}
+                  style={{ background: "#fb6f92" }}
+                  onClick={() => setParticleColour("#fb6f92")}
+                  aria-label="Pink preset"
+                />
               </div>
             </div>
           )}
