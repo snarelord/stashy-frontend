@@ -6,6 +6,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import HamBurgerMenu from "./components/ui/HamburgerMenu/HamBurgerMenu";
+import StaticParticles from "./components/ui/Particles/StaticParticles";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
@@ -74,20 +75,7 @@ export default function Home() {
         </div>
       </main>
 
-      <div className={styles.particlesContainer}>
-        {[...Array(21)].map((_, i) => (
-          <div
-            key={i}
-            className={styles.particle}
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
-      </div>
+      <StaticParticles />
     </div>
   );
 }

@@ -12,6 +12,7 @@ import { useContextMenu } from "../../hooks/useContextMenu";
 import { useFileOperations } from "../../hooks/useFileOperations";
 import Spinner from "@/app/components/Spinner/Spinner";
 import ShareModal from "@/app/components/ShareModal/ShareModal";
+import StaticParticles from "@/app/components/ui/Particles/StaticParticles";
 
 export default function AllFoldersPage() {
   const { loading: authLoading, authenticated } = useAuthRedirect();
@@ -118,21 +119,7 @@ export default function AllFoldersPage() {
         <div className={styles.backgroundGlow} />
       </div>
 
-      {/* Particles */}
-      <div className={styles.particlesContainer}>
-        {[...Array(15)].map((_, i) => (
-          <div
-            key={i}
-            className={styles.particle}
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
-      </div>
+      <StaticParticles />
 
       <div className={styles.pageWrapper}>
         <Sidebar

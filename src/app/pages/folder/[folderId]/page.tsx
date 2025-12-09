@@ -19,6 +19,7 @@ import ContextMenu from "@/app/components/ContextMenu/ContextMenu";
 import ShareModal from "../../../components/ShareModal/ShareModal";
 import RenameModal from "../../../components/RenameModal/RenameModal";
 import { useRename } from "../../../hooks/useRename";
+import StaticParticles from "@/app/components/ui/Particles/StaticParticles";
 
 interface Breadcrumb {
   id: string;
@@ -213,21 +214,7 @@ export default function FolderPage() {
         <div className={styles.backgroundGlow} />
       </div>
 
-      {/* Particles */}
-      <div className={styles.particlesContainer}>
-        {[...Array(15)].map((_, i) => (
-          <div
-            key={i}
-            className={styles.particle}
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
-      </div>
+      <StaticParticles />
 
       <div className={styles.pageWrapper}>
         <Sidebar collapsed={sidebarCollapsed} onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />

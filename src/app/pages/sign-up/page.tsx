@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { Button } from "../../components/ui/button";
 import Link from "next/link";
+import StaticParticles from "@/app/components/ui/Particles/StaticParticles";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -69,21 +70,7 @@ export default function SignUpPage() {
         <div className={styles.redGlow} />
       </div>
 
-      {/* Particles */}
-      <div className={styles.particlesContainer}>
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className={styles.particle}
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
-      </div>
+      <StaticParticles />
 
       <nav className={styles.nav}>
         <div className={styles.navContent}>

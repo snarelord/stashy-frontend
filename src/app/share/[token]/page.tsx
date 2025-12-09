@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { shareService } from "../../services/shares";
 import PublicFilePreview from "@/app/components/PublicFilePreview/PublicFilePreview";
 import { useNativeDownload } from "../../hooks/useNativeDownload";
+import StaticParticles from "@/app/components/ui/Particles/StaticParticles";
 
 export default function SharedAudioPage() {
   const params = useParams();
@@ -173,6 +174,7 @@ export default function SharedAudioPage() {
 
   return (
     <div className={styles.pageContainer}>
+      <StaticParticles />
       <header className={styles.header}>
         <div className={styles.fileInfo}>
           <h1 className={styles.fileName}>{file.name}</h1>
