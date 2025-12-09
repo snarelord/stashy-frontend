@@ -1,3 +1,8 @@
+@media (max-width: 767px) {
+  .carouselContainer {
+    display: none;
+  }
+}
 /* Carousel */
 .carouselContainer {
   margin-top: 3rem;
@@ -66,7 +71,6 @@
 .carouselButton:hover {
   background: rgba(34, 211, 238, 0.1);
   border-color: rgba(34, 211, 238, 0.5);
-  transform: scale(1.1);
 }
 
 .carouselButton:active {

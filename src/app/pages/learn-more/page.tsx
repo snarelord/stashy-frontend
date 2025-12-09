@@ -73,9 +73,7 @@ export default function LearnMore() {
               <span className={styles.gradientText}>Built for Creatives</span>
             </h1>
             <p className={styles.leadText}>
-              Stashy is a clean and modern file storage platform designed for creators to give a fast, organised way to
-              manage your files. It’s built with the goal of making file storage feel easy without subscriptions or
-              confusing dashboards.
+              Built with the goal of making file storage feel easy without subscriptions or confusing dashboards.
             </p>
           </div>
 
