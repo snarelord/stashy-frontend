@@ -91,27 +91,6 @@ export default function AllFoldersPage() {
     return null;
   }
 
-  if (loading) {
-    return (
-      <div className={styles.pageContainer} style={{ marginLeft: sidebarCollapsed ? 0 : 280 }}>
-        <div className={styles.pageWrapper}>
-          <Sidebar
-            showBackToDashboard={true}
-            collapsed={sidebarCollapsed}
-            onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
-          />
-          <div className={styles.mainContent}>
-            <DashboardHeader
-              collapsed={sidebarCollapsed}
-              onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
-            />
-            <p style={{ textAlign: "center", padding: "40px" }}>Loading folders...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.pageContainer} style={{ marginLeft: sidebarCollapsed ? 0 : 280 }}>
       {/* Background effects */}
