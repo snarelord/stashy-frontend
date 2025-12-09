@@ -80,7 +80,6 @@ export default function AboutMe() {
               <span className={styles.gradientText}>Developer • Producer • DJ</span>
             </h1>
           </div>
-          {/* Bio Section */}
           <div className={styles.bioSection}>
             <p className={styles.bioText}>
               In 2024 I made the decision to pursue my love of creation and problem-solving in the field of programming,
@@ -102,7 +101,6 @@ export default function AboutMe() {
               and how to create something that just feels right.
             </p>
           </div>
-          {/* Music Section */}
           <div className={styles.musicSection}>
             <h2 className={styles.sectionHeading}>
               Music <span className={styles.gradientText}>Profile</span>
@@ -110,7 +108,6 @@ export default function AboutMe() {
 
             <SpotifyProfile />
 
-            {/* Music Bio */}
             <div className={styles.musicBio}>
               <p className={styles.musicText}>
                 As <span className={styles.gradientText}>Circumference</span>, I produce melodic drum & bass and

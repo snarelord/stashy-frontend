@@ -73,9 +73,9 @@ export default function LearnMore() {
               <span className={styles.gradientText}>Built for Creatives</span>
             </h1>
             <p className={styles.leadText}>
-              Stashy is a clean, modern and privacy-focused file storage platform designed to give you a fast, organised
-              way to manage your files. It’s built with the goal of making file storage feel effortless without
-              subscriptions or confusing dashboards.
+              Stashy is a clean and modern file storage platform designed for creators to give a fast, organised way to
+              manage your files. It’s built with the goal of making file storage feel easy without subscriptions or
+              confusing dashboards.
             </p>
           </div>
 
@@ -97,16 +97,13 @@ export default function LearnMore() {
                 <span>Fast</span>
               </li>
               <li className={styles.aboutListItem}>
-                <span>Simple</span>
+                <span>Full of features</span>
               </li>
               <li className={styles.aboutListItem}>
                 <span>Secure</span>
               </li>
               <li className={styles.aboutListItem}>
                 <span>User-friendly</span>
-              </li>
-              <li className={styles.aboutListItem}>
-                <span>Free from corporate nonsense</span>
               </li>
             </ul>
             <p className={styles.aboutTextHighlight}>
@@ -160,10 +157,7 @@ export default function LearnMore() {
                 </svg>
               </div>
               <h3 className={styles.featureTitle}>Cross-Platform Access</h3>
-              <p className={styles.featureText}>
-                Access your files from any device - Windows, Mac, Linux, iOS, or Android. Your data follows you
-                everywhere.
-              </p>
+              <p className={styles.featureText}>Access your files from any device. Your files follow you everywhere.</p>
             </div>
           </div>
 
