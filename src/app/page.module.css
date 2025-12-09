@@ -198,12 +198,8 @@
 }
 
 @media (max-width: 768px) {
-  .pill {
-    padding: 0.25rem 0.25rem;
-    font-size: 0.7em;
-  }
   .featurePills {
-    justify-content: center;
+    visibility: hidden;
   }
 }
 
