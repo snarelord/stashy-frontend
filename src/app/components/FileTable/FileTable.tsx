@@ -29,6 +29,15 @@ interface FileTableProps {
   onFileChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
+function shortenFileName(name: string, maxLength = 20) {
+  if (typeof window !== "undefined" && window.innerWidth <= 768 && name.length > maxLength) {
+    const first = name.slice(0, 8);
+    const last = name.slice(-8);
+    return `${first}...${last}`;
+  }
+  return name;
+}
+
 export default function FileTable({
   subfolders,
   files,
@@ -169,6 +178,7 @@ export default function FileTable({
             >
               <div className={styles.tableCell}>
                 <span className={styles.fileIcon}>{getFileIcon(file.mimeType)}</span>
+                {shortenFileName(file.name)}
                 {file.name}
               </div>
               <div className={styles.tableCell}>

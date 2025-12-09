@@ -37,6 +37,15 @@ function getFileIconComponent(file: any) {
   return <FileIcon className={styles.fileIcon} size={20} />;
 }
 
+function shortenFileName(name: string, maxLength = 20) {
+  if (typeof window !== "undefined" && window.innerWidth <= 768 && name.length > maxLength) {
+    const first = name.slice(0, 8);
+    const last = name.slice(-8);
+    return `${first}...${last}`;
+  }
+  return name;
+}
+
 interface AllFilesProps {
   onContextMenu?: (e: React.MouseEvent, item: any, type: "file" | "folder") => void;
 }
@@ -205,7 +214,7 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
           >
             <div className={styles.tableCell}>
               {getFileIconComponent(file)}
-              {file.name}
+              {shortenFileName(file.name)}
             </div>
             <div className={styles.tableCell}>
               {file.createdAt ? new Date(file.createdAt).toLocaleDateString() : ""}
