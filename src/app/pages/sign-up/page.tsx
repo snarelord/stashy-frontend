@@ -7,6 +7,7 @@ import styles from "./page.module.css";
 import { Button } from "../../components/ui/button";
 import Link from "next/link";
 import StaticParticles from "@/app/components/ui/Particles/StaticParticles";
+import Spinner from "@/app/components/Spinner/Spinner";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -63,6 +64,10 @@ export default function SignUpPage() {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className={styles.container}>

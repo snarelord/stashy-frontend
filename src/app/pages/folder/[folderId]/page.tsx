@@ -181,7 +181,7 @@ export default function FolderPage() {
     return (bytes / (1024 * 1024 * 1024)).toFixed(1) + " GB";
   }
 
-  if (authLoading) {
+  if (authLoading || loading) {
     return <Spinner />;
   }
 

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ForgotPasswordModal from "../../components/ForgotPasswordModal/ForgotPasswordModal";
 import StaticParticles from "@/app/components/ui/Particles/StaticParticles";
+import Spinner from "@/app/components/Spinner/Spinner";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -51,6 +52,10 @@ export default function SignInPage() {
     e.preventDefault();
     setIsModalOpen(true);
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className={styles.container}>
