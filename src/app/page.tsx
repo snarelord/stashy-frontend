@@ -7,6 +7,7 @@ import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import HamBurgerMenu from "./components/ui/HamburgerMenu/HamBurgerMenu";
 import StaticParticles from "./components/ui/Particles/StaticParticles";
+import DetailedParticles from "./components/ui/Particles/DetailedParticles/DetailedParticles";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
@@ -75,7 +76,7 @@ export default function Home() {
         </div>
       </main>
 
-      <StaticParticles />
+      <DetailedParticles />
     </div>
   );
 }

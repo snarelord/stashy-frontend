@@ -14,7 +14,8 @@
 .redGlow {
   position: absolute;
   top: 25%;
-  right: -8rem;
+  right: -100rem;
+  top: 16rem;
   width: 600px;
   height: 600px;
   background: radial-gradient(circle, rgba(220, 38, 38, 0.3) 0%, rgba(234, 88, 12, 0.2) 50%, transparent 100%);
@@ -109,12 +110,10 @@
 
 .heroContent.visible {
   opacity: 1;
-  transform: translateY(0);
 }
 
 .heroContent.hidden {
   opacity: 0;
-  transform: translateY(2rem);
 }
 
 .eyebrow {
