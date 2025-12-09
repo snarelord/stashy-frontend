@@ -56,8 +56,9 @@
   flex-direction: column;
   width: 100%;
   padding: 1.5rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   gap: 1rem;
 }
 
@@ -76,7 +77,7 @@
 }
 
 .playPauseButton {
-  background-color: #a499ed8c;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
   color: white;
   border: none;
   border-radius: 50%;
@@ -87,24 +88,27 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
 }
 
 .playPauseButton:hover {
-  background-color: #a499ed;
+  background: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
   transform: scale(1.05);
 }
 
 .playPauseButton:disabled {
-  background-color: #64748b;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 .timeDisplay {
   display: flex;
   gap: 0.25rem;
   font-size: 0.875rem;
-  color: #e2e8f0;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .progressBarContainer {
@@ -127,18 +131,20 @@
   appearance: none;
   width: 12px;
   height: 12px;
-  background-color: #a499ed8c;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
   border-radius: 50%;
   cursor: pointer;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
 }
 
 .progressBar::-moz-range-thumb {
   width: 12px;
   height: 12px;
-  background-color: #a499ed8c;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
   border-radius: 50%;
   cursor: pointer;
   border: none;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
 }
 
 .progressBar:disabled {
@@ -149,7 +155,7 @@
 .shareButton {
   background: none;
   border: none;
-  color: #e2e8f0;
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -159,7 +165,7 @@
 }
 
 .shareButton:hover {
-  color: #a499ed;
+  color: #22d3ee;
   transform: scale(1.05);
 }
 
@@ -177,12 +183,17 @@
 .muteButton {
   background: none;
   border: none;
-  color: #e2e8f0;
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.muteButton:hover {
+  color: #22d3ee;
 }
 
 .muteButton:disabled {
@@ -205,18 +216,20 @@
   appearance: none;
   width: 10px;
   height: 10px;
-  background-color: #e2e8f0;
+  background: #22d3ee;
   border-radius: 50%;
   cursor: pointer;
+  box-shadow: 0 0 6px rgba(34, 211, 238, 0.5);
 }
 
 .volumeSlider::-moz-range-thumb {
   width: 10px;
   height: 10px;
-  background-color: #e2e8f0;
+  background: #22d3ee;
   border-radius: 50%;
   cursor: pointer;
   border: none;
+  box-shadow: 0 0 6px rgba(34, 211, 238, 0.5);
 }
 
 .volumeSlider:disabled {

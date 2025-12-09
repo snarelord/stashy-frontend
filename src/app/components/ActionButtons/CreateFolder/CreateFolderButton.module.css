@@ -1,27 +1,29 @@
 /* Action Buttons */
 .actionButtons {
   display: flex;
-  gap: 12px;
+  gap: 0.75rem;
   justify-content: flex-end;
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 .actionButton {
-  padding: 10px 20px;
-  background-color: white;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: 0.625rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  font-family: var(--font-roboto), sans-serif;
-  color: #333333;
+  font-family: inherit;
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
 }
 
 .actionButton:hover {
-  background-color: #f5f5f5;
-  border-color: #4d4d4d;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #22d3ee;
+  color: #22d3ee;
 }
 
 .actionButton:disabled {
@@ -30,24 +32,27 @@
 }
 
 .actionButtonPrimary {
-  padding: 10px 20px;
-  background-color: #4d4d4d;
+  padding: 0.625rem 1.25rem;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: var(--font-roboto), sans-serif;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
   color: white;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   position: relative;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
 }
 
 .actionButtonPrimary:hover:not(:disabled) {
-  background-color: #696969;
+  background: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
+  transform: translateY(-1px);
 }
 
 .actionButtonPrimary:disabled {
@@ -55,13 +60,8 @@
   cursor: not-allowed;
 }
 
-.uploadIcon {
-  font-size: 16px;
-  filter: brightness(0) invert(1);
-}
-
 .uploadingText {
-  margin-right: 4px;
+  margin-right: 0.25rem;
 }
 
 .progressCircle {
@@ -90,7 +90,7 @@
 /* Create Folder Input Styles */
 .createFolderContainer {
   display: flex;
-  gap: 12px;
+  gap: 0.75rem;
   padding-bottom: 1.5rem;
   align-items: center;
   flex: 1;
@@ -98,58 +98,64 @@
 
 .folderInput {
   flex: 1;
-  padding: 10px 20px;
-  background-color: white;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: var(--font-roboto), sans-serif;
-  color: #333333;
+  padding: 0.625rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  font-family: inherit;
+  color: rgba(255, 255, 255, 0.9);
   transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
 }
 
 .folderInput:focus {
   outline: none;
-  border-color: #696969;
-  background-color: #f5f5f5;
+  border-color: #22d3ee;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
 }
 
 .folderInput::placeholder {
-  color: #999999;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .confirmButton {
-  padding: 10px 20px;
-  background-color: #4d4d4d;
+  padding: 0.625rem 1.25rem;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: var(--font-roboto), sans-serif;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
   color: white;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
 }
 
 .confirmButton:hover {
-  background-color: #696969;
+  background: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
+  transform: translateY(-1px);
 }
 
 .cancelButton {
-  padding: 10px 20px;
-  background-color: white;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: 0.625rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  font-family: var(--font-roboto), sans-serif;
-  color: #333333;
+  font-family: inherit;
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
 }
 
 .cancelButton:hover {
-  background-color: #f5f5f5;
-  border-color: #696969;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
 }

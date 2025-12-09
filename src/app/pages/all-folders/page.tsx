@@ -214,7 +214,7 @@ export default function AllFoldersPage() {
                   setContextMenu(null);
                 }}
               >
-                🔗 Share
+                Share
               </button>
               <button
                 className={styles.contextMenuItem}
@@ -227,7 +227,7 @@ export default function AllFoldersPage() {
                   setContextMenu(null);
                 }}
               >
-                🗑️ Delete
+                Delete
               </button>
             </div>
           )}

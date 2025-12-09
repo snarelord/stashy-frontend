@@ -108,7 +108,7 @@ export default function RecentFolders({ onContextMenu: onContextMenuProp }: Rece
       <h2 className={styles.sectionTitle}>Recent Folders</h2>
       <div className={styles.recentFoldersGrid}>
         {loading ? (
-          <p style={{ gridColumn: "1 / -1", textAlign: "center", color: "#999" }}>Loading...</p>
+          <p style={{ gridColumn: "1 / -1", textAlign: "center", color: "rgba(255, 255, 255, 0.5)" }}>Loading...</p>
         ) : recentItems.length > 0 ? (
           recentItems.map((item) => (
             <div
@@ -122,7 +122,9 @@ export default function RecentFolders({ onContextMenu: onContextMenuProp }: Rece
             </div>
           ))
         ) : (
-          <p style={{ gridColumn: "1 / -1", textAlign: "center", color: "#999" }}>No recent folders</p>
+          <p style={{ gridColumn: "1 / -1", textAlign: "center", color: "rgba(255, 255, 255, 0.5)" }}>
+            No recent folders
+          </p>
         )}
       </div>
     </section>

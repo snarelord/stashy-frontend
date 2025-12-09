@@ -3,34 +3,63 @@
   display: flex;
   align-items: center;
   position: relative;
-  padding: 24px 48px;
-  border-bottom: 1px solid #e5e5e5;
-  background-color: rgb(0, 0, 0);
-  gap: 16px;
+  padding: 1.5rem 3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(10, 10, 15, 0.6);
+  backdrop-filter: blur(10px);
+  gap: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .header {
+    padding: 1.5rem 4rem;
+  }
 }
 
 .collapseButton {
   display: block;
-  background: rgba(77, 77, 77, 0.95);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
   cursor: pointer;
-  transition: background 0.2s, border 0.2s;
-  box-shadow: 0 2px 8px #0002;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   flex-shrink: 0;
   z-index: 3;
 }
 
 .collapseButton:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(34, 211, 238, 0.15);
+  border-color: rgba(34, 211, 238, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 211, 238, 0.2);
+}
+
+.collapseButton:active {
+  transform: translateY(0);
 }
 
 .logoContainer {
   flex-shrink: 0;
   margin-left: auto;
   z-index: 2;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.logoContainer:hover {
+  opacity: 1;
+}
+
+.logoText {
+  font-size: 1.875rem;
+  font-weight: 700;
+  background: linear-gradient(to right, #22d3ee, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.02em;
 }
 
 .spacer {
@@ -50,29 +79,38 @@
 
 .searchInput {
   width: 100%;
-  padding: 12px 48px 12px 20px;
-  border: 1px solid #e0e0e0;
-  border-radius: 50px;
-  font-size: 14px;
-  font-family: var(--font-roboto), sans-serif;
-  background-color: #fafafa;
-  color: #303030;
+  padding: 0.75rem 3rem 0.75rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
   transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .searchInput:focus {
   outline: none;
-  border-color: #a499ed;
-  box-shadow: 0 2px 8px rgba(164, 153, 237, 0.15);
+  border-color: #22d3ee;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1);
+}
+
+.searchInput:hover {
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .searchIcon {
   position: absolute;
-  right: 16px;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 18px;
+  font-size: 1.125rem;
   opacity: 0.5;
 }
 
@@ -81,9 +119,9 @@
   .header {
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 0.75rem;
     align-items: center;
-    padding: 16px;
+    padding: 1rem;
   }
 
   .collapseButton {
@@ -111,7 +149,7 @@
 
 @media (max-width: 700px) {
   .header {
-    padding: 12px;
+    padding: 0.75rem;
   }
 
   .searchContainer {
@@ -119,12 +157,12 @@
   }
 
   .searchInput {
-    font-size: 13px;
-    padding: 10px 40px 10px 16px;
+    font-size: 0.8125rem;
+    padding: 0.625rem 2.5rem 0.625rem 1rem;
   }
 
   .searchIcon {
-    right: 12px;
-    font-size: 16px;
+    right: 0.75rem;
+    font-size: 1rem;
   }
 }

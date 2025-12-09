@@ -160,7 +160,7 @@ export default function PublicFilePreview() {
         {content.type === "file" && content.file && (
           <div className={styles.fileInfoFile}>
             <button className={styles.downloadBtn} onClick={handleDownload}>
-              📥 Download File
+              Download File
             </button>
             <p className={styles.fileSizeFile}>Size: {(content.file.size / 1024 / 1024).toFixed(2)} MB</p>
             <p className={styles.mimeTypeFile}>Type: {content.file.mimeType}</p>
@@ -190,7 +190,7 @@ export default function PublicFilePreview() {
                         <span className={styles.fileSize}>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
                       </div>
                       <button className={styles.fileDownloadBtn} onClick={() => handleDownloadFile(file.id, file.name)}>
-                        📥
+                        Download
                       </button>
                     </li>
                   ))}
@@ -217,7 +217,7 @@ export default function PublicFilePreview() {
                         </span>
                       </div>
                       <button className={styles.fileDownloadBtn} onClick={() => handleDownloadFolder}>
-                        📥
+                        Download
                       </button>
                     </li>
                   ))}

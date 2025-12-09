@@ -39,7 +39,7 @@ export default function ContextMenu({
           onClose();
         }}
       >
-        🔗 Share
+        Share
       </button>
       {contextMenu.type === "file" && (
         <>
@@ -51,7 +51,7 @@ export default function ContextMenu({
               onClose();
             }}
           >
-            📥 Download
+            Download
           </button>
           <button
             className={styles.contextMenuItem}
@@ -60,7 +60,7 @@ export default function ContextMenu({
               onClose();
             }}
           >
-            ✏️ Rename
+            Rename
           </button>
           <button
             className={styles.contextMenuItem}
@@ -69,7 +69,7 @@ export default function ContextMenu({
               onClose();
             }}
           >
-            🗑️ Delete
+            Delete
           </button>
         </>
       )}
@@ -83,7 +83,7 @@ export default function ContextMenu({
               onClose();
             }}
           >
-            📥 Download as ZIP
+            Download as ZIP
           </button>
           <button
             className={styles.contextMenuItem}
@@ -92,7 +92,7 @@ export default function ContextMenu({
               onClose();
             }}
           >
-            🗑️ Delete
+            Delete
           </button>
         </>
       )}

@@ -157,14 +157,14 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
                 disabled={quickShareLoading}
                 title="Quick share (30 days)"
               >
-                🔗
+                Share
               </button>
               <button
                 onClick={(e) => handleDownloadFolder(folder, e)}
                 className={styles.actionButton}
                 title="Download folder as ZIP"
               >
-                📥
+                Download
               </button>
               <button
                 onClick={(e) => {
@@ -177,7 +177,7 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
                 className={styles.actionButton}
                 title="Delete folder"
               >
-                🗑️
+                Delete
               </button>
             </div>
           </div>
@@ -220,11 +220,11 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
                 disabled={quickShareLoading}
                 title="Quick share (30 days)"
               >
-                🔗
+                Share
               </button>
 
               <button onClick={(e) => handleDownload(file, e)} className={styles.actionButton} title="Download file">
-                📥
+                Download
               </button>
               <button
                 onClick={(e) => {
@@ -238,18 +238,12 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
                 title="Delete file"
                 name="delete-button"
               >
-                🗑️
+                Delete
               </button>
             </div>
           </div>
         ))}
-        {folders.length === 0 && files.length === 0 && (
-          <div className={styles.tableRow}>
-            <div className={styles.tableCell} style={{ textAlign: "center", color: "#999" }}>
-              No files or folders yet
-            </div>
-          </div>
-        )}
+        {folders.length === 0 && files.length === 0 && <div className={styles.emptyState}>No files or folders yet</div>}
       </div>
     </section>
   );

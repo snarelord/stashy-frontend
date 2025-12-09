@@ -174,8 +174,13 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
         const x = i * barWidth;
         const y = canvas.height - barHeight;
 
-        let opacity = 0.3 + normalisedHeight * 0.7;
-        ctx.fillStyle = `rgba(164, 153, 237, ${opacity})`;
+        // Create cyan gradient for bars - matches theme colors
+        const gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
+        gradient.addColorStop(0, "rgba(34, 211, 238, 0.3)"); // #22d3ee with transparency
+        gradient.addColorStop(0.5, "rgba(34, 211, 238, 0.6)");
+        gradient.addColorStop(1, "rgba(59, 130, 246, 0.9)"); // #3b82f6 at top
+
+        ctx.fillStyle = gradient;
 
         ctx.beginPath();
         ctx.roundRect(x, y, barWidth - barGap, barHeight, 1);
@@ -193,7 +198,7 @@ function VisualiserBars({ analyser, isPlaying }: VisualiserProps) {
         }
 
         const peakY = canvas.height - peaksRef.current[i];
-        ctx.fillStyle = `hsla(0, 0%, 100%, 0.90)`;
+        ctx.fillStyle = `rgba(34, 211, 238, 0.9)`; // Cyan peak indicators
         ctx.fillRect(x, peakY, barWidth - barGap, 2);
       }
 

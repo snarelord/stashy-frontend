@@ -263,7 +263,7 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
               currentTime={currentTime}
               duration={duration}
               onSeek={handleSeek}
-              playedColour="#a499ed8c"
+              playedColour="#22d3ee"
             />
           ) : (
             <div className={styles.loadingText}>Failed to load waveform</div>

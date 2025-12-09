@@ -207,6 +207,7 @@ export default function FolderPage() {
 
   return (
     <div className={styles.pageContainer}>
+      <div className={styles.backgroundGlow}></div>
       <div className={styles.pageWrapper}>
         <Sidebar collapsed={sidebarCollapsed} onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
 
@@ -216,24 +217,7 @@ export default function FolderPage() {
             onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
           />
 
-          <FolderHeader
-            breadcrumbs={breadcrumbs}
-            folderName={folder?.name || ""}
-            folderId={folderId as string}
-            uploading={uploading}
-            isCreatingFolder={isCreatingFolder}
-            newFolderName={folderName}
-            onUploadClick={handleUploadClick}
-            onCreateFolderStart={() => setIsCreatingFolder(true)}
-            onCreateFolderConfirm={onCreateFolder}
-            onCreateFolderCancel={() => {
-              setIsCreatingFolder(false);
-              setFolderName("");
-            }}
-            onFolderNameChange={setFolderName}
-            fileInputRef={fileInputRef}
-            onFileChange={handleFileChange}
-          />
+          <FolderHeader breadcrumbs={breadcrumbs} folderName={folder?.name || ""} folderId={folderId as string} />
 
           <FileTable
             subfolders={subfolders}
@@ -247,6 +231,18 @@ export default function FolderPage() {
             }}
             onContextMenu={handleContextMenu}
             onUploadClick={handleUploadClick}
+            uploading={uploading}
+            isCreatingFolder={isCreatingFolder}
+            newFolderName={folderName}
+            onCreateFolderStart={() => setIsCreatingFolder(true)}
+            onCreateFolderConfirm={onCreateFolder}
+            onCreateFolderCancel={() => {
+              setIsCreatingFolder(false);
+              setFolderName("");
+            }}
+            onFolderNameChange={setFolderName}
+            fileInputRef={fileInputRef}
+            onFileChange={handleFileChange}
           />
 
           <ContextMenu

@@ -16,22 +16,14 @@ export default function SidebarNavigation({ showBackToDashboard = false }: Sideb
           Back to Dashboard
         </button>
       )}
-      <button className={styles.navItem}>
-        <span className={styles.navIcon}>📤</span>
-        Upload file
-      </button>
+      <button className={styles.navItem}>Upload file</button>
       <button name="dashboard" className={styles.navItem} onClick={() => router.push("/pages/dashboard")}>
-        <span className={styles.navIcon}>📄</span>
         Dashboard
       </button>
       <button name="all-folders" className={styles.navItem} onClick={() => router.push("/pages/all-folders")}>
-        <span className={styles.navIcon}>📁</span>
         Folders
       </button>
-      <button className={styles.navItem}>
-        <span className={styles.navIcon}>👥</span>
-        Shared files
-      </button>
+      <button className={styles.navItem}>Shared files</button>
     </nav>
   );
 }
