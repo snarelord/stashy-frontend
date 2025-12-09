@@ -161,14 +161,12 @@ export default function AboutMe() {
 
             <Carousel items={mediaItems} />
           </div>
-          {/* Links Section */}
           <div className={styles.linksSection}>
             <h2 className={styles.sectionHeading}>
               Connect <span className={styles.gradientText}>With Me</span>
             </h2>
             <SocialLinks links={socialLinks} />
           </div>{" "}
-          {/* CTA Section */}
           <div className={styles.ctaSection}>
             <h2 className={styles.ctaHeading}>Let's Connect</h2>
             <p className={styles.ctaText}>
@@ -183,7 +181,7 @@ export default function AboutMe() {
                   Get In Touch
                 </Button>
               </a>
-              <Link href="/learn-more">
+              <Link href="/pages/learn-more">
                 <Button
                   size="lg"
                   variant="outline"
