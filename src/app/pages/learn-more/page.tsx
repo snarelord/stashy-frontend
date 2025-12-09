@@ -170,7 +170,7 @@ export default function LearnMore() {
           {/* CTA Section */}
           <div className={styles.ctaSection}>
             <h2 className={styles.ctaHeading}>Ready to Get Started?</h2>
-            <p className={styles.ctaText}>Contact me below to get involved!.</p>
+            <p className={styles.ctaText}>Contact me below to get involved!</p>
             <div className={styles.ctaButtons}>
               <Button
                 size="lg"
