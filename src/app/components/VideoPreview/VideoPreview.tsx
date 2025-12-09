@@ -3,6 +3,7 @@ import styles from "./VideoPreview.module.css";
 import { api } from "../../services/api";
 import { useRouter } from "next/navigation";
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
+import Spinner from "../Spinner/Spinner";
 
 type VideoPreviewProps = {
   fileId: string;
@@ -126,7 +127,7 @@ export default function VideoPreview({ fileId }: VideoPreviewProps) {
   };
 
   if (loading) {
-    return <div className={styles.loadingText}>Loading video...</div>;
+    return <Spinner />;
   }
   if (error || !file) {
     return <div className={styles.loadingText}>{error || "Video not found"}</div>;

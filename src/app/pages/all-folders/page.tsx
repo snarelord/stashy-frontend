@@ -83,7 +83,7 @@ export default function AllFoldersPage() {
     });
   }
 
-  if (authLoading) {
+  if (authLoading || loading) {
     return <Spinner />;
   }
 

@@ -185,7 +185,7 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
     }
   }
 
-  if (authLoading) {
+  if (authLoading || loading) {
     return <Spinner />;
   }
 

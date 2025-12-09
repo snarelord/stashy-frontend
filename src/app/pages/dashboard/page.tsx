@@ -120,7 +120,7 @@ export default function DashboardPage() {
     startRename(item, type);
   }
 
-  if (authLoading) {
+  if (authLoading || loading) {
     return <Spinner />;
   }
 

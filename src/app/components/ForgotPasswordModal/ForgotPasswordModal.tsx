@@ -4,6 +4,7 @@ import { useState } from "react";
 import { api } from "../../services/api";
 import styles from "./ForgotPasswordModal.module.css";
 import { Button } from "../ui/button";
+import Spinner from "../Spinner/Spinner";
 
 interface ForgotPasswordModalProps {
   isOpen: boolean;
