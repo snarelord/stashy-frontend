@@ -11,10 +11,17 @@ import DetailedParticles from "./components/ui/Particles/DetailedParticles/Detai
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     setIsVisible(true);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   return (
@@ -76,7 +83,7 @@ export default function Home() {
         </div>
       </main>
 
-      <DetailedParticles />
+      {isMobile ? <StaticParticles /> : <DetailedParticles />}
     </div>
   );
 }
