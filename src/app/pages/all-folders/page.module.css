@@ -30,33 +30,6 @@
   border-radius: 9999px;
 }
 
-/* Particles */
-.particlesContainer {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.particle {
-  position: absolute;
-  width: 0.2rem;
-  height: 0.2rem;
-  background: rgba(34, 211, 238, 0.2);
-  border-radius: 9999px;
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
-  }
-}
-
 @media (max-width: 900px) {
   .pageContainer {
     margin-left: 0 !important;

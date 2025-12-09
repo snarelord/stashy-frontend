@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { jwtDecode } from "jwt-decode";
 import styles from "./page.module.css";
 import Link from "next/link";
+import StaticParticles from "@/app/components/ui/Particles/StaticParticles";
 
 export default function ResetPasswordPageWrapper() {
   return (
@@ -66,21 +67,7 @@ function ResetPasswordPage() {
         <div className={styles.redGlow} />
       </div>
 
-      {/* Particles */}
-      <div className={styles.particlesContainer}>
-        {[...Array(15)].map((_, i) => (
-          <div
-            key={i}
-            className={styles.particle}
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
-      </div>
+      <StaticParticles />
 
       <main className={styles.main}>
         <div className={styles.formContainer}>
