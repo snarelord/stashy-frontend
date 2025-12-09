@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import styles from "./page.module.css";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import Button from "../../components/Button/Button";
+import { Button } from "../../components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ForgotPasswordModal from "../../components/ForgotPasswordModal/ForgotPasswordModal";
@@ -56,15 +54,47 @@ export default function SignInPage() {
 
   return (
     <div className={styles.container}>
-      <Header />
-      <main id="sign-in-form" className={styles.main}>
+      <div className={styles.backgroundContainer}>
+        <div className={styles.redGlow} />
+      </div>
+
+      <div className={styles.particlesContainer}>
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className={styles.particle}
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Navigation */}
+      <nav className={styles.nav}>
+        <div className={styles.navContent}>
+          <button onClick={() => router.push("/")} className={styles.backButton}>
+            ← Back to Home
+          </button>
+        </div>
+      </nav>
+
+      <main className={styles.main}>
         <div className={styles.formContainer}>
-          <h1 className={styles.title}>Sign In</h1>
+          <div className={styles.eyebrow}>Welcome Back</div>
+          <h1 className={styles.title}>
+            Sign In to <span className={styles.gradientText}>Stashy</span>
+          </h1>
+
+          {error && <div className={styles.errorMessage}>{error}</div>}
 
           <form className={styles.form} onSubmit={handleSignIn}>
             <div className={styles.inputGroup}>
               <label htmlFor="email" className={styles.label}>
-                Email
+                Email Address
               </label>
               <input
                 type="email"
@@ -94,20 +124,21 @@ export default function SignInPage() {
               />
             </div>
 
-            <Button text="Sign In" colourScheme="black" type="submit" />
+            <Button type="submit" size="lg" className={styles.signInButton} disabled={loading}>
+              {loading ? "Signing in..." : "Sign In"}
+            </Button>
 
             <div className={styles.links}>
               <Link href="#" className={styles.link} onClick={handleForgotPasswordClick}>
                 Forgot password?
               </Link>
               <Link href="/pages/sign-up" className={styles.link}>
-                New user? Sign up here
+                New user? <span className={styles.linkHighlight}>Sign up here</span>
               </Link>
             </div>
           </form>
         </div>
       </main>
-      <Footer />
 
       <ForgotPasswordModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>

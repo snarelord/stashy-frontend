@@ -7,6 +7,7 @@ import { getFileIcon } from "../../utils/getFileIcons";
 import { useQuickShare } from "../../hooks/useQuickShare";
 import { useContextMenu } from "../../hooks/useContextMenu";
 import { useFileOperations } from "../../hooks/useFileOperations";
+import { RefObject, ChangeEvent } from "react";
 
 interface FileTableProps {
   subfolders: any[];
@@ -17,6 +18,15 @@ interface FileTableProps {
   onUploadClick?: () => void;
   onRefresh?: () => void;
   onContextMenu?: (e: React.MouseEvent, item: any, type: "file" | "folder") => void;
+  uploading?: boolean;
+  isCreatingFolder?: boolean;
+  newFolderName?: string;
+  onCreateFolderStart?: () => void;
+  onCreateFolderConfirm?: () => void;
+  onCreateFolderCancel?: () => void;
+  onFolderNameChange?: (name: string) => void;
+  fileInputRef?: RefObject<HTMLInputElement | null>;
+  onFileChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function FileTable({
@@ -28,6 +38,15 @@ export default function FileTable({
   onUploadClick,
   onRefresh,
   onContextMenu: onContextMenuProp,
+  uploading,
+  isCreatingFolder,
+  newFolderName,
+  onCreateFolderStart,
+  onCreateFolderConfirm,
+  onCreateFolderCancel,
+  onFolderNameChange,
+  fileInputRef,
+  onFileChange,
 }: FileTableProps) {
   const router = useRouter();
   const { quickShareFile, quickShareFolder, loading: quickShareLoading } = useQuickShare();
@@ -38,6 +57,41 @@ export default function FileTable({
 
   return (
     <section className={styles.folderContents}>
+      <div className={styles.actionButtons}>
+        {!isCreatingFolder ? (
+          <>
+            <button className={styles.actionButton} onClick={onUploadClick} disabled={uploading}>
+              {uploading ? "Uploading..." : "Upload file"}
+            </button>
+            <button className={styles.actionButton} onClick={onCreateFolderStart}>
+              New folder
+            </button>
+            {fileInputRef && onFileChange && (
+              <input ref={fileInputRef} type="file" multiple onChange={onFileChange} style={{ display: "none" }} />
+            )}
+          </>
+        ) : (
+          <div className={styles.createFolderContainer}>
+            <input
+              type="text"
+              placeholder="Enter folder name..."
+              value={newFolderName}
+              onChange={(e) => onFolderNameChange?.(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") onCreateFolderConfirm?.();
+              }}
+              className={styles.folderInput}
+              autoFocus
+            />
+            <button className={styles.confirmButton} onClick={onCreateFolderConfirm}>
+              Create
+            </button>
+            <button className={styles.cancelButton} onClick={onCreateFolderCancel}>
+              Cancel
+            </button>
+          </div>
+        )}
+      </div>
       <p className={styles.fileCount}>
         //Folder contents ({subfolders.length + files.length}{" "}
         {subfolders.length + files.length === 1 ? "item" : "items"})
@@ -73,14 +127,14 @@ export default function FileTable({
                 disabled={quickShareLoading}
                 title="Quick share (30 days)"
               >
-                🔗
+                Share
               </button>
               <button
                 onClick={(e) => onFolderDownload(subfolder, e)}
                 className={styles.actionButtonIcon}
                 title="Download folder as ZIP"
               >
-                📥
+                Download
               </button>
               <button
                 onClick={(e) => {
@@ -90,7 +144,7 @@ export default function FileTable({
                 className={styles.actionButtonIcon}
                 title="Delete folder"
               >
-                🗑️
+                Delete
               </button>
             </div>
           </div>
@@ -130,14 +184,14 @@ export default function FileTable({
                   disabled={quickShareLoading}
                   title="Quick share (30 days)"
                 >
-                  🔗
+                  Share
                 </button>
                 <button
                   onClick={(e) => onFileDownload(file, e)}
                   className={styles.actionButtonIcon}
                   title="Download file"
                 >
-                  📥
+                  Download
                 </button>
                 <button
                   onClick={(e) => {
@@ -147,7 +201,7 @@ export default function FileTable({
                   className={styles.actionButtonIcon}
                   title="Delete file"
                 >
-                  🗑️
+                  Delete
                 </button>
               </div>
             </div>

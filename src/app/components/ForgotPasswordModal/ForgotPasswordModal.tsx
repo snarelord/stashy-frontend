@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { api } from "../../services/api";
 import styles from "./ForgotPasswordModal.module.css";
-import Button from "../Button/Button";
+import { Button } from "../ui/button";
 
 interface ForgotPasswordModalProps {
   isOpen: boolean;
@@ -43,9 +43,6 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
     } catch (err) {
       setError("Something went wrong. Please try again.");
     }
-
-    // to do: add backend API call here
-    // await fetch('/api/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }); etc
   };
 
   const handleClose = () => {
@@ -69,10 +66,12 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
           ✕
         </button>
 
-        <h2 className={styles.title}>Forgot Password?</h2>
-
         {!isSubmitted ? (
           <>
+            <div className={styles.eyebrow}>Password Reset</div>
+            <h2 className={styles.title}>
+              Forgot Your <span className={styles.gradientText}>Password?</span>
+            </h2>
             <p className={styles.description}>
               Enter your email address and we'll send you a link to reset your password.
             </p>
@@ -80,13 +79,13 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
             <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.inputGroup}>
                 <label htmlFor="forgot-email" className={styles.label}>
-                  Email
+                  Email Address
                 </label>
                 <input
                   type="email"
                   id="forgot-email"
                   className={`${styles.input} ${error ? styles.inputError : ""}`}
-                  placeholder="Enter your email"
+                  placeholder="you@example.com"
                   value={email}
                   onChange={handleEmailChange}
                   autoFocus
@@ -94,17 +93,21 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
                 {error && <p className={styles.errorText}>{error}</p>}
               </div>
 
-              <Button text="Send Reset Link" colourScheme="black" type="submit" disabled={isButtonDisabled} />
+              <Button type="submit" size="lg" className={styles.submitButton} disabled={isButtonDisabled}>
+                Send Reset Link
+              </Button>
             </form>
           </>
         ) : (
           <div className={styles.successState}>
             <div className={styles.successIcon}>✓</div>
-            <h3 className={styles.successTitle}>Check your inbox</h3>
+            <h3 className={styles.successTitle}>Check Your Inbox</h3>
             <p className={styles.successMessage}>
-              If this email is registered, you'll receive a reset link shortly. Don't forget to check spam!
+              If this email is registered, you'll receive a reset link shortly. Don't forget to check your spam folder!
             </p>
-            <Button text="Close" colourScheme="purple" onClick={handleClose} />
+            <Button size="lg" className={styles.closeSuccessButton} onClick={handleClose}>
+              Close
+            </Button>
           </div>
         )}
       </div>

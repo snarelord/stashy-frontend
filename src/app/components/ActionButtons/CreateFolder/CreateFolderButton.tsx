@@ -130,9 +130,7 @@ export default function CreateFolderButton() {
                 </div>
               </>
             ) : (
-              <>
-                Upload <span className={styles.uploadIcon}>📤</span>
-              </>
+              <>Upload</>
             )}
           </button>
           <input

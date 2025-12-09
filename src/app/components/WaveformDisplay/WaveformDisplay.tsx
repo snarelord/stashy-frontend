@@ -15,8 +15,8 @@ export default function WaveformDisplay({
   waveform,
   width = 800,
   height = 100,
-  colour = "#a499edff",
-  playedColour = "",
+  colour = "rgba(255, 255, 255, 0.2)",
+  playedColour = "#22d3ee7e",
   currentTime,
   duration,
   onSeek,
@@ -64,7 +64,7 @@ export default function WaveformDisplay({
             />
           );
         })}
-        <rect x={playedBars * barWidth - 1} y={0} width={1} height={height} fill="#fff" opacity={0.8} />
+        <rect x={playedBars * barWidth - 1} y={0} width={1} height={height} fill="#22d3ee" opacity={0.9} />
       </svg>
     </div>
   );

@@ -1,4 +1,4 @@
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .nav {
     align-items: center;
     justify-content: center;
@@ -13,7 +13,7 @@
     font-size: 28px;
   }
 }
-/* Navigation */
+
 .nav {
   display: flex;
   flex-direction: column;
@@ -77,4 +77,92 @@
 .navIcon {
   font-size: 20px;
   filter: brightness(0) invert(1);
+} */
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.backButton:hover {
+  background: rgba(34, 211, 238, 0.15);
+  border-color: rgba(34, 211, 238, 0.4);
+  color: #22d3ee;
+}
+
+.backArrow {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Navigation items without icons */
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  letter-spacing: -0.01em;
+}
+
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.9);
+  border-bottom-color: rgba(34, 211, 238, 0.2);
+}
+
+/* Active state with cyan accent */
+.navItem.active {
+  background: rgba(34, 211, 238, 0.1);
+  color: #22d3ee;
+  font-weight: 500;
+  border-bottom-color: rgba(34, 211, 238, 0.3);
+}
+
+/* Divider between navigation sections */
+.navDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    gap: 0.5rem;
+  }
+
+  .navItem {
+    font-size: 1rem;
+    padding: 1.125rem 1.5rem;
+    border-radius: 0.5rem;
+    border-bottom: none;
+  }
 }

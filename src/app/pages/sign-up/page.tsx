@@ -3,11 +3,8 @@
 import { useState } from "react";
 import { api } from "../../services/api";
 import { useRouter } from "next/navigation";
-
 import styles from "./page.module.css";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import Button from "../../components/Button/Button";
+import { Button } from "../../components/ui/button";
 import Link from "next/link";
 
 export default function SignUpPage() {
@@ -68,27 +65,54 @@ export default function SignUpPage() {
 
   return (
     <div className={styles.container}>
-      <Header />
+      <div className={styles.backgroundContainer}>
+        <div className={styles.redGlow} />
+      </div>
+
+      {/* Particles */}
+      <div className={styles.particlesContainer}>
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className={styles.particle}
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <nav className={styles.nav}>
+        <div className={styles.navContent}>
+          <button onClick={() => router.push("/")} className={styles.backButton}>
+            ← Back to Home
+          </button>
+        </div>
+      </nav>
+
       <main className={styles.main}>
         <div className={styles.formContainer}>
-          <Link href="/pages/sign-in" className={styles.backButton} data-cy="back-button">
-            <span className={styles.backArrow}>←</span> Back
-          </Link>
-          <h1 className={styles.title}>Sign Up</h1>
+          <div className={styles.eyebrow}>Join Stashy</div>
+          <h1 className={styles.title}>
+            Create Your <span className={styles.gradientText}>Account</span>
+          </h1>
+
+          {error && <div className={styles.errorMessage}>{error}</div>}
 
           <form className={styles.form} onSubmit={handleSignUp}>
-            {error && <p className={styles.error}>{error}</p>}
-
             <div className={styles.inputGroup}>
               <label htmlFor="email" className={styles.label}>
-                Email
+                Email Address
               </label>
               <input
                 type="email"
                 id="email"
                 name="email"
                 className={styles.input}
-                placeholder="Email"
+                placeholder="you@example.com"
                 value={formData.email}
                 onChange={handleInputChange}
                 required
@@ -98,7 +122,7 @@ export default function SignUpPage() {
             <div className={styles.nameRow}>
               <div className={styles.inputGroup}>
                 <label htmlFor="first-name" className={styles.label}>
-                  First name
+                  First Name
                 </label>
                 <input
                   type="text"
@@ -114,7 +138,7 @@ export default function SignUpPage() {
 
               <div className={styles.inputGroup}>
                 <label htmlFor="last-name" className={styles.label}>
-                  Last name
+                  Last Name
                 </label>
                 <input
                   type="text"
@@ -138,7 +162,7 @@ export default function SignUpPage() {
                 id="password"
                 name="password"
                 className={styles.input}
-                placeholder="Password"
+                placeholder="Create a password"
                 value={formData.password}
                 onChange={handleInputChange}
                 required
@@ -147,14 +171,14 @@ export default function SignUpPage() {
 
             <div className={styles.inputGroup}>
               <label htmlFor="confirm-password" className={styles.label}>
-                Confirm password
+                Confirm Password
               </label>
               <input
                 type="password"
                 id="confirm-password"
                 name="confirmPassword"
                 className={styles.input}
-                placeholder="Confirm password"
+                placeholder="Confirm your password"
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
                 required
@@ -163,30 +187,32 @@ export default function SignUpPage() {
 
             <div className={styles.inputGroup}>
               <label htmlFor="code" className={styles.label}>
-                Access code
+                Access Code
               </label>
               <input
                 type="text"
                 id="code"
                 name="accessCode"
                 className={styles.input}
-                placeholder="Access code"
+                placeholder="Enter your access code"
                 value={formData.accessCode}
                 onChange={handleInputChange}
                 required
               />
             </div>
 
-            <Button
-              text={loading ? "Signing Up..." : "Sign Up"}
-              colourScheme="black"
-              disabled={loading}
-              type="submit"
-            />
+            <Button type="submit" size="lg" className={styles.signUpButton} disabled={loading}>
+              {loading ? "Creating Account..." : "Sign Up"}
+            </Button>
+
+            <div className={styles.links}>
+              <Link href="/pages/sign-in" className={styles.link}>
+                Already have an account? <span className={styles.linkHighlight}>Sign in here</span>
+              </Link>
+            </div>
           </form>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

@@ -146,6 +146,27 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.pageContainer}>
+      {/* Background effects */}
+      <div className={styles.backgroundContainer}>
+        <div className={styles.redGlow} />
+      </div>
+
+      {/* Particles */}
+      <div className={styles.particlesContainer}>
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className={styles.particle}
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`,
+            }}
+          />
+        ))}
+      </div>
+
       <div className={styles.pageWrapper}>
         <Sidebar collapsed={sidebarCollapsed} onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
         <div className={styles.mainContent} style={{ marginLeft: sidebarCollapsed ? 0 : 280 }}>
