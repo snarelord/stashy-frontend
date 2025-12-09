@@ -132,7 +132,6 @@
   opacity: 1;
   background: rgba(34, 211, 238, 0.15);
   border-color: rgba(34, 211, 238, 0.4);
-  transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(34, 211, 238, 0.2);
 }
 
@@ -165,7 +164,6 @@
   opacity: 1;
   background: rgba(34, 211, 238, 0.15);
   border-color: rgba(34, 211, 238, 0.4);
-  transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(34, 211, 238, 0.2);
 }
 

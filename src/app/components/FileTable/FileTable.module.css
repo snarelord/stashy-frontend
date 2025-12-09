@@ -88,7 +88,6 @@
 .confirmButton:hover {
   background: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
   box-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
-  transform: translateY(-1px);
 }
 
 .cancelButton {
@@ -159,7 +158,6 @@
   text-align: left;
 }
 
-/* Updated row styling with subtle hover and Dropbox-inspired colors */
 .tableRow {
   display: grid;
   grid-template-columns: 1fr 180px 240px;
@@ -231,7 +229,6 @@
   opacity: 1;
   background: rgba(34, 211, 238, 0.15);
   border-color: rgba(34, 211, 238, 0.4);
-  transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(34, 211, 238, 0.2);
 }
 
@@ -239,7 +236,6 @@
   transform: translateY(0);
 }
 
-/* Quick share button matching AllFiles style */
 .quickShareButton {
   padding: 0.5rem 0.75rem;
   background: rgba(255, 255, 255, 0.05);
@@ -259,7 +255,6 @@
   opacity: 1;
   background: rgba(34, 211, 238, 0.15);
   border-color: rgba(34, 211, 238, 0.4);
-  transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(34, 211, 238, 0.2);
 }
 
@@ -272,7 +267,6 @@
   cursor: not-allowed;
 }
 
-/* Updated empty state with lighter colors */
 .emptyState {
   display: flex;
   flex-direction: column;
@@ -280,7 +274,6 @@
   justify-content: center;
   padding: 80px 20px;
   text-align: center;
-  background-color: #ffffff;
 }
 
 .emptyIcon {
@@ -297,17 +290,17 @@
 
 /* Updated upload button with Dropbox blue */
 .uploadButton {
-  padding: 12px 24px;
-  background-color: #0061ff;
+  padding: 0.625rem 1.25rem;
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  font-family: var(--font-roboto), sans-serif;
-  color: #ffffff;
+  font-family: inherit;
+  color: white;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 97, 255, 0.2);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
 }
 
 .uploadButton:hover {
