@@ -197,6 +197,16 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
+@media (max-width: 768px) {
+  .pill {
+    padding: 0.25rem 0.25rem;
+    font-size: 0.7em;
+  }
+  .featurePills {
+    justify-content: center;
+  }
+}
+
 /* Button styles */
 .signUpButton {
   border-radius: 9999px;

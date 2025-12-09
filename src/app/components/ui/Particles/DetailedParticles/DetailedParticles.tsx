@@ -16,6 +16,16 @@ export default function DetailedParticles() {
   const [particleCount, setParticleCount] = useState(30);
   const [particleColour, setParticleColour] = useState("#22d3ee");
   const [showControls, setShowControls] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
@@ -106,71 +116,73 @@ export default function DetailedParticles() {
     <>
       <canvas ref={canvasRef} className={styles.particlesContainer} />
 
-      <div className={styles.controlsContainer}>
-        <button
-          className={styles.controlsToggle}
-          onClick={() => setShowControls(!showControls)}
-          aria-label="Toggle particle controls"
-        >
-          <Settings2 size={20} />
-        </button>
+      {!isMobile && (
+        <div className={styles.controlsContainer}>
+          <button
+            className={styles.controlsToggle}
+            onClick={() => setShowControls(!showControls)}
+            aria-label="Toggle particle controls"
+          >
+            <Settings2 size={20} />
+          </button>
 
-        {showControls && (
-          <div className={styles.controlsPanel}>
-            <div className={styles.controlsHeader}>
-              <h3>Particle Controls</h3>
-            </div>
+          {showControls && (
+            <div className={styles.controlsPanel}>
+              <div className={styles.controlsHeader}>
+                <h3>Particle Controls</h3>
+              </div>
 
-            <div className={styles.controlGroup}>
-              <label htmlFor="particleCount">
-                Count: <span className={styles.controlValue}>{particleCount}</span>
-              </label>
-              <input
-                id="particleCount"
-                type="range"
-                min="20"
-                max="150"
-                value={particleCount}
-                onChange={(e) => setParticleCount(Number(e.target.value))}
-                className={styles.slider}
-              />
-            </div>
+              <div className={styles.controlGroup}>
+                <label htmlFor="particleCount">
+                  Count: <span className={styles.controlValue}>{particleCount}</span>
+                </label>
+                <input
+                  id="particleCount"
+                  type="range"
+                  min="20"
+                  max="150"
+                  value={particleCount}
+                  onChange={(e) => setParticleCount(Number(e.target.value))}
+                  className={styles.slider}
+                />
+              </div>
 
-            <div className={styles.presetColours}>
-              <button
-                className={styles.colourPreset}
-                style={{ background: "#22d3ee" }}
-                onClick={() => setParticleColour("#22d3ee")}
-                aria-label="Cyan preset"
-              />
-              <button
-                className={styles.colourPreset}
-                style={{ background: "#ef4444" }}
-                onClick={() => setParticleColour("#ef4444")}
-                aria-label="Red preset"
-              />
-              <button
-                className={styles.colourPreset}
-                style={{ background: "#8b5cf6" }}
-                onClick={() => setParticleColour("#8b5cf6")}
-                aria-label="Purple preset"
-              />
-              <button
-                className={styles.colourPreset}
-                style={{ background: "#10b981" }}
-                onClick={() => setParticleColour("#10b981")}
-                aria-label="Green preset"
-              />
-              <button
-                className={styles.colourPreset}
-                style={{ background: "#f59e0b" }}
-                onClick={() => setParticleColour("#f59e0b")}
-                aria-label="Orange preset"
-              />
+              <div className={styles.presetColours}>
+                <button
+                  className={styles.colourPreset}
+                  style={{ background: "#22d3ee" }}
+                  onClick={() => setParticleColour("#22d3ee")}
+                  aria-label="Cyan preset"
+                />
+                <button
+                  className={styles.colourPreset}
+                  style={{ background: "#ef4444" }}
+                  onClick={() => setParticleColour("#ef4444")}
+                  aria-label="Red preset"
+                />
+                <button
+                  className={styles.colourPreset}
+                  style={{ background: "#8b5cf6" }}
+                  onClick={() => setParticleColour("#8b5cf6")}
+                  aria-label="Purple preset"
+                />
+                <button
+                  className={styles.colourPreset}
+                  style={{ background: "#10b981" }}
+                  onClick={() => setParticleColour("#10b981")}
+                  aria-label="Green preset"
+                />
+                <button
+                  className={styles.colourPreset}
+                  style={{ background: "#f59e0b" }}
+                  onClick={() => setParticleColour("#f59e0b")}
+                  aria-label="Orange preset"
+                />
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </>
   );
 }
