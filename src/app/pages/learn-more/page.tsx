@@ -110,7 +110,7 @@ export default function LearnMore() {
               </li>
             </ul>
             <p className={styles.aboutTextHighlight}>
-              So I built <span className={styles.gradientText}>Stashy</span>: a storage platform designed to put
+              So I built <span className={styles.gradientText}>Stashy</span>, a storage platform designed to put
               creatives first.
             </p>
           </div>
@@ -167,7 +167,6 @@ export default function LearnMore() {
             </div>
           </div>
 
-          {/* CTA Section */}
           <div className={styles.ctaSection}>
             <h2 className={styles.ctaHeading}>Ready to Get Started?</h2>
             <p className={styles.ctaText}>Contact me below to get involved!</p>

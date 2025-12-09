@@ -29,7 +29,6 @@
 .socialLink:hover {
   border-color: rgba(34, 211, 238, 0.3);
   background: rgba(255, 255, 255, 0.05);
-  transform: translateY(-4px);
 }
 
 .socialIcon {

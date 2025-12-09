@@ -35,10 +35,8 @@
   width: 100%;
   height: 100%;
   opacity: 0.4;
-  /* Ensure SVG scales properly to fill container */
   min-width: 100%;
   min-height: 100%;
-  /* Preserve aspect ratio while covering the container */
   object-fit: cover;
 }
 
