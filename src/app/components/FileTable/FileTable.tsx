@@ -102,7 +102,7 @@ export default function FileTable({
         )}
       </div>
       <p className={styles.fileCount}>
-        //Folder contents ({subfolders.length + files.length}{" "}
+        // Folder contents ({subfolders.length + files.length}{" "}
         {subfolders.length + files.length === 1 ? "item" : "items"})
       </p>
       <div className={styles.fileTable}>
@@ -178,7 +178,6 @@ export default function FileTable({
             >
               <div className={styles.tableCell}>
                 <span className={styles.fileIcon}>{getFileIcon(file.mimeType)}</span>
-                {shortenFileName(file.name)}
                 {file.name}
               </div>
               <div className={styles.tableCell}>
