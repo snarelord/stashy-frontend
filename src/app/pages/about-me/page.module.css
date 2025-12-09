@@ -36,10 +36,11 @@
 }
 
 /* Main Content */
+/* Reducing mobile padding to prevent overflow */
 .main {
   position: relative;
   z-index: 1;
-  padding: 2rem 1.5rem 4rem;
+  padding: 2rem 1rem 4rem;
 }
 
 @media (min-width: 768px) {
@@ -65,6 +66,12 @@
 @media (min-width: 1024px) {
   .content {
     gap: 6rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .content {
+    gap: 2rem;
   }
 }
 
@@ -157,10 +164,13 @@
 }
 
 /* Music Section */
+/* Ensuring music section doesn't overflow on mobile */
 .musicSection {
   max-width: 56rem;
   margin: 0 auto;
   text-align: center;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .musicBio {

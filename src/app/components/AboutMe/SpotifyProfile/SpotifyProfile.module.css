@@ -1,6 +1,6 @@
 /* Placeholder States */
 .spotifyPlaceholder {
-  margin: 1rem;
+  margin: 1rem 0;
   padding: 2rem 1rem;
   border-radius: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -10,7 +10,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  width: calc(100% - 2rem);
+  width: 100%;
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -53,14 +53,14 @@
 
 /* Main Container */
 .spotifyContainer {
-  margin: 1rem;
+  margin: 1rem 0;
   padding: 1rem;
   border-radius: 1rem;
   border: 1px solid rgba(29, 185, 84, 0.2);
   background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(10px);
-  max-width: calc(100% - 2rem);
-  width: calc(100% - 2rem);
+  width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
 }
 
@@ -68,8 +68,7 @@
   .spotifyContainer {
     margin: 2rem auto;
     padding: 1.5rem;
-    max-width: 48rem;
-    width: calc(100% - 4rem);
+    max-width: 100%;
   }
 }
 

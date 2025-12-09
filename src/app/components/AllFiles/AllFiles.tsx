@@ -1,3 +1,5 @@
+import type React from "react";
+
 import { useState, useEffect } from "react";
 import styles from "./AllFiles.module.css";
 import { useRouter } from "next/navigation";
@@ -22,7 +24,7 @@ function getFileIconComponent(file: any) {
     const imageUrl = `${process.env.NEXT_PUBLIC_API_URL}/files/stream/${file.id}`;
     return (
       <Image
-        src={imageUrl}
+        src={imageUrl || "/placeholder.svg"}
         alt={file.name}
         width={20}
         height={20}
@@ -37,15 +39,6 @@ function getFileIconComponent(file: any) {
   return <FileIcon className={styles.fileIcon} size={20} />;
 }
 
-function shortenFileName(name: string, maxLength = 20) {
-  if (typeof window !== "undefined" && window.innerWidth <= 768 && name.length > maxLength) {
-    const first = name.slice(0, 8);
-    const last = name.slice(-8);
-    return `${first}...${last}`;
-  }
-  return name;
-}
-
 interface AllFilesProps {
   onContextMenu?: (e: React.MouseEvent, item: any, type: "file" | "folder") => void;
 }
@@ -54,6 +47,9 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
   const router = useRouter();
   const [files, setFiles] = useState<any[]>([]);
   const [folders, setFolders] = useState<any[]>([]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<{ item: any; type: "file" | "folder" } | null>(null);
+
   const { contextMenu, setContextMenu, handleContextMenu } = useContextMenu();
   const { loading, setLoading, handleDelete } = useFileOperations();
   const { quickShareFile, quickShareFolder, loading: quickShareLoading } = useQuickShare();
@@ -75,10 +71,8 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
   async function loadUserFiles() {
     try {
       const foldersResponse = await api.getFolders();
-
       setFolders(foldersResponse.folders || []);
       const filesResponse = await api.getFiles();
-
       setFiles(filesResponse.files || []);
     } catch (err) {
       console.error("Failed to load files:", err);
@@ -89,21 +83,32 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
     }
   }
 
-  useEffect(function () {
+  useEffect(() => {
     loadUserFiles();
 
-    const handleRefresh = function () {
+    const handleRefresh = () => {
       loadUserFiles();
     };
 
     window.addEventListener("focus", handleRefresh);
     window.addEventListener("refreshDashboard", handleRefresh);
 
-    return function () {
+    return () => {
       window.removeEventListener("focus", handleRefresh);
       window.removeEventListener("refreshDashboard", handleRefresh);
     };
   }, []);
+
+  function openMobileMenu(item: any, type: "file" | "folder", e: React.MouseEvent) {
+    e.stopPropagation();
+    setSelectedItem({ item, type });
+    setMobileMenuOpen(true);
+  }
+
+  function closeMobileMenu() {
+    setMobileMenuOpen(false);
+    setTimeout(() => setSelectedItem(null), 300);
+  }
 
   function handleFolderClick(folderId: string) {
     router.push(`/pages/folder/${folderId}`);
@@ -129,6 +134,36 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
       console.error("Folder download failed:", error);
       toast.error(error.message || "Failed to download folder");
     }
+  }
+
+  function handleMobileShare() {
+    if (!selectedItem) return;
+    if (selectedItem.type === "folder") {
+      quickShareFolder(selectedItem.item.id, selectedItem.item.name);
+    } else {
+      quickShareFile(selectedItem.item.id, selectedItem.item.original_name);
+    }
+    closeMobileMenu();
+  }
+
+  function handleMobileDownload() {
+    if (!selectedItem) return;
+    const fakeEvent = { stopPropagation: () => {} } as React.MouseEvent;
+    if (selectedItem.type === "folder") {
+      handleDownloadFolder(selectedItem.item, fakeEvent);
+    } else {
+      handleDownload(selectedItem.item, fakeEvent);
+    }
+    closeMobileMenu();
+  }
+
+  function handleMobileDelete() {
+    if (!selectedItem) return;
+    handleDelete(selectedItem.item, selectedItem.type, () => {
+      loadUserFiles();
+      window.dispatchEvent(new Event("refreshDashboard"));
+    });
+    closeMobileMenu();
   }
 
   return (
@@ -157,36 +192,45 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
               {folder.createdAt ? new Date(folder.createdAt).toLocaleDateString() : "—"}
             </div>
             <div className={styles.tableCell}>
+              <div className={styles.desktopActions}>
+                <button
+                  className={styles.quickShareButton}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    quickShareFolder(folder.id, folder.name);
+                  }}
+                  disabled={quickShareLoading}
+                  title="Quick share (30 days)"
+                >
+                  Share
+                </button>
+                <button
+                  onClick={(e) => handleDownloadFolder(folder, e)}
+                  className={styles.actionButton}
+                  title="Download folder as ZIP"
+                >
+                  Download
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(folder, "folder", () => {
+                      loadUserFiles();
+                      window.dispatchEvent(new Event("refreshDashboard"));
+                    });
+                  }}
+                  className={styles.actionButton}
+                  title="Delete folder"
+                >
+                  Delete
+                </button>
+              </div>
               <button
-                className={styles.quickShareButton}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  quickShareFolder(folder.id, folder.name);
-                }}
-                disabled={quickShareLoading}
-                title="Quick share (30 days)"
+                className={styles.mobileMenuButton}
+                onClick={(e) => openMobileMenu(folder, "folder", e)}
+                title="More actions"
               >
-                Share
-              </button>
-              <button
-                onClick={(e) => handleDownloadFolder(folder, e)}
-                className={styles.actionButton}
-                title="Download folder as ZIP"
-              >
-                Download
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDelete(folder, "folder", function () {
-                    loadUserFiles();
-                    window.dispatchEvent(new Event("refreshDashboard"));
-                  });
-                }}
-                className={styles.actionButton}
-                title="Delete folder"
-              >
-                Delete
+                ⋯
               </button>
             </div>
           </div>
@@ -214,46 +258,83 @@ export default function AllFiles({ onContextMenu: onContextMenuProp }: AllFilesP
           >
             <div className={styles.tableCell}>
               {getFileIconComponent(file)}
-              {shortenFileName(file.name)}
+              {file.name}
             </div>
             <div className={styles.tableCell}>
               {file.createdAt ? new Date(file.createdAt).toLocaleDateString() : ""}
             </div>
             <div className={styles.tableCell}>
+              <div className={styles.desktopActions}>
+                <button
+                  className={styles.quickShareButton}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    quickShareFile(file.id, file.original_name);
+                  }}
+                  disabled={quickShareLoading}
+                  title="Quick share (30 days)"
+                >
+                  Share
+                </button>
+                <button onClick={(e) => handleDownload(file, e)} className={styles.actionButton} title="Download file">
+                  Download
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(file, "file", () => {
+                      loadUserFiles();
+                      window.dispatchEvent(new Event("refreshDashboard"));
+                    });
+                  }}
+                  className={styles.actionButton}
+                  title="Delete file"
+                  name="delete-button"
+                >
+                  Delete
+                </button>
+              </div>
               <button
-                className={styles.quickShareButton}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  quickShareFile(file.id, file.original_name);
-                }}
-                disabled={quickShareLoading}
-                title="Quick share (30 days)"
+                className={styles.mobileMenuButton}
+                onClick={(e) => openMobileMenu(file, "file", e)}
+                title="More actions"
               >
-                Share
-              </button>
-
-              <button onClick={(e) => handleDownload(file, e)} className={styles.actionButton} title="Download file">
-                Download
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDelete(file, "file", function () {
-                    loadUserFiles();
-                    window.dispatchEvent(new Event("refreshDashboard"));
-                  });
-                }}
-                className={styles.actionButton}
-                title="Delete file"
-                name="delete-button"
-              >
-                Delete
+                ⋯
               </button>
             </div>
           </div>
         ))}
         {folders.length === 0 && files.length === 0 && <div className={styles.emptyState}>No files or folders yet</div>}
       </div>
+
+      {mobileMenuOpen && (
+        <>
+          <div className={styles.mobileMenuOverlay} onClick={closeMobileMenu} />
+          <div className={styles.mobileMenuDrawer}>
+            <div className={styles.mobileMenuHeader}>
+              <h3 className={styles.mobileMenuTitle}>
+                {selectedItem?.item?.name || selectedItem?.item?.original_name || "Actions"}
+              </h3>
+              <button className={styles.mobileMenuClose} onClick={closeMobileMenu}>
+                ✕
+              </button>
+            </div>
+            <div className={styles.mobileMenuActions}>
+              <button className={styles.mobileActionButton} onClick={handleMobileShare}>
+                Share
+              </button>
+              <button className={styles.mobileActionButton} onClick={handleMobileDownload}>
+                Save to device
+              </button>
+              <button className={styles.mobileActionButton}>Rename</button>
+              <button className={styles.mobileActionButton}>Move</button>
+              <button className={styles.mobileActionButton} onClick={handleMobileDelete}>
+                Delete
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 }
