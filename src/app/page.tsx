@@ -16,13 +16,10 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      {/* Background gradient blobs */}
       <div className={styles.backgroundContainer}>
-        {/* Red/orange glow on the left */}
         <div className={styles.redGlow} />
       </div>
 
-      {/* Navigation */}
       <nav className={styles.nav}>
         <div className={styles.navContent}>
           {/* <Image src="/stashy-logo.svg" alt="Stashy" width={140} height={35} className={styles.logo} priority /> */}
@@ -30,11 +27,14 @@ export default function Home() {
             <a href="/pages/dashboard" className={styles.navLink}>
               Home
             </a>
-            <a href="#about" className={styles.navLink}>
-              About
+            <a href="/pages/learn-more" className={styles.navLink}>
+              Learn More
             </a>
             <a href="#contact" className={styles.navLink}>
               Contact
+            </a>
+            <a href="/pages/about-me" className={styles.navLink}>
+              A Bit About Me
             </a>
           </div>
         </div>
@@ -43,23 +43,19 @@ export default function Home() {
         </Button>
       </nav>
 
-      {/* Hero Section */}
       <main className={styles.main}>
         <div className={`${styles.heroContent} ${isVisible ? styles.visible : styles.hidden}`}>
           {/* Eyebrow */}
           <div className={styles.eyebrow}>Digital Storage</div>
 
-          {/* Main Heading */}
           <h1 className={styles.heading}>
             Stash Your
             <br />
             <span className={styles.gradientText}>Things</span>
           </h1>
 
-          {/* Subheading */}
           <p className={styles.subheading}>Store, organise, and access your files from anywhere.</p>
 
-          {/* CTA Buttons */}
           <div className={styles.ctaButtons}>
             <Button size="lg" className={styles.ctaPrimaryButton} onClick={() => router.push("/pages/sign-in")}>
               Sign In
