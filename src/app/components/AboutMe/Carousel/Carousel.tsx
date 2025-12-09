@@ -53,6 +53,7 @@ export default function Carousel({ items }: CarouselProps) {
               height={800}
               className={styles.carouselImage}
               priority={currentIndex === 0}
+              loading="eager"
             />
           )}
         </div>
@@ -64,7 +65,6 @@ export default function Carousel({ items }: CarouselProps) {
         </button>
       </div>
 
-      {/* Carousel Indicators */}
       <div className={styles.carouselIndicators}>
         {items.map((_, index) => (
           <button
