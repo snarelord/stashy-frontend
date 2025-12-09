@@ -46,7 +46,7 @@ export default function DashboardPage() {
         fileId: item.id,
         fileName: item.original_name,
       };
-      console.log("🔍 Setting file share state:", newState);
+      console.log("Setting file share state:", newState);
       setShareModal(newState);
     } else {
       const newState = {
@@ -54,7 +54,7 @@ export default function DashboardPage() {
         folderId: item.id,
         folderName: item.name,
       };
-      console.log("🔍 Setting folder share state:", newState);
+      console.log("Setting folder share state:", newState);
       setShareModal(newState);
     }
   }
@@ -81,6 +81,7 @@ export default function DashboardPage() {
   }
 
   useEffect(function () {
+    setSidebarCollapsed(true);
     loadUserFiles();
 
     const handleFocus = function () {

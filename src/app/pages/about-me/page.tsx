@@ -156,7 +156,7 @@ export default function AboutMe() {
               </p>
               <p className={styles.musicText}>
                 I've performed at a variety of venues events across the UK and Europe, sharing stages with established
-                artists and bringing energy to dancefloors.
+                artists and bringing our sound to the dancefloors.
               </p>
             </div>
 

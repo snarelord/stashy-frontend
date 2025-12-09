@@ -5,6 +5,7 @@ import { Button } from "./components/ui/button";
 import Image from "next/image";
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
+import HamBurgerMenu from "./components/ui/HamburgerMenu/HamBurgerMenu";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
@@ -19,8 +20,8 @@ export default function Home() {
       <div className={styles.backgroundContainer}>
         <div className={styles.redGlow} />
       </div>
-
       <nav className={styles.nav}>
+        <HamBurgerMenu />
         <div className={styles.navContent}>
           {/* <Image src="/stashy-logo.svg" alt="Stashy" width={140} height={35} className={styles.logo} priority /> */}
           <div className={styles.navLinks}>

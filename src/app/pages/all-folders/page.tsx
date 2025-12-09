@@ -45,6 +45,7 @@ export default function AllFoldersPage() {
   }
 
   useEffect(function () {
+    setSidebarCollapsed(true);
     loadFolders();
 
     function handleFocus() {

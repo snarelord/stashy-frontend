@@ -54,6 +54,7 @@ export default function FolderPage() {
 
   useEffect(
     function () {
+      setSidebarCollapsed(true);
       loadFolderContents();
     },
     [folderId]
