@@ -131,8 +131,8 @@ export default function AboutMe() {
                 School of Code
               </a>{" "}
               bootcamp, where I learnt the fundamentals of full stack development. But coding isn't my only creative
-              outlet. As a music producer and DJ, I've spent years crafting tracks, playing events across Europe and
-              learning what it means to create something that people can relate to.
+              outlet. As a music producer and DJ, I've spent years creating tracks, playing events across the UK and
+              Europe, and learning what it means to create something that people can relate to.
             </p>
             <p className={styles.bioText}>
               Everything I create is shaped by that dual perspective. I'm always considering user experience, aesthetics
@@ -151,8 +151,8 @@ export default function AboutMe() {
             <div className={styles.musicBio}>
               <p className={styles.musicText}>
                 As <span className={styles.gradientText}>Circumference</span>, I produce melodic drum & bass and
-                emotional, atmospheric electronic music. My releases span across labels such as Soulvent Records,
-                Flexout Audio, Hospital Records, Overview and Modus Music.
+                atmospheric electronic music in a duo. My releases span across labels such as Soulvent Records, Flexout
+                Audio, Hospital Records, Overview and Modus Music.
               </p>
               <p className={styles.musicText}>
                 I've performed at a variety of venues events across the UK and Europe, sharing stages with established
@@ -171,7 +171,7 @@ export default function AboutMe() {
           <div className={styles.ctaSection}>
             <h2 className={styles.ctaHeading}>Let's Connect</h2>
             <p className={styles.ctaText}>
-              Whether you want to talk about development, music production, or just say hi — I'd love to hear from you.
+              Whether you want to talk about development, music production or just say hi. I'd love to hear from you.
             </p>
             <div className={styles.ctaButtons}>
               <a href="https://www.linkedin.com/in/kit-jones-64926a2aa/" target="_blank" rel="noopener noreferrer">
