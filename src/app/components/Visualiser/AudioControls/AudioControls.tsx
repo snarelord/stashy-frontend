@@ -51,8 +51,7 @@ export default function AudioControls({
   };
 
   const handleShare = () => {
-    // Share logic will be added later
-    console.log("Share button clicked");
+    // handle share logic
   };
 
   return (

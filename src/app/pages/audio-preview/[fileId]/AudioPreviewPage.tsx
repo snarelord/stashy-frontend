@@ -75,7 +75,6 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
     try {
       const response = await api.getFiles();
       const foundFile = response.files.find((f: any) => f.id === fileId);
-      console.log("Found file: ", foundFile);
 
       if (foundFile) {
         setFile(foundFile);
@@ -103,7 +102,6 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
     if (!audioRef.current) return;
 
     if (isPlaying) {
-      console.log("Pausing audio");
       audioRef.current.pause();
     } else {
       if (!audioContextRef.current) {

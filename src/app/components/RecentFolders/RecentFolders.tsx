@@ -70,8 +70,7 @@ export default function RecentFolders({ onContextMenu: onContextMenuProp }: Rece
     if (item.type === "folder") {
       router.push(`/pages/folder/${item.id}`);
     } else {
-      // todo: handle file click (preview, download, etc.)
-      console.log("File clicked:", item.name);
+      // console.log("File clicked:", item.name);
     }
   }
 

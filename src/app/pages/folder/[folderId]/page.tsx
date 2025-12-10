@@ -68,7 +68,6 @@ export default function FolderPage() {
         fileId: item.id,
         fileName: item.original_name,
       };
-      console.log("🔍 Setting file share state:", newState);
       setShareModal(newState);
     } else {
       const newState = {
@@ -76,7 +75,6 @@ export default function FolderPage() {
         folderId: item.id,
         folderName: item.name,
       };
-      console.log("🔍 Setting folder share state:", newState);
       setShareModal(newState);
     }
   }
