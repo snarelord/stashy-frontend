@@ -36,7 +36,6 @@
 }
 
 /* Main Content */
-/* Reducing mobile padding to prevent overflow */
 .main {
   position: relative;
   z-index: 1;
@@ -164,13 +163,12 @@
 }
 
 /* Music Section */
-/* Ensuring music section doesn't overflow on mobile */
 .musicSection {
   max-width: 56rem;
   margin: 0 auto;
   text-align: center;
   width: 100%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 .musicBio {

@@ -6,8 +6,6 @@ import Carousel from "../../components/AboutMe/Carousel/Carousel";
 import SocialLinks from "../../components/AboutMe/SocialLinks/SocialLinks";
 import SpotifyProfile from "../../components/AboutMe/SpotifyProfile/SpotifyProfile";
 import styles from "./page.module.css";
-import { preload } from "react-dom";
-import StaticParticles from "@/app/components/ui/Particles/StaticParticles";
 import LinearGradient from "@/app/components/ui/LinearGradient/LinearGradient";
 
 export default function AboutMe() {
