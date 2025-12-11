@@ -164,6 +164,7 @@ export default function LearnMore() {
             <p className={styles.ctaText}>Contact me below to get involved!</p>
             <div className={styles.ctaButtons}>
               <Button
+                href="mailto:kitjonesuk@gmail.com"
                 size="lg"
                 className="rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white border-0 px-8 py-6 text-base font-semibold shadow-lg shadow-cyan-500/30"
               >
