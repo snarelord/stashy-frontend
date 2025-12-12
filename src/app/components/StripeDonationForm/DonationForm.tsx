@@ -81,7 +81,7 @@ function CheckoutForm() {
       setMessage(result.error.message || "Payment failed");
       setMessageType("error");
     } else if (result?.paymentIntent?.status === "succeeded") {
-      setMessage("Thank you for your donation! Your support means the world to us.");
+      setMessage("Thank you for your donation!");
       setMessageType("success");
     }
     setLoading(false);
@@ -139,7 +139,7 @@ function CheckoutForm() {
                   placeholder="Enter amount"
                   value={customAmount}
                   onChange={handleCustomAmountChange}
-                  disabled={typeof amount !== "string"}
+                  // disabled={typeof amount !== "string"}
                   className={styles.customInput}
                   onClick={() => setAmount("custom")}
                 />
@@ -172,9 +172,13 @@ function CheckoutForm() {
           </div>
         </div>
 
-        <button type="submit" disabled={!stripe || loading} className={styles.submitButton}>
+        <button type="submit" disabled={true} className={styles.submitButton}>
           {loading ? "Processing..." : "Complete Donation"}
         </button>
+        {/* 
+        <button type="submit" disabled={!stripe || loading} className={styles.submitButton}>
+          {loading ? "Processing..." : "Complete Donation"}
+        </button> */}
 
         {message && (
           <div

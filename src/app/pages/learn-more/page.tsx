@@ -4,7 +4,8 @@ import { Button } from "../../components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
-import DonationForm from "@/app/components/StripeDonationForm/DonationForm";
+import dynamic from "next/dynamic";
+const DonationForm = dynamic(() => import("../../components/StripeDonationForm/DonationForm"), { ssr: false });
 
 export default function LearnMore() {
   return (
@@ -173,7 +174,9 @@ export default function LearnMore() {
               </Button>
             </div>
           </div>
-          <div>{/* <DonationForm /> */}</div>
+          <div>
+            <DonationForm />
+          </div>
         </div>
       </main>
     </div>
