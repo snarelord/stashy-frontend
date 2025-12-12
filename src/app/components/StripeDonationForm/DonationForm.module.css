@@ -195,7 +195,7 @@
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(to right, #22d3ee, #3b82f6);
+  background: #3b82f6;
   border: none;
   border-radius: 9999px;
   cursor: pointer;
@@ -204,7 +204,7 @@
 }
 
 .submitButton:hover:not(:disabled) {
-  background: linear-gradient(to right, #06b6d4, #2563eb);
+  background: #2563eb;
   box-shadow: 0 15px 30px -5px rgba(34, 211, 238, 0.4);
   transform: translateY(-2px);
 }
@@ -237,7 +237,7 @@
 }
 
 .gradientText {
-  background: linear-gradient(to right, #22d3ee, #3b82f6);
+  background: #3b82f6;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

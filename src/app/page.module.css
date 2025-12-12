@@ -59,7 +59,6 @@
   }
 }
 
-/* Ensure standard nav links are hidden on mobile and hamburger menu is visible */
 @media (max-width: 768px) {
   .navLinks {
     display: none;
@@ -78,11 +77,6 @@
 .navLink:hover {
   color: white;
 }
-
-/* .logo {
-  height: 2rem;
-  width: auto;
-} */
 
 /* Hero section */
 .main {
@@ -148,7 +142,7 @@
 }
 
 .gradientText {
-  background: linear-gradient(to right, #22d3ee, #3b82f6);
+  background: #3b82f6;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -181,28 +175,6 @@
   }
 }
 
-.featurePills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 3rem;
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.pill {
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-@media (max-width: 768px) {
-  .featurePills {
-    visibility: hidden;
-  }
-}
-
 /* Button styles */
 .signUpButton {
   border-radius: 9999px;
@@ -219,7 +191,7 @@
 
 .ctaPrimaryButton {
   border-radius: 9999px;
-  background: linear-gradient(to right, #06b6d4, #2563eb);
+  background: #3b82f6;
   color: white;
   border: none;
   padding: 1.5rem 2rem;
@@ -229,7 +201,7 @@
 }
 
 .ctaPrimaryButton:hover {
-  background: linear-gradient(to right, #22d3ee, #3b82f6);
+  background: #22d3ee;
 }
 
 .ctaSecondaryButton {
