@@ -1,0 +1,244 @@
+/* Donation Form Container */
+.donationContainer {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(to bottom right, rgba(34, 211, 238, 0.05), rgba(59, 130, 246, 0.05));
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .heading {
+    font-size: 2.5rem;
+  }
+}
+
+.subheading {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Amount Selection */
+.amountSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionLabel {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+.amountGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .amountGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.amountOption {
+  position: relative;
+}
+
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.amountLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+
+.amountLabel:hover {
+  border-color: rgba(34, 211, 238, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.radioInput:checked + .amountLabel {
+  border-color: rgba(34, 211, 238, 0.6);
+  background: linear-gradient(to bottom right, rgba(34, 211, 238, 0.15), rgba(59, 130, 246, 0.15));
+  color: #22d3ee;
+}
+
+/* Custom Amount */
+.customAmountOption {
+  grid-column: 1 / -1;
+}
+
+.customAmountLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+
+.customAmountLabel:hover {
+  border-color: rgba(34, 211, 238, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.radioInput:checked + .customAmountLabel {
+  border-color: rgba(34, 211, 238, 0.6);
+  background: linear-gradient(to bottom right, rgba(34, 211, 238, 0.15), rgba(59, 130, 246, 0.15));
+}
+
+.customAmountText {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.radioInput:checked ~ .customAmountText {
+  color: #22d3ee;
+}
+
+.customInput {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.customInput:focus {
+  border-color: rgba(34, 211, 238, 0.5);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.customInput:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Card Details Section */
+.cardSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cardElementWrapper {
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+}
+
+.cardElementWrapper:hover {
+  border-color: rgba(34, 211, 238, 0.3);
+}
+
+.cardElementWrapper:focus-within {
+  border-color: rgba(34, 211, 238, 0.5);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Submit Button */
+.submitButton {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(to right, #22d3ee, #3b82f6);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 10px 25px -5px rgba(34, 211, 238, 0.3);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: linear-gradient(to right, #06b6d4, #2563eb);
+  box-shadow: 0 15px 30px -5px rgba(34, 211, 238, 0.4);
+  transform: translateY(-2px);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Message */
+.message {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.messageSuccess {
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  color: #22d3ee;
+}
+
+.messageError {
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #f87171;
+}
+
+.gradientText {
+  background: linear-gradient(to right, #22d3ee, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
