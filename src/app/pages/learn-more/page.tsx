@@ -173,7 +173,9 @@ export default function LearnMore() {
               </Button>
             </div>
           </div>
-          <div>{/* <DonationForm /> */}</div>
+          <div>
+            <DonationForm />
+          </div>
         </div>
       </main>
     </div>
