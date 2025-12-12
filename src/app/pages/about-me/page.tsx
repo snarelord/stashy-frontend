@@ -127,25 +127,17 @@ export default function AboutMe() {
             <SocialLinks links={socialLinks} />
           </div>{" "}
           <div className={styles.ctaSection}>
-            <h2 className={styles.ctaHeading}>Let's Connect</h2>
             <p className={styles.ctaText}>
               Whether you want to talk about development, music production or just say hi. I'd love to hear from you.
             </p>
             <div className={styles.ctaButtons}>
               <a href="https://www.linkedin.com/in/kit-jones-64926a2aa/" target="_blank" rel="noopener noreferrer">
-                <Button
-                  size="lg"
-                  className="rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white border-0 px-8 py-6 text-base font-semibold shadow-lg shadow-cyan-500/30"
-                >
+                <Button size="lg" className={styles.ctaPrimaryButton}>
                   Get In Touch
                 </Button>
               </a>
               <Link href="/pages/learn-more">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="rounded-full border-2 border-white/20 text-white hover:bg-white/5 hover:border-white/30 px-8 py-6 text-base font-semibold bg-transparent"
-                >
+                <Button size="lg" variant="outline" className={styles.ctaSecondaryButton}>
                   About Stashy
                 </Button>
               </Link>

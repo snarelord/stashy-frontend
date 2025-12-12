@@ -74,12 +74,6 @@ export default function Home() {
               Demo
             </Button>
           </div>
-
-          <div className={styles.featurePills}>
-            <div className={styles.pill}>File Conversion</div>
-            <div className={styles.pill}>Shareable Files</div>
-            <div className={styles.pill}>Free Storage</div>
-          </div>
         </div>
       </main>
 
