@@ -6,12 +6,12 @@ import { api } from "../../../services/api";
 import { useRouter } from "next/navigation";
 import useAuthRedirect from "../../../hooks/useAuthRedirect";
 import VisualiserBars from "../../../components/Visualiser/Visualiser/VisualiserBars";
-import LUFSMeter from "../../../components/Visualiser/LUFSMeter/LUFSMeter";
 import AudioControls from "@/app/components/Visualiser/AudioControls/AudioControls";
 import Spinner from "@/app/components/Spinner/Spinner";
 import WaveformDisplay from "../../../components/WaveformDisplay/WaveformDisplay";
 import toast from "react-hot-toast";
 import { useQuickShare } from "../../../hooks/useQuickShare";
+import { X, Download, Link2, AudioWaveform } from "lucide-react";
 
 interface AudioPreviewProps {
   fileId: string;
@@ -33,6 +33,7 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
   const [waveformLoading, setWaveformLoading] = useState(true);
   const [showWaveform, setShowWaveform] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<{ item: any; type: "file" } | null>(null);
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -212,46 +213,50 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
 
   return (
     <div className={styles.pageContainer}>
+      <div className={styles.backgroundGlow} />
+      <div className={styles.backgroundGlowSecondary} />
+
       <header className={styles.header}>
-        <button onClick={() => router.back()} className={styles.backButton}>
-          ✕
+        <button onClick={() => router.back()} className={styles.closeButton} aria-label="Close">
+          <X size={18} />
         </button>
 
         <div className={styles.fileInfo}>
           <h1 className={styles.fileName}>{file.name}</h1>
-          <p className={styles.fileDetails}>{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+          <p className={styles.fileDetails}>{(file.size / 1024 / 1024).toFixed(2)} MB • WAV</p>
         </div>
+
         <div className={styles.headerActions}>
-          <button
-            name="flip"
-            onClick={() => setShowWaveform((prev) => !prev)}
-            className={styles.toggleButton}
-            type="button"
-          >
-            {showWaveform ? "Show Visualiser" : "Show Waveform"}
+          <button onClick={() => setShowWaveform((prev) => !prev)} className={styles.actionButton} type="button">
+            <AudioWaveform size={16} />
+            <span>{showWaveform ? "Visualiser" : "Waveform"}</span>
           </button>
 
-          <button onClick={handleDownload} className={styles.downloadButton}>
-            Download
+          <button className={styles.actionButton} onClick={handleDownload}>
+            <Download size={16} />
+            <span>Download</span>
           </button>
+
           <button
-            className={styles.quickShareButton}
+            className={styles.iconButton}
+            title="Quick share"
             onClick={(e) => {
               e.stopPropagation();
-              quickShareFile(file.id, file.original_name);
+              quickShareFile(file.id, file.name);
             }}
-            disabled={quickShareLoading}
-            title="Quick share (30 days)"
           >
-            🔗
+            <Link2 size={18} />
           </button>
         </div>
       </header>
 
-      {isMobile && showWaveform && <img src="/audio-icon.svg" alt="Audio Icon" className={styles.audioIcon} />}
-
       <main className={styles.visualiserMain}>
-        <div className={styles.toggleContainer}></div>
+        {isMobile && showWaveform && (
+          <div className={styles.audioIconWrapper}>
+            <AudioWaveform size={48} className={styles.audioIcon} />
+          </div>
+        )}
+
         {showWaveform ? (
           waveformLoading ? (
             <div className={styles.loadingText}>Loading waveform...</div>
@@ -272,21 +277,17 @@ export default function AudioPreviewPage({ fileId }: AudioPreviewProps) {
       </main>
 
       <footer className={styles.footer}>
-        <div className={styles.footerContent}>
-          <div className={styles.controlsContainer}>
-            <AudioControls
-              isPlaying={isPlaying}
-              volume={volume}
-              currentTime={currentTime}
-              duration={duration}
-              onPlayPause={handlePlayPause}
-              onVolumeChange={handleVolumeChange}
-              onSeek={handleSeek}
-              hasAudio={!!file}
-              showProgressBar={!showWaveform}
-            />
-          </div>
-        </div>
+        <AudioControls
+          isPlaying={isPlaying}
+          volume={volume}
+          currentTime={currentTime}
+          duration={duration}
+          onPlayPause={handlePlayPause}
+          onVolumeChange={handleVolumeChange}
+          onSeek={handleSeek}
+          hasAudio={!!file}
+          showProgressBar={!showWaveform}
+        />
       </footer>
 
       <audio

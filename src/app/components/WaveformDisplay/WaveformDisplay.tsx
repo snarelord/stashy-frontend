@@ -16,7 +16,7 @@ export default function WaveformDisplay({
   width = 800,
   height = 100,
   colour = "rgba(255, 255, 255, 0.2)",
-  playedColour = "#22d3ee7e",
+  playedColour = "#22d3eeff",
   currentTime,
   duration,
   onSeek,

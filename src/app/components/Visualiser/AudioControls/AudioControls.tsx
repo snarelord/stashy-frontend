@@ -1,10 +1,16 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-
-import { formatTime } from "../../../utils/formatTime";
+import type React from "react";
+import { useEffect, useState } from "react";
 import styles from "./AudioControls.module.css";
 import { Play, Pause, Volume2, VolumeX, Share2 } from "lucide-react";
+
+function formatTime(seconds: number): string {
+  if (!seconds || isNaN(seconds)) return "0:00";
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
 
 interface AudioControlsProps {
   isPlaying: boolean;
@@ -30,6 +36,7 @@ export default function AudioControls({
   showProgressBar,
 }: AudioControlsProps) {
   const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
     function checkMobile() {
       setIsMobile(window.matchMedia("(max-width: 700px)").matches);
@@ -38,6 +45,7 @@ export default function AudioControls({
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
   const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSeek(Number.parseFloat(e.target.value));
   };
@@ -50,65 +58,81 @@ export default function AudioControls({
     onVolumeChange(volume > 0 ? 0 : 1);
   };
 
-  const handleShare = () => {
-    // handle share logic
-  };
+  const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div id="audio-controls" className={styles.audioControls}>
+    <div className={styles.audioControls}>
+      {/* Progress Bar */}
       {(showProgressBar || isMobile) && (
         <div className={styles.progressBarContainer}>
-          <input
-            type="range"
-            min="0"
-            max={duration || 1}
-            value={currentTime}
-            step="0.01"
-            onChange={handleSeekChange}
-            className={styles.progressBar}
-            disabled={!hasAudio}
-          />
+          <div className={styles.progressTrack}>
+            <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
+            <input
+              type="range"
+              min="0"
+              max={duration || 1}
+              value={currentTime}
+              step="0.01"
+              onChange={handleSeekChange}
+              className={styles.progressInput}
+              disabled={!hasAudio}
+            />
+          </div>
         </div>
       )}
 
       <div className={styles.controlsRow}>
         <div className={styles.playbackControls}>
+          {/* Play/Pause Button */}
           <button
-            name="play-pause-button"
             className={styles.playPauseButton}
             onClick={onPlayPause}
             disabled={!hasAudio}
+            aria-label={isPlaying ? "Pause" : "Play"}
           >
-            {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
           </button>
 
+          {/* Time Display */}
           <div className={styles.timeDisplay}>
-            <span>{formatTime(currentTime)}</span>
-            <span>/</span>
-            <span>{formatTime(duration)}</span>
+            <span className={styles.currentTime}>{formatTime(currentTime)}</span>
+            <span className={styles.timeSeparator}>/</span>
+            <span className={styles.totalTime}>{formatTime(duration)}</span>
           </div>
 
+          {/* Volume Controls */}
           <div className={styles.volumeControls}>
-            <button className={styles.muteButton} onClick={toggleMute} disabled={!hasAudio}>
-              {volume === 0 ? <VolumeX size={20} /> : <Volume2 size={20} />}
+            <button
+              className={styles.muteButton}
+              onClick={toggleMute}
+              disabled={!hasAudio}
+              aria-label={volume === 0 ? "Unmute" : "Mute"}
+            >
+              {volume === 0 ? <VolumeX size={18} /> : <Volume2 size={18} />}
             </button>
 
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={handleVolumeChange}
-              className={styles.volumeSlider}
-              disabled={!hasAudio}
-              role="slider"
-            />
+            <div className={styles.volumeSliderContainer}>
+              <div className={styles.volumeTrack}>
+                <div className={styles.volumeFill} style={{ width: `${volume * 100}%` }} />
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={volume}
+                  onChange={handleVolumeChange}
+                  className={styles.volumeInput}
+                  disabled={!hasAudio}
+                  aria-label="Volume"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
-        <button className={styles.shareButton} onClick={handleShare} disabled={!hasAudio}>
-          <Share2 size={20} />
+        {/* Share Button */}
+        <button className={styles.shareButton} disabled={!hasAudio} aria-label="Share">
+          <Share2 size={18} />
         </button>
       </div>
     </div>
