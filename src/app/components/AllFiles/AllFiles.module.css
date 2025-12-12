@@ -5,11 +5,11 @@
   overflow-y: auto;
 }
 
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
   .fileListSection {
     padding: 1.5rem 2rem;
   }
-}
+} */
 
 @media (max-width: 768px) {
   .fileListSection {

@@ -258,6 +258,12 @@
     padding: 0.75rem 1rem;
   }
 
+  /* Define mobile header/footer heights so visualiserMain can size to viewport */
+  .pageContainer {
+    --header-height: 56px; /* approximate header height including padding */
+    --footer-height: 64px; /* footer control height when fixed */
+  }
+
   .closeButton,
   .iconButton {
     width: 32px;
@@ -296,5 +302,18 @@
 
   .waveformBar {
     max-width: 4px;
+  }
+
+  /* Make the visualiser take the exact space between header and footer on mobile */
+  .visualiserMain {
+    /* Subtract header/footer and any safe-area insets so content fits without scrolling */
+    height: calc(
+      100vh - var(--header-height) - var(--footer-height) - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    max-height: calc(
+      100vh - var(--header-height) - var(--footer-height) - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    padding-bottom: 0;
+    overflow: hidden;
   }
 }
