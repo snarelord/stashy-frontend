@@ -16,14 +16,27 @@ export default function SidebarNavigation({ showBackToDashboard = false }: Sideb
           Back to Dashboard
         </button>
       )}
-      <button className={styles.navItem}>Upload file</button>
       <button name="dashboard" className={styles.navItem} onClick={() => router.push("/pages/dashboard")}>
         Dashboard
       </button>
       <button name="all-folders" className={styles.navItem} onClick={() => router.push("/pages/all-folders")}>
         Folders
       </button>
-      <button className={styles.navItem}>Shared files</button>
+      <button disabled={true} className={styles.navItem}>
+        Shared files
+      </button>
+      <button disabled={true} className={styles.navItem}>
+        Notepad
+      </button>
+      <button disabled={true} className={styles.navItem}>
+        Audio converter
+      </button>
+      <button disabled={true} className={styles.navItem}>
+        Image converter
+      </button>
+      <button disabled={true} className={styles.navItem}>
+        Colour extractor
+      </button>
     </nav>
   );
 }
