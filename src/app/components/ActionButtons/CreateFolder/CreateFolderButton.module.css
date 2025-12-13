@@ -33,7 +33,7 @@
 
 .actionButtonPrimary {
   padding: 0.625rem 1.25rem;
-  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
+  background: #3b82f6;
   border: none;
   border-radius: 0.5rem;
   font-size: 0.875rem;
@@ -50,9 +50,8 @@
 }
 
 .actionButtonPrimary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
+  background: #2d63ba;
   box-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
-  transform: translateY(-1px);
 }
 
 .actionButtonPrimary:disabled {

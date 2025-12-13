@@ -76,9 +76,7 @@ export default function SignInPage() {
       <main className={styles.main}>
         <div className={styles.formContainer}>
           <div className={styles.eyebrow}>Welcome Back</div>
-          <h1 className={styles.title}>
-            Sign In to <span className={styles.gradientText}>Stashy</span>
-          </h1>
+          <h1 className={styles.title}>Sign In</h1>
 
           {error && <div className={styles.errorMessage}>{error}</div>}
 

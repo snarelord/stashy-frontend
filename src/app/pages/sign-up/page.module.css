@@ -193,7 +193,7 @@
 /* Sign Up Button */
 .signUpButton {
   border-radius: 0.5rem;
-  background: linear-gradient(to right, #06b6d4, #2563eb);
+  background: #2563eb;
   color: white;
   border: none;
   padding: 0.875rem 2rem;
@@ -204,7 +204,7 @@
 }
 
 .signUpButton:hover {
-  background: linear-gradient(to right, #22d3ee, #3b82f6);
+  background: #2d63ba;
 }
 
 .signUpButton:disabled {
@@ -213,7 +213,7 @@
 }
 
 .signUpButton:disabled:hover {
-  background: linear-gradient(to right, #06b6d4, #2563eb);
+  background: #2d63ba;
 }
 
 /* Links */

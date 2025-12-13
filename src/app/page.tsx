@@ -59,9 +59,8 @@ export default function Home() {
           <div className={styles.eyebrow}>Digital Storage</div>
 
           <h1 className={styles.heading}>
-            Stash Your
-            <br />
-            <span className={styles.gradientText}>Things</span>
+            Stash
+            <span className={styles.gradientText}>y</span>
           </h1>
 
           <p className={styles.subheading}>Store, organise, and access your files from anywhere.</p>
