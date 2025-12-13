@@ -22,14 +22,14 @@
 }
 
 /* Variant styles */
-.default {
-  background: #06b6d4;
+/* .default {
+  background: #2d63ba;
   color: white;
 }
 
 .default:hover {
   background: #3b82f6;
-}
+} */
 
 .outline {
   background: transparent;

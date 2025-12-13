@@ -103,13 +103,6 @@
   }
 }
 
-.gradientText {
-  background: #3b82f6;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 .errorMessage {
   padding: 1rem;
   margin-bottom: 1.5rem;
@@ -181,7 +174,7 @@
 /* Sign In Button */
 .signInButton {
   border-radius: 0.5rem;
-  background: linear-gradient(to right, #06b6d4, #2563eb);
+  background: #2563eb;
   color: white;
   border: none;
   padding: 0.875rem 2rem;
@@ -192,7 +185,7 @@
 }
 
 .signInButton:hover {
-  background: linear-gradient(to right, #22d3ee, #3b82f6);
+  background: #2d63ba;
 }
 
 .signInButton:disabled {

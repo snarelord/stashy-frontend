@@ -46,7 +46,6 @@ export default function DashboardHeader({ collapsed, onToggleSidebar }: Dashboar
       </button>
       <div className={styles.searchContainer}>
         <input type="text" placeholder="Search" className={styles.searchInput} />
-        <span className={styles.searchIcon}>🔍</span>
       </div>
       <div className={styles.logoContainer}>
         <span className={styles.logoText}>Stashy</span>
